@@ -32,10 +32,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    // use kapt for kotlin apt
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-
-    // kotlin extensions
     compile "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}"
 }
