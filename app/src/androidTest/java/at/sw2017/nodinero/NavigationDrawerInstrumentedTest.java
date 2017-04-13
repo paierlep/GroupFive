@@ -32,17 +32,13 @@ public class NavigationDrawerInstrumentedTest {
     @Rule
     public ActivityTestRule<NoDineroActivity> mActivityTestRule =
             new ActivityTestRule<>(NoDineroActivity.class);
-
+    
     @Test
-    public void checkIfNavigationExistsAndIsClosed() {
+    public void checkIfMenuDrawerAddAccountExists() {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.LEFT)))
                 .perform(open());
-    }
 
-    @Test
-    public void checkIfAddAccountExists() {
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
         onView(withText("Add Account")).perform(click());
     }
 }
