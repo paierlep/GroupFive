@@ -5,6 +5,7 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+
 @Table(database = Database.class)
 public class Account extends BaseModel {
     @PrimaryKey(autoincrement = true)

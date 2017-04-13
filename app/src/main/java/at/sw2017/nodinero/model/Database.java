@@ -4,7 +4,6 @@ package at.sw2017.nodinero.model;
 public class Database {
     public static final String NAME = "Database";
     public static final int VERSION = 1;
-
     /*
     @Migration(version = 2, database = Database.class)
     public static class InitMigration extends AlterTableMigration<Account> {
