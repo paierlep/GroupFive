@@ -40,6 +40,6 @@ public class NavigationDrawerInstrumentedTest {
 
     @Test
     public void checkIfAddAccountExists() {
-        onView(withText("Add Account")).perform(click());
+        onView(withId(R.id.add_account)).perform(click());
     }
 }
