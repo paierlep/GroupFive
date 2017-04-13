@@ -1,7 +1,5 @@
 package at.sw2017.nodinero;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.Gravity;
@@ -10,16 +8,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.DrawerActions.open;
 import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -34,11 +30,13 @@ public class NavigationDrawerInstrumentedTest {
             new ActivityTestRule<>(NoDineroActivity.class);
     
     @Test
-    public void checkIfMenuDrawerAddAccountExists() {
+    public void checkIfMenuDrawerAddAccountExistsAndCanBeClicked() {
         onView(withId(R.id.drawer_layout))
-                .check(matches(isClosed(Gravity.LEFT)))
+                .check(matches(isClosed(Gravity.START)))
                 .perform(open());
 
         onView(withText("Add Account")).perform(click());
+
+        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed());
     }
 }
