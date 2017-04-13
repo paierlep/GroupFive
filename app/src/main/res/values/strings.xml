@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NoDinero</string>
+
+    <string name="add_account">Add Account</string>
 </resources>
