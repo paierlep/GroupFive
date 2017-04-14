@@ -37,6 +37,6 @@ public class NavigationDrawerInstrumentedTest {
 
         onView(withText("Add Account")).perform(click());
 
-        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed());
+        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
     }
 }
