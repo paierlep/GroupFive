@@ -16,6 +16,7 @@ import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.AllOf.allOf;
 
 /**
  * Created by cpaier on 18/04/2017.
@@ -42,7 +43,7 @@ public class AccountInstrumentedTest {
         onView(withId(R.id.account_init_balance)).check(matches(isDisplayed()));
         onView(withId(R.id.account_currency)).check(matches(isDisplayed()));
 
-        onView(withText("Save")).perform(click());
+        onView(allOf(withId(R.id.button_save), isDisplayed())).perform(click());
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
     }
 }
