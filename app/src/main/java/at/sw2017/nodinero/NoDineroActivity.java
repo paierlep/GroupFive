@@ -5,6 +5,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +27,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
 
     private NavigationView navigation;
     private Toolbar toolbar;
+    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
 
         FlowManager.init(new FlowConfig.Builder(this).build());
         FlowManager.getDatabase(Database.class).getWritableDatabase();
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         navigation = (NavigationView) findViewById(R.id.nav_view);
         navigation.setNavigationItemSelectedListener(this);
@@ -45,6 +49,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Log.d(TAG, "pushed menu button " + item.getTitle());
+        mDrawerLayout.closeDrawers();
         return loadContent(item.getItemId());
     }
 

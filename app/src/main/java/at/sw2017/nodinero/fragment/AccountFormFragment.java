@@ -17,6 +17,9 @@ import at.sw2017.nodinero.R;
 
 public class AccountFormFragment extends Fragment implements View.OnClickListener {
 
+    private AppCompatButton saveButton;
+    private AppCompatButton cancelButton;
+
     public static AccountFormFragment newInstance() {
         Bundle args = new Bundle();
         AccountFormFragment fragment = new AccountFormFragment();
@@ -29,8 +32,11 @@ public class AccountFormFragment extends Fragment implements View.OnClickListene
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_form, container, false);
 
-        AppCompatButton button = (AppCompatButton) view.findViewById(R.id.button_save);
-        button.setOnClickListener(this);
+        saveButton = (AppCompatButton) view.findViewById(R.id.button_save);
+        saveButton.setOnClickListener(this);
+
+        cancelButton = (AppCompatButton) view.findViewById(R.id.button_cancel);
+        cancelButton.setOnClickListener(this);
 
         return view;
     }
@@ -38,11 +44,8 @@ public class AccountFormFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.button_save) {
-            //save
+            //TODO save
         }
-        //back to account overview
         ((NoDineroActivity)getActivity()).loadContent(R.id.account_overview);
-        //cancel
-
     }
 }

@@ -46,7 +46,6 @@ public class AccountInstrumentedTest {
         onView(withId(R.id.account_currency)).check(matches(isDisplayed()));
 
         onView(allOf(withId(R.id.button_save), isDisplayed())).perform(click());
-        onView(withId(R.id.button_save)).perform(click());
 
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
     }
@@ -61,13 +60,13 @@ public class AccountInstrumentedTest {
 
         onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
 
+
         onView(withId(R.id.account_name)).check(matches(isDisplayed()));
         onView(withId(R.id.account_type)).check(matches(isDisplayed()));
         onView(withId(R.id.account_init_balance)).check(matches(isDisplayed()));
         onView(withId(R.id.account_currency)).check(matches(isDisplayed()));
 
         onView(allOf(withId(R.id.button_cancel), isDisplayed())).perform(click());
-        onView(withId(R.id.button_cancel)).perform(click());
 
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
     }
