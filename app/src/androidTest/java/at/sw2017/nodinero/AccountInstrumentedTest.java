@@ -8,6 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.TimeUnit;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -44,6 +46,8 @@ public class AccountInstrumentedTest {
         onView(withId(R.id.account_currency)).check(matches(isDisplayed()));
 
         onView(allOf(withId(R.id.button_save), isDisplayed())).perform(click());
+        onView(withId(R.id.button_save)).perform(click());
+
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
     }
 }

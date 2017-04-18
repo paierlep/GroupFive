@@ -60,17 +60,20 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         return loadContent(item.getItemId()) || super.onOptionsItemSelected(item);
     }
 
-    private boolean loadContent(int id) {
+    public boolean loadContent(int id) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         Fragment fragment;
         switch (id) {
             case R.id.add_account:
-                fragment = new AccountFormFragment();
+                fragment = AccountFormFragment.newInstance();
                 break;
             case R.id.menu_settings:
                 fragment = new SettingsFragment();
+                break;
+            case R.id.account_overview:
+                fragment = AccountOverviewFragment.newInstance();
                 break;
             case R.id.menu_profile:
                 Toast.makeText(this, "not implemented yet!", Toast.LENGTH_LONG).show();
@@ -78,7 +81,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
                 return false;
         }
 
-        fragmentTransaction.add(R.id.main_content, fragment);
+        fragmentTransaction.replace(R.id.main_content, fragment);
         fragmentTransaction.commit();
         return true;
     }

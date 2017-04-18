@@ -14,6 +14,14 @@ import at.sw2017.nodinero.R;
  */
 
 public class AccountOverviewFragment extends Fragment {
+
+    public static AccountOverviewFragment newInstance() {
+        Bundle args = new Bundle();
+        AccountOverviewFragment fragment = new AccountOverviewFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {

@@ -1,8 +1,28 @@
 <resources>
     <string name="app_name">NoDinero</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Menu items -->
     <string name="add_account">Add Account</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_profile">Profile</string>
+    <string name="account_overview">Overview</string>
+
+    <!-- Add Account Items -->
+    <string name="account_name">Name</string>
+    <string name="account_type">Type</string>
+    <string name="account_initbalance">Initial Balance</string>
+    <string name="account_currency">Currency</string>
+    <string-array name="account_types">
+        <item>Cash</item>
+        <item>Bank</item>
+        <item>Credit Card</item>
+    </string-array>
+
+    <string-array name="currencies">
+        <item>EUR</item>
+        <item>USD</item>
+    </string-array>
+
 </resources>
