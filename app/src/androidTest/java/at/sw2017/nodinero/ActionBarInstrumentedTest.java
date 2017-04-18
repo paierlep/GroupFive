@@ -35,7 +35,7 @@ public class ActionBarInstrumentedTest {
     @Test
     public void checkToolBarMenuClicked() {
         onView(withText("Settings")).perform(click());
-        onView(withId(R.id.user_icon).perform(click()));
+        onView(withId(R.id.menu_profile)).perform(click());
     }
 
 }
