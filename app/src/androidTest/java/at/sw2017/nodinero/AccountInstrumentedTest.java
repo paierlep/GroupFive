@@ -37,11 +37,10 @@ public class AccountInstrumentedTest {
 
         onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
 
-        onView(withText("Name:")).check(matches(isDisplayed()));
-        onView(withText("Type:")).check(matches(isDisplayed()));
-        onView(withText("Initial Balance:")).check(matches(isDisplayed()));
-        onView(withText("Currency:")).check(matches(isDisplayed()));
-        onView(withText("Save")).check(matches(isDisplayed()));
+        onView(withId(R.id.account_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_type)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_init_balance)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_currency)).check(matches(isDisplayed()));
 
         onView(withText("Save")).perform(click());
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
