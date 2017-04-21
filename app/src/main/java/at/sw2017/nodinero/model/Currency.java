@@ -8,12 +8,10 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 
 
 @Table(database = Database.class)
-public class Account extends BaseModel {
+public class Currency extends BaseModel {
+    @Column
     @PrimaryKey(autoincrement = true)
     public int id;
-
-    @Column
-    public int currencyId;
 
     @Column
     public String name;
