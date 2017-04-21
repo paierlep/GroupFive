@@ -5,31 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        
+        android:layout_height="match_parent">
+
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/menu_barlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/menu_bar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
                 android:background="#FF00CC"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         </android.support.design.widget.AppBarLayout>
 
-
         <FrameLayout
             android:id="@+id/main_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
