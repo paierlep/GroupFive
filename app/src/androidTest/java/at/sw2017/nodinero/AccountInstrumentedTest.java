@@ -4,11 +4,16 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.Gravity;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import at.sw2017.nodinero.model.Account;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -69,5 +74,33 @@ public class AccountInstrumentedTest {
         onView(allOf(withId(R.id.button_cancel), isDisplayed())).perform(click());
 
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void showAccounts() {
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText("Overview")).perform(click());
+
+
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+
+        //onView(withId(R.id.account_scroll)).check(matches(isDisplayed()));
+        //onView(withId(R.id.account_list)).check(matches(isDisplayed()));
+
+
+        List<Account> accs = SQLite.select().from(Account.class).queryList();
+        for (Account account: accs) {
+            onView(withText(account.name)).check(matches(isDisplayed()));
+            if(account.currency.equals("EUR"))
+                onView(withText("Balance: " + String.valueOf(account.balance) + ".-")).check(matches(isDisplayed()));
+            else
+                onView(withText("Balance: " +String.valueOf(account.balance) + "$")).check(matches(isDisplayed()));
+        }
+
+
+
     }
 }
