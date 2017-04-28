@@ -1,5 +1,7 @@
 package at.sw2017.nodinero.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import org.w3c.dom.Text;
 
@@ -71,20 +74,14 @@ public class AccountFormFragment extends Fragment implements View.OnClickListene
             Account account1 =  new Account();
             account1.name = accountName.getText().toString();
 
-            account1.currency = accountCurrency.toString();
+            account1.currency = accountCurrency.getSelectedItem().toString();
             account1.balance = Integer.parseInt(accountBalance.getText().toString());
-            account1.type = accountType.toString();
+            account1.type = accountType.getSelectedItem().toString();
 
             account1.save();
             Log.d("DB","Wrote Successful, ID: " + account1.id);
 
-            ((NoDineroActivity)getActivity()).loadContent(R.id.account_overview);
-
-
-
-
-
-
+            NoDineroActivity.hideKeyboard(this.getActivity());
 
 
 
@@ -92,6 +89,7 @@ public class AccountFormFragment extends Fragment implements View.OnClickListene
 
         else if (v.getId() == R.id.button_cancel) {
             ((NoDineroActivity)getActivity()).loadContent(R.id.account_overview);
+            NoDineroActivity.hideKeyboard(this.getActivity());
         }
     }
 }

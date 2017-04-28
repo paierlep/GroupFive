@@ -14,6 +14,8 @@
     <string name="account_type">Type</string>
     <string name="account_initbalance">Initial Balance</string>
     <string name="account_currency">Currency</string>
+    <string name="account_delete">Delete</string>
+    <string name="accounts">Accounts</string>
     <string-array name="account_types">
         <item>Cash</item>
         <item>Bank</item>

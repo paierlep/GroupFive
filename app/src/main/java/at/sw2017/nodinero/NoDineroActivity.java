@@ -1,5 +1,6 @@
 package at.sw2017.nodinero;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.config.FlowConfig;
@@ -37,7 +40,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         FlowManager.init(new FlowConfig.Builder(this).build());
 
         // RESET DB: ONLY FOR DEBUG!!!!
-        FlowManager.getDatabase(Database.class).reset(this);
+        //FlowManager.getDatabase(Database.class).reset(this);
 
         FlowManager.getDatabase(Database.class).getWritableDatabase();
 
@@ -74,15 +77,19 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         Fragment fragment;
+        String tag = null;
         switch (id) {
             case R.id.add_account:
                 fragment = AccountFormFragment.newInstance();
+                tag = "AccountFormFragment";
                 break;
             case R.id.menu_settings:
                 fragment = new SettingsFragment();
+                tag = "SettingsFragment";
                 break;
             case R.id.account_overview:
                 fragment = AccountOverviewFragment.newInstance();
+                tag = "AccountOverviewFragment";
                 break;
             case R.id.menu_profile:
                 Toast.makeText(this, "not implemented yet!", Toast.LENGTH_LONG).show();
@@ -90,9 +97,18 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
                 return false;
         }
 
-        fragmentTransaction.replace(R.id.main_content, fragment);
+        fragmentTransaction.replace(R.id.main_content, fragment, tag).addToBackStack(tag);
         fragmentTransaction.commit();
+        getSupportFragmentManager().executePendingTransactions();
         return true;
     }
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
 
+        if (view == null) {
+            view = new View(activity);
+        }
+        inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }
