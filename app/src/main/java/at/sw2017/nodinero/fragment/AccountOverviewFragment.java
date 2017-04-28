@@ -16,6 +16,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -78,10 +80,15 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
                         .async()
                         .execute();
 
+
                 TableRow row = (TableRow) v.getParent();
                 TableLayout table = (TableLayout) row.getParent();
-                row.startAnimation(AnimationUtils.loadAnimation(this.getContext(), android.R.anim.fade_out));
+                Animation fadeout = AnimationUtils.loadAnimation(this.getContext(), android.R.anim.fade_out);
+                fadeout.setDuration(1000);
+                row.startAnimation(fadeout);
                 row.setVisibility(View.INVISIBLE);
+
+
                 table.removeView(row);
             }
         }
