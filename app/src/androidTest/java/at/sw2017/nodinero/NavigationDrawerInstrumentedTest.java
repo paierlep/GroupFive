@@ -35,8 +35,17 @@ public class NavigationDrawerInstrumentedTest {
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
 
-        onView(withText("Add Account")).perform(click());
-
+        onView(withText(R.string.add_account)).perform(click());
         onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkIfMenuDrawerAddExpenseExistsAndCanBeClicked() {
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText(R.string.add_expense)).perform(click());
+        onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
     }
 }

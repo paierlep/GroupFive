@@ -27,4 +27,32 @@
         <item>USD</item>
     </string-array>
 
+    <string name="add_expense">Add Expense</string>
+
+    <!-- Add Expense Items -->
+    <string name="expense_name">Name</string>
+    <string name="expense_category">Category</string>
+    <string name="expense_account">Account</string>
+    <string name="expense_value">Value</string>
+    <string name="expense_date">Date</string>
+    <string name="expense_account_label">Account</string>
+    <string name="expense_category_label">Category</string>
+    <string name="expense_value_label">Value</string>
+    <string name="expense_date_label">Date</string>
+    <string name="dummy_date">2000-01-01</string>
+    <string name="expense_name_label">Name</string>
+    <string name="add">Add</string>
+    <string name="back">Back</string>
+
+    <string-array name="expense_categories">
+        <item>Drink</item>
+        <item>Food</item>
+        <item>Cloth</item>
+    </string-array>
+
+    <string-array name="expense_accounts">
+        <item>dummy1</item>
+        <item>dummy2</item>
+    </string-array>
+
 </resources>

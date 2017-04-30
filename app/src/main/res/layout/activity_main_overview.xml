@@ -5,13 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        
+
         <android.support.design.widget.AppBarLayout
             android:id="@+id/menu_barlayout"
             android:layout_width="match_parent"
@@ -26,7 +23,6 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         </android.support.design.widget.AppBarLayout>
-
 
         <FrameLayout
             android:id="@+id/main_content"

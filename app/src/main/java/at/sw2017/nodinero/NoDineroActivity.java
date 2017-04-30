@@ -23,6 +23,7 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 import at.sw2017.nodinero.fragment.AccountFormFragment;
 import at.sw2017.nodinero.fragment.AccountOverviewFragment;
 import at.sw2017.nodinero.fragment.SettingsFragment;
+import at.sw2017.nodinero.fragment.addExpenseFragment;
 import at.sw2017.nodinero.model.Database;
 
 public class NoDineroActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -79,10 +80,16 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         Fragment fragment;
         String tag = null;
         switch (id) {
+            //Side menu
             case R.id.add_account:
                 fragment = AccountFormFragment.newInstance();
                 tag = "AccountFormFragment";
                 break;
+            case R.id.add_expense:
+                fragment = new addExpenseFragment();
+                break;
+
+            //toolbar
             case R.id.menu_settings:
                 fragment = new SettingsFragment();
                 tag = "SettingsFragment";

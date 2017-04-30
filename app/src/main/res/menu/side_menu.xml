@@ -11,4 +11,10 @@
         android:orderInCategory="100"
         android:title="@string/add_account"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/add_expense"
+        android:orderInCategory="100"
+        android:title="@string/add_expense"
+        app:showAsAction="never" />
 </menu>
