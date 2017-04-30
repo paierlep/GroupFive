@@ -40,6 +40,26 @@ public class AccountInstrumentedTest {
             new ActivityTestRule<>(NoDineroActivity.class);
 
     @Test
+    public void addAccountAndBack() {
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText("Add Account")).perform(click());
+
+        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.account_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_type)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_init_balance)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_currency)).check(matches(isDisplayed()));
+
+        onView(allOf(withId(R.id.button_save_back), isDisplayed())).perform(click());
+
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void addAccount() {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
@@ -56,7 +76,7 @@ public class AccountInstrumentedTest {
 
         onView(allOf(withId(R.id.button_save), isDisplayed())).perform(click());
 
-        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
     }
 
     @Test
