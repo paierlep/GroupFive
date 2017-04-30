@@ -40,7 +40,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         FlowManager.init(new FlowConfig.Builder(this).build());
 
         // RESET DB: ONLY FOR DEBUG!!!!
-        FlowManager.getDatabase(Database.class).reset(this);
+        //FlowManager.getDatabase(Database.class).reset(this);
 
         FlowManager.getDatabase(Database.class).getWritableDatabase();
 
