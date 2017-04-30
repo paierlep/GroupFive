@@ -13,15 +13,12 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import at.sw2017.nodinero.model.Account;
 import at.sw2017.nodinero.model.Category;
 import at.sw2017.nodinero.model.Database;
-import at.sw2017.nodinero.model.Expenses;
+import at.sw2017.nodinero.model.Expense;
 
 import static org.junit.Assert.*;
 
@@ -57,18 +54,18 @@ public class DatabaseUnitTests {
         account1.name = "test";
         account1.save();
 
-        Expenses expenses = new Expenses();
-        expenses.name = "test expense";
-        expenses.value = 42;
-        expenses.date = "2017-04-21";
-        expenses.accountId = account1;
-        expenses.save();
+        Expense expense = new Expense();
+        expense.name = "test expense";
+        expense.value = 42;
+        expense.date = "2017-04-21";
+        expense.accountId = account1;
+        expense.save();
 
-        List<Expenses> listExpenses = SQLite.select().from(Expenses.class).queryList();
-        Expenses testExpense = listExpenses.get(0);
+        List<Expense> listExpenses = SQLite.select().from(Expense.class).queryList();
+        Expense testExpense = listExpenses.get(0);
 
-        assertEquals(expenses.name, testExpense.name);
-        assertEquals(expenses.accountId, account1);
+        assertEquals(expense.name, testExpense.name);
+        assertEquals(expense.accountId, account1);
     }
 
     @Test
@@ -81,19 +78,19 @@ public class DatabaseUnitTests {
         catgeory1.name = "test category";
         catgeory1.save();
 
-        Expenses expenses = new Expenses();
-        expenses.name = "test expense";
-        expenses.value = 42;
-        expenses.date = "2017-04-21";
-        expenses.accountId = account1;
-        expenses.categoryId = catgeory1;
-        expenses.save();
+        Expense expense = new Expense();
+        expense.name = "test expense";
+        expense.value = 42;
+        expense.date = "2017-04-21";
+        expense.accountId = account1;
+        expense.categoryId = catgeory1;
+        expense.save();
 
-        List<Expenses> listExpenses = SQLite.select().from(Expenses.class).queryList();
-        Expenses testExpense = listExpenses.get(0);
+        List<Expense> listExpenses = SQLite.select().from(Expense.class).queryList();
+        Expense testExpense = listExpenses.get(0);
 
 
-        assertEquals(expenses.name, testExpense.name);
-        assertEquals(expenses.categoryId, catgeory1);
+        assertEquals(expense.name, testExpense.name);
+        assertEquals(expense.categoryId, catgeory1);
     }
 }

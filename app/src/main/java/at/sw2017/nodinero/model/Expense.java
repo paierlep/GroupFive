@@ -10,18 +10,20 @@ import java.sql.Date;
 
 
 @Table(database = Database.class)
-public class Expenses extends BaseModel {
+public class Expense extends BaseModel {
     @Column
     @PrimaryKey(autoincrement = true)
     public int id;
 
     @Column
-    @ForeignKey
-    public Account accountId;
+    //@ForeignKey
+    //public Account accountId;
+    public int accountId;
 
     @Column
-    @ForeignKey
-    public Category categoryId;
+    //@ForeignKey
+    //public Category categoryId;
+    public int categoryId;
 
     @Column
     public String name;
