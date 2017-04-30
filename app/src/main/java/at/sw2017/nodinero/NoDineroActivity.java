@@ -33,6 +33,12 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     private Toolbar toolbar;
     private DrawerLayout mDrawerLayout;
 
+    protected void onDestroy() {
+        super.onDestroy();
+        // RESET DB: ONLY FOR DEBUG!!!!
+        FlowManager.getDatabase(Database.class).reset(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
