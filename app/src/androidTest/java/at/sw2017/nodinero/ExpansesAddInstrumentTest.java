@@ -37,7 +37,7 @@ public class ExpansesAddInstrumentTest {
             new ActivityTestRule<>(NoDineroActivity.class);
 
     @Test
-    public void addExpenseCheckLayout()
+    public void addExpense()
     {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
@@ -51,39 +51,85 @@ public class ExpansesAddInstrumentTest {
         onView(withId(R.id.expense_date_picker)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_value)).check(matches(isDisplayed()));
-        onView(withId(R.id.expense_button_back)).check(matches(isDisplayed()));
-        onView(withId(R.id.expense_button_add)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.button_save)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_cancel)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_save_back)).check(matches(isDisplayed()));
+
         onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
 
-        onView(withId(R.id.expense_name)).perform(typeText("test"));
+        String expense_test = "Beer";
 
-        //onView(withId(R.id.expense_name)).check(matches(withText(R.string.expense_name)));
-                /*
-        TextInputEditText namefield = (TextInputEditText)withId(R.id.expense_name);
-        namefield.setText("test");
+        onView(withId(R.id.expense_name)).perform(typeText(expense_test));
 
-        TextInputEditText valuefield = (TextInputEditText)withId(R.id.expense_value);
-        valuefield.setText("12");
+        onView(withText(R.id.button_save)).perform(click());
+        onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
 
-        DatePicker datefield = (DatePicker)withId(R.id.expense_date_picker);
-        datefield.updateDate(2001,1,1);
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
 
+        onView(withText(R.string.account_overview)).perform(click());
+        onView(withId(R.id.account_overview)).check(matches(isDisplayed()));
 
-        AppCompatSpinner categoryspinner = (AppCompatSpinner)withId(R.id.expense_category_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.expense_categories, R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        categoryspinner.setAdapter(adapter);
-        int spinnerPos = adapter.getPosition("whatever");
-        categoryspinner.setSelection(spinnerPos);
-        */
-
-        //onView(withId(R.id.expense_button_add)).perform(click());
-        //onView(withId(R.id.expense_button_back)).perform(click());
-
-
-
-        //onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
-
+        //TODO check account form
     }
 
+    @Test
+    public void addExpenseAndBack() {
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText(R.string.add_expense)).perform(click());
+        onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.expense_account_type_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_category_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_date_picker)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_value)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.button_save)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_cancel)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_save_back)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
+
+        String expense_test = "Beer";
+
+        onView(withId(R.id.expense_name)).perform(typeText(expense_test));
+
+        onView(withText(R.id.button_save_back)).perform(click());
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+
+        //TODO check account form
+    }
+
+    @Test
+    public void addExpenseCancel() {
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText(R.string.add_expense)).perform(click());
+        onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.expense_account_type_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_category_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_date_picker)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_value)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.button_save)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_cancel)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_save_back)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.button_cancel)).perform(click());
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+
+    }
 }
