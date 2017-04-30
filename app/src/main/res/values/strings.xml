@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">NoDinero</string>
     <string name="save">Save</string>
+    <string name="saveAndBack">Save and Back</string>
     <string name="cancel">Cancel</string>
 
     <!-- Menu items -->

@@ -28,6 +28,7 @@ import at.sw2017.nodinero.model.Account;
 public class AccountFormFragment extends Fragment implements View.OnClickListener {
 
     private AppCompatButton saveButton;
+    private AppCompatButton saveAndBackButton;
     private AppCompatButton cancelButton;
 
     private TextInputEditText accountName;
@@ -50,6 +51,9 @@ public class AccountFormFragment extends Fragment implements View.OnClickListene
         saveButton = (AppCompatButton) view.findViewById(R.id.button_save);
         saveButton.setOnClickListener(this);
 
+        saveAndBackButton = (AppCompatButton) view.findViewById(R.id.button_save_back);
+        saveAndBackButton.setOnClickListener(this);
+
         cancelButton = (AppCompatButton) view.findViewById(R.id.button_cancel);
         cancelButton.setOnClickListener(this);
 
@@ -59,37 +63,48 @@ public class AccountFormFragment extends Fragment implements View.OnClickListene
         accountCurrency = (AppCompatSpinner) view.findViewById(R.id.account_currency);
         accountType = (AppCompatSpinner) view.findViewById(R.id.account_type);
 
-
-
-
-
         return view;
+    }
+
+    private  void saveAccount()
+    {
+        Account account1 =  new Account();
+        account1.name = accountName.getText().toString();
+
+        account1.currency = accountCurrency.getSelectedItem().toString();
+        if(accountBalance.getText() == null || accountBalance.getText().toString().equals("")) {
+            account1.balance = 0;
+        }
+        else {
+            account1.balance = Integer.parseInt(accountBalance.getText().toString());
+        }
+
+        account1.type = accountType.getSelectedItem().toString();
+
+        account1.save();
+        Log.d("DB","Wrote Successful, ID: " + account1.id);
     }
 
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.button_save) {
 
-
-            Account account1 =  new Account();
-            account1.name = accountName.getText().toString();
-
-            account1.currency = accountCurrency.getSelectedItem().toString();
-            account1.balance = Integer.parseInt(accountBalance.getText().toString());
-            account1.type = accountType.getSelectedItem().toString();
-
-            account1.save();
-            Log.d("DB","Wrote Successful, ID: " + account1.id);
-
+            saveAccount();
             NoDineroActivity.hideKeyboard(this.getActivity());
-
-
 
         }
+        else if (v.getId() == R.id.button_save_back) {
 
-        else if (v.getId() == R.id.button_cancel) {
+            saveAccount();
             ((NoDineroActivity)getActivity()).loadContent(R.id.account_overview);
             NoDineroActivity.hideKeyboard(this.getActivity());
+
+        }
+        else if (v.getId() == R.id.button_cancel) {
+
+            ((NoDineroActivity)getActivity()).loadContent(R.id.account_overview);
+            NoDineroActivity.hideKeyboard(this.getActivity());
+
         }
     }
 }

@@ -63,6 +63,12 @@
             android:layout_height="wrap_content"
             android:text="@string/save"
             style="@style/Base.Widget.AppCompat.Button.Borderless" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_save_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/saveAndBack"
+            style="@style/Base.Widget.AppCompat.Button.Borderless" />
 
     </android.support.v7.widget.ButtonBarLayout>
 

@@ -57,6 +57,7 @@ public class AccountInstrumentedTest {
         onView(allOf(withId(R.id.button_save_back), isDisplayed())).perform(click());
 
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+        //TODO in overview nachschaun ob er angezeigt wird
     }
 
     @Test
@@ -76,6 +77,7 @@ public class AccountInstrumentedTest {
 
         onView(allOf(withId(R.id.button_save), isDisplayed())).perform(click());
 
+        //TODO in overview nachschaun ob er angezeigt wird
         onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
     }
 
