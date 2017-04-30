@@ -24,6 +24,7 @@ import at.sw2017.nodinero.model.Account;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -32,6 +33,7 @@ import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -44,6 +46,7 @@ import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 public class AccountInstrumentedTest {
+
     @Rule
     public ActivityTestRule<NoDineroActivity> mActivityTestRule =
             new ActivityTestRule<>(NoDineroActivity.class);
@@ -161,36 +164,12 @@ public class AccountInstrumentedTest {
         onView(withId(R.id.account_list)).check(matches(isDisplayed()));
         onView(withId(R.id.account_scroll)).check(matches(isDisplayed()));
 
-
-
-        try {
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         onView(withText(account_name)).check(matches(isDisplayed()));
+        onView(withText(account_name)).perform(swipeLeft());
 
-        onView(allOf(withText(R.string.account_delete), withParent(withText(account_name))))
-                .check(matches(isDisplayed()))
+        onView(allOf(withText(R.string.account_delete), withParent(withChild(withText(account_name)))))
                 .perform(click());
 
-        onView(allOf(withText(R.string.account_delete), withParent(withText(account_name))))
-                .check(matches(isDisplayed()));
-        //onView(withText(account_name)).check(matches(doesNotExist()));
-/*
-        List<Account> accs = SQLite.select().from(Account.class).queryList();
-
-        Account acc1 = accs.get(0);
-
-        onView(allOf(withId(acc1.id), isDisplayed())).perform(click());
-        onView(withText(acc1.name)).check(doesNotExist());*/
-
-
-
+        onView(withText(account_name)).check(doesNotExist());
     }
-
-
-
-
 }
