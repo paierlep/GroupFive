@@ -34,10 +34,6 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     private Toolbar toolbar;
     private DrawerLayout mDrawerLayout;
 
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,18 +50,6 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         setSupportActionBar(toolbar);
 
         loadAccountOverviewFragment();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initDb();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        initDb();
     }
 
     private void initDb() {

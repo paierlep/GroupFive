@@ -1,5 +1,38 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'jacoco'
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class',
+                      '**/R$*.class',
+                      '**/DatabaseDatabase_Database.class',
+                      '**/GeneratedDatabaseHolder.class',
+                      '**/*_Table.class',
+                      '**/*_Table*',
+                      '**/*_Adapter.class',
+                      '**/Category_Table*',
+                      '**/Expense_Table*',
+                      '**/Account_Table*',
+                      '**/BuildConfig.*',
+                      '**/Manifest*.*',
+                      '**/*Test*.*',
+                      'android/**/*.*']
+
+    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
+}
 
 android {
     compileSdkVersion 25
@@ -14,7 +47,7 @@ android {
     }
     buildTypes {
         debug {
-            testCoverageEnabled = true
+            testCoverageEnabled true
             debuggable true
         }
         release {
@@ -22,6 +55,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+
 }
 
 def dbflow_version = "3.1.1"

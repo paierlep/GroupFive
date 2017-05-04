@@ -5,20 +5,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.Gravity;
 
-import com.raizlabs.android.dbflow.config.FlowConfig;
-import com.raizlabs.android.dbflow.config.FlowManager;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
-
-import java.lang.reflect.Field;
-
-import at.sw2017.nodinero.model.Database;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -38,25 +26,7 @@ import static org.hamcrest.core.AllOf.allOf;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class AccountInstrumentedTest {
-
-    @Rule
-    public ActivityTestRule<NoDineroActivity> mActivityTestRule =
-            new ActivityTestRule<>(NoDineroActivity.class);
-
-    private boolean firstRun = true;
-
-    @Before
-    public void setUp() {
-        if (firstRun)
-          FlowManager.getDatabase(Database.class).reset(mActivityTestRule.getActivity());
-        firstRun = false;
-    }
-
-    @After
-    public void tearDown() throws Exception {
-//        FlowManager.getDatabase(Database.class).reset(mActivityTestRule.getActivity());
-    }
+public class AccountInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
     @Test
     public void addAccountAndBack() {
@@ -104,15 +74,13 @@ public class AccountInstrumentedTest {
         String account_name = "account test save";
         onView(withId(R.id.account_name)).perform(typeText(account_name), closeSoftKeyboard());
 
-        onView(allOf(withId(R.id.button_save_back), isDisplayed())).perform(click());
-        /*
+        onView(allOf(withId(R.id.button_save), isDisplayed())).perform(click());
         onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
 
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
         onView(withText(R.string.account_overview)).perform(click());
-*/
 
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
         onView(withId(R.id.account_list)).check(matches(isDisplayed()));
@@ -158,9 +126,6 @@ public class AccountInstrumentedTest {
         String account_name = "account test delete";
         onView(withId(R.id.account_name)).perform(typeText(account_name), closeSoftKeyboard());
 
-        onView(withId(R.id.button_save_back)).check(matches(isDisplayed()));
-        //onView(allOf(withId(R.id.button_save_back), isDisplayed())).perform(click());
-        //onView(allOf(withId(R.id.button_save_back), isDisplayed())).perform(click());
         onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());
 
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));

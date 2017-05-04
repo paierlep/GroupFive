@@ -16,14 +16,12 @@ public class Expense extends BaseModel {
     public int id;
 
     @Column
-    //@ForeignKey
-    //public Account accountId;
-    public int accountId;
+    @ForeignKey
+    public Account accountId;
 
     @Column
-    //@ForeignKey
-    //public Category categoryId;
-    public int categoryId;
+    @ForeignKey
+    public Category categoryId;
 
     @Column
     public String name;
