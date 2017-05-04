@@ -8,6 +8,7 @@
     <TextView
         android:id="@+id/overview_name"
         android:padding="6dp"
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
@@ -15,6 +16,7 @@
     <TextView
         android:id="@+id/overview_balance"
         android:padding="6dp"
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
@@ -22,6 +24,7 @@
     <TextView
         android:id="@+id/overview_currency"
         android:padding="6dp"
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />

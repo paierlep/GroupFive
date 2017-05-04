@@ -77,8 +77,6 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
 
     public boolean loadContent(int id) {
-
-        String tag = null;
         switch (id) {
             //Side menu
             case R.id.add_account:

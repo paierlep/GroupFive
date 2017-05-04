@@ -6,9 +6,6 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import java.sql.Date;
-
-
 @Table(database = Database.class)
 public class Expense extends BaseModel {
     @Column
@@ -25,12 +22,13 @@ public class Expense extends BaseModel {
 
     @Column
     public String name;
+
     @Column
     public int value;
+
     @Column
     public String date;
 
-    //placeholder
     @Column
     public String place;
 }

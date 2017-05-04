@@ -3,7 +3,9 @@
     android:id="@+id/fragment_account_overview"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:padding="32dp"
+    >
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id = "@+id/account_scroll"
         android:layout_width="match_parent"
