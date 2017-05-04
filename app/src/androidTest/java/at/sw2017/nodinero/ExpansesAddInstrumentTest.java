@@ -21,6 +21,7 @@ import at.sw2017.nodinero.model.Database;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -127,5 +128,34 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(withId(R.id.button_cancel)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void addExpenseFromAccountDetail() {
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText(R.string.add_account)).perform(click());
+
+        String account_name = "account add expense";
+        onView(withId(R.id.account_name)).perform(typeText(account_name), closeSoftKeyboard());
+        onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+
+        onView(withText(account_name)).check(matches(isDisplayed())).perform(click());
+
+        onView(withId(R.id.fragment_expense_overview)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.add_expense)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
+
+        String expense_name = "very important expense";
+        //TODO other fields
+        onView(withId(R.id.expense_name)).perform(typeText(expense_name));
+        onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());
+
+        onView(withId(R.id.fragment_expense_overview)).check(matches(isDisplayed()));
+        onView(withText(expense_name)).check(matches(isDisplayed()));
     }
 }
