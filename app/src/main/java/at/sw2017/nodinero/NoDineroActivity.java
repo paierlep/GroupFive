@@ -22,8 +22,9 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 
 import at.sw2017.nodinero.fragment.AccountFormFragment;
 import at.sw2017.nodinero.fragment.AccountOverviewFragment;
+import at.sw2017.nodinero.fragment.ExpenseFormFragment;
+import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
 import at.sw2017.nodinero.fragment.SettingsFragment;
-import at.sw2017.nodinero.fragment.AddExpenseFragment;
 import at.sw2017.nodinero.model.Database;
 
 public class NoDineroActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,8 +36,6 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
 
     protected void onDestroy() {
         super.onDestroy();
-        // RESET DB: ONLY FOR DEBUG!!!!
-        FlowManager.getDatabase(Database.class).reset(this);
     }
 
     @Override
@@ -44,12 +43,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_overview);
 
-        FlowManager.init(new FlowConfig.Builder(this).build());
-
-        // RESET DB: ONLY FOR DEBUG!!!!
-        //FlowManager.getDatabase(Database.class).reset(this);
-
-        FlowManager.getDatabase(Database.class).getWritableDatabase();
+        initDb();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -58,6 +52,25 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
 
         toolbar = (Toolbar) findViewById(R.id.menu_bar);
         setSupportActionBar(toolbar);
+
+        loadAccountOverviewFragment();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initDb();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initDb();
+    }
+
+    private void initDb() {
+        FlowManager.init(new FlowConfig.Builder(this).build());
+        FlowManager.getDatabase(Database.class).getWritableDatabase();
     }
 
     @Override
@@ -80,29 +93,22 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
 
     public boolean loadContent(int id) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        Fragment fragment;
         String tag = null;
         switch (id) {
             //Side menu
             case R.id.add_account:
-                fragment = AccountFormFragment.newInstance();
-                tag = "AccountFormFragment";
+                loadAccountFormFragment();
                 break;
             case R.id.add_expense:
-                fragment = AddExpenseFragment.newInstance();
+                loadExpensesFormFragment();
                 break;
-
             //toolbar
             case R.id.menu_settings:
-                fragment = new SettingsFragment();
-                tag = "SettingsFragment";
+                loadSettingsFragment();
                 break;
             case R.id.account_overview:
-                fragment = AccountOverviewFragment.newInstance();
-                tag = "AccountOverviewFragment";
+                loadAccountOverviewFragment();
                 break;
             case R.id.menu_profile:
                 Toast.makeText(this, "not implemented yet!", Toast.LENGTH_LONG).show();
@@ -110,11 +116,38 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
                 return false;
         }
 
-        fragmentTransaction.replace(R.id.main_content, fragment, tag).addToBackStack(tag);
-        fragmentTransaction.commit();
-        getSupportFragmentManager().executePendingTransactions();
         return true;
     }
+
+    private void loadFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.main_content, fragment);
+        fragmentTransaction.commit();
+        getSupportFragmentManager().executePendingTransactions();
+    }
+
+    public void loadSettingsFragment() {
+        loadFragment(SettingsFragment.newInstance());
+    }
+
+    public void loadAccountOverviewFragment() {
+        loadFragment(AccountOverviewFragment.newInstance());
+    }
+
+    public void loadAccountFormFragment() {
+        loadFragment(AccountFormFragment.newInstance());
+    }
+
+    public void loadExpensesOverviewFragment(int accountId) {
+        loadFragment(ExpenseOverviewFragment.newInstance(accountId));
+    }
+
+    public void loadExpensesFormFragment() {
+        loadFragment(ExpenseFormFragment.newInstance());
+    }
+
     public static void hideKeyboard(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();

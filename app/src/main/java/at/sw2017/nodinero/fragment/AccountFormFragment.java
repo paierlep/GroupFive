@@ -87,24 +87,14 @@ public class AccountFormFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.button_save) {
-
+        NoDineroActivity.hideKeyboard(this.getActivity());
+        if (v.getId() == R.id.button_save) {
             saveAccount();
-            NoDineroActivity.hideKeyboard(this.getActivity());
-
-        }
-        else if (v.getId() == R.id.button_save_back) {
-
+        } else if (v.getId() == R.id.button_save_back) {
             saveAccount();
-            ((NoDineroActivity)getActivity()).loadContent(R.id.account_overview);
-            NoDineroActivity.hideKeyboard(this.getActivity());
-
-        }
-        else if (v.getId() == R.id.button_cancel) {
-
-            ((NoDineroActivity)getActivity()).loadContent(R.id.account_overview);
-            NoDineroActivity.hideKeyboard(this.getActivity());
-
+            ((NoDineroActivity) getActivity()).loadAccountOverviewFragment();
+        } else if (v.getId() == R.id.button_cancel) {
+            ((NoDineroActivity)getActivity()).loadAccountOverviewFragment();
         }
     }
 }

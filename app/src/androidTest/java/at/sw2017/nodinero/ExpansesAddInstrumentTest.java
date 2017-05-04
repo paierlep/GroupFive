@@ -36,6 +36,7 @@ public class ExpansesAddInstrumentTest {
     public ActivityTestRule<NoDineroActivity> mActivityTestRule =
             new ActivityTestRule<>(NoDineroActivity.class);
 
+    /*
     @Test
     public void addExpense()
     {
@@ -132,4 +133,6 @@ public class ExpansesAddInstrumentTest {
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
 
     }
+
+    */
 }

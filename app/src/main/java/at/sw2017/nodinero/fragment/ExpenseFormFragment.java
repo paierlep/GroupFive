@@ -21,7 +21,7 @@ import at.sw2017.nodinero.model.Expense;
  * Created by kosha on 21/04/2017.
  */
 
-public class AddExpenseFragment extends Fragment implements View.OnClickListener{
+public class ExpenseFormFragment extends Fragment implements View.OnClickListener{
     final private String TAG = "AddExpenseFragement";
 
     private AppCompatButton saveButton;
@@ -34,9 +34,10 @@ public class AddExpenseFragment extends Fragment implements View.OnClickListener
     private DatePicker expenseDate;
     private AppCompatSpinner expenseAccount;
 
-    public static AddExpenseFragment newInstance() {
+    public static ExpenseFormFragment newInstance() {
+        //TODO expand by account id
         Bundle args = new Bundle();
-        AddExpenseFragment fragment = new AddExpenseFragment();
+        ExpenseFormFragment fragment = new ExpenseFormFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,20 +85,17 @@ public class AddExpenseFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        NoDineroActivity.hideKeyboard(this.getActivity());
+
         if(v.getId() == R.id.button_save) {
             saveExpense();
-            NoDineroActivity.hideKeyboard(this.getActivity());
-
-        }
-        else if (v.getId() == R.id.button_save_back) {
+        } else if (v.getId() == R.id.button_save_back) {
             saveExpense();
-            ((NoDineroActivity)getActivity()).loadContent(R.id.account_overview);
-            NoDineroActivity.hideKeyboard(this.getActivity());
+            ((NoDineroActivity)getActivity()).loadAccountOverviewFragment();
+        } else if (v.getId() == R.id.button_cancel) {
+            ((NoDineroActivity)getActivity()).loadAccountOverviewFragment();
+        }
 
-        }
-        else if (v.getId() == R.id.button_cancel) {
-            ((NoDineroActivity)getActivity()).loadContent(R.id.account_overview);
-            NoDineroActivity.hideKeyboard(this.getActivity());
-        }
+        //TODO redirect to expanses overview fragment IFF an account id already did exist
     }
 }
