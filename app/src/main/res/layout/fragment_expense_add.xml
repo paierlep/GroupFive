@@ -1,123 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical"
-android:id="@+id/fragment_expense_add"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="#09ce44">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/fragment_expense_add"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/expense_name_label"
-            />
+        android:orientation="vertical"
+        android:padding="32dp">
 
-        <android.support.design.widget.TextInputEditText
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/expense_name"
+                android:hint="@string/expense_name_label"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:id="@+id/expense_name"/>
-    </LinearLayout>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/expense_account_label"
+                />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/expense_account_label"
-            />
+            <android.support.v7.widget.AppCompatSpinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                android:entries="@array/expense_accounts"
+                android:id="@+id/expense_account_type_spinner">
+            </android.support.v7.widget.AppCompatSpinner>
 
-        <android.support.v7.widget.AppCompatSpinner
+        </LinearLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/expense_category"
+                android:hint="@string/expense_category_label"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/expense_value"
+                android:inputType="numberDecimal"
+                android:hint="@string/expense_value_label"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-            android:entries="@array/expense_accounts"
-            android:id="@+id/expense_account_type_spinner">
-        </android.support.v7.widget.AppCompatSpinner>
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/expense_date_label"
+                />
 
-    </LinearLayout>
+            <DatePicker
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/expense_date_picker"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"/>
+        </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/expense_category_label"
-            />
-
-        <android.support.v7.widget.AppCompatSpinner
+        <android.support.v7.widget.ButtonBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-            android:entries="@array/expense_categories"
-            android:id="@+id/expense_category_spinner"
-            >
-        </android.support.v7.widget.AppCompatSpinner>
+            android:orientation="horizontal"
+            android:layout_gravity="end"
+            android:gravity="end">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                style="@style/Base.Widget.AppCompat.Button.Borderless" />
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                style="@style/Base.Widget.AppCompat.Button.Borderless" />
+             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_save_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/saveAndBack"
+                style="@style/Base.Widget.AppCompat.Button.Borderless" />
+
+        </android.support.v7.widget.ButtonBarLayout>
+
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/expense_value_label"
-            />
-
-        <android.support.design.widget.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:id="@+id/expense_value"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/expense_date_label"
-            />
-
-        <DatePicker
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/expense_date_picker"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"/>
-    </LinearLayout>
-
-    <android.support.v7.widget.ButtonBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="end"
-        android:gravity="end">
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/expense_button_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/back"
-            style="@style/Base.Widget.AppCompat.Button.Borderless" />
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/expense_button_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add"
-            style="@style/Base.Widget.AppCompat.Button.Borderless" />
-    </android.support.v7.widget.ButtonBarLayout>
-
-</LinearLayout>
+</ScrollView>

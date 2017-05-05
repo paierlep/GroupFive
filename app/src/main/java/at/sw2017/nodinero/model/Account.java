@@ -18,14 +18,14 @@ public class Account extends BaseModel {
 
     @Column
     public String name;
+
     @Column
     public int balance;
+
     @Column
     public String type;
+
     @Column
     public String currency;
-
-
-
 
 }

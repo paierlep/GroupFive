@@ -1,11 +1,8 @@
 package at.sw2017.nodinero.fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatSpinner;
@@ -13,9 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-
-import org.w3c.dom.Text;
 
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
@@ -66,45 +60,34 @@ public class AccountFormFragment extends Fragment implements View.OnClickListene
         return view;
     }
 
-    private  void saveAccount()
+    private void saveAccount()
     {
-        Account account1 =  new Account();
-        account1.name = accountName.getText().toString();
+        Account account =  new Account();
+        account.name = accountName.getText().toString();
 
-        account1.currency = accountCurrency.getSelectedItem().toString();
+        account.currency = accountCurrency.getSelectedItem().toString();
         if(accountBalance.getText() == null || accountBalance.getText().toString().equals("")) {
-            account1.balance = 0;
-        }
-        else {
-            account1.balance = Integer.parseInt(accountBalance.getText().toString());
+            account.balance = 0;
+        } else {
+            account.balance = Integer.parseInt(accountBalance.getText().toString());
         }
 
-        account1.type = accountType.getSelectedItem().toString();
+        account.type = accountType.getSelectedItem().toString();
 
-        account1.save();
-        Log.d("DB","Wrote Successful, ID: " + account1.id);
+        account.save();
+        Log.d("DB","Wrote Successful, ID: " + account.id);
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.button_save) {
-
+        NoDineroActivity.hideKeyboard(this.getActivity());
+        if (v.getId() == R.id.button_save) {
             saveAccount();
-            NoDineroActivity.hideKeyboard(this.getActivity());
-
-        }
-        else if (v.getId() == R.id.button_save_back) {
-
+        } else if (v.getId() == R.id.button_save_back) {
             saveAccount();
-            ((NoDineroActivity)getActivity()).loadContent(R.id.account_overview);
-            NoDineroActivity.hideKeyboard(this.getActivity());
-
-        }
-        else if (v.getId() == R.id.button_cancel) {
-
-            ((NoDineroActivity)getActivity()).loadContent(R.id.account_overview);
-            NoDineroActivity.hideKeyboard(this.getActivity());
-
+            ((NoDineroActivity) getActivity()).loadAccountOverviewFragment();
+        } else if (v.getId() == R.id.button_cancel) {
+            ((NoDineroActivity)getActivity()).loadAccountOverviewFragment();
         }
     }
 }
