@@ -3,6 +3,7 @@ package at.sw2017.nodinero.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +37,15 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_overview, container, false);
         createOverviewTable(view);
+        loadQuickAddNavigation();
         //TODO createQuickAddMenu
         return view;
+    }
+
+    private void loadQuickAddNavigation() {
+        Fragment fragment = QuickAddNavigationFragment.newInstance();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.add(R.id.add_quick_fragment, fragment).commit();
     }
 
     @Override
