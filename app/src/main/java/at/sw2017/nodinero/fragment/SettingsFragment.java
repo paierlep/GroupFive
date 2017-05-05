@@ -14,6 +14,14 @@ import at.sw2017.nodinero.R;
  */
 
 public class SettingsFragment extends Fragment {
+
+    public static ExpenseFormFragment newInstance() {
+        Bundle args = new Bundle();
+        ExpenseFormFragment fragment = new ExpenseFormFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {

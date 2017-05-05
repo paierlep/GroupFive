@@ -23,12 +23,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class NavigationDrawerInstrumentedTest {
+public class NavigationDrawerInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
-    @Rule
-    public ActivityTestRule<NoDineroActivity> mActivityTestRule =
-            new ActivityTestRule<>(NoDineroActivity.class);
-    
     @Test
     public void checkIfMenuDrawerAddAccountExistsAndCanBeClicked() {
         onView(withId(R.id.drawer_layout))
