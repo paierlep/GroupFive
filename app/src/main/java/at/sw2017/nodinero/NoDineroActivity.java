@@ -83,7 +83,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
                 loadAccountFormFragment();
                 break;
             case R.id.add_expense:
-                loadExpensesFormFragment();
+                loadExpensesFormFragment(0);
                 break;
             //toolbar
             case R.id.menu_settings:
@@ -126,8 +126,8 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         loadFragment(ExpenseOverviewFragment.newInstance(accountId));
     }
 
-    public void loadExpensesFormFragment() {
-        loadFragment(ExpenseFormFragment.newInstance());
+    public void loadExpensesFormFragment(int accountId) {
+        loadFragment(ExpenseFormFragment.newInstance(accountId));
     }
 
     public static void hideKeyboard(Activity activity) {

@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_expense_overview"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <TextView
-        android:text="Expense Overview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id = "@+id/account_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id = "@+id/account_list"
+            android:id = "@+id/expanse_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/add_expense"
+                android:src="@drawable/ic_account_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </TableLayout>
+
+
+
     </ScrollView>
-</LinearLayout>
+
+
+</RelativeLayout>

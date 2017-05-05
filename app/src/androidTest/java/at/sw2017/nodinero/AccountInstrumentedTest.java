@@ -123,7 +123,7 @@ public class AccountInstrumentedTest extends AbstractNoDineroInstrumentedTest {
         onView(withId(R.id.account_init_balance)).check(matches(isDisplayed()));
         onView(withId(R.id.account_currency)).check(matches(isDisplayed()));
 
-        String account_name = "account test delete";
+        String account_name = "account test";
         onView(withId(R.id.account_name)).perform(typeText(account_name), closeSoftKeyboard());
 
         onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());

@@ -27,4 +27,5 @@ public class Account extends BaseModel {
 
     @Column
     public String currency;
+
 }

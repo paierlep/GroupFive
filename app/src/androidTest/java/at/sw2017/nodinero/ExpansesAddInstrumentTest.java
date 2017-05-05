@@ -25,6 +25,7 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.DrawerActions.close;
 import static android.support.test.espresso.contrib.DrawerActions.open;
 import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -152,7 +153,7 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         String expense_name = "very important expense";
         //TODO other fields
-        onView(withId(R.id.expense_name)).perform(typeText(expense_name));
+        onView(withId(R.id.expense_name)).perform(typeText(expense_name), closeSoftKeyboard());
         onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());
 
         onView(withId(R.id.fragment_expense_overview)).check(matches(isDisplayed()));

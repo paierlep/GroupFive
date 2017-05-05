@@ -11,10 +11,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import java.util.List;
 
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
+import at.sw2017.nodinero.adapter.AccountAdapter;
+import at.sw2017.nodinero.model.Account;
 import at.sw2017.nodinero.model.Expense;
 
 /**
@@ -33,11 +40,12 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
     private TextInputEditText expenseCategory;
     private DatePicker expenseDate;
     private AppCompatSpinner expenseAccount;
+    private int currentAccountId;
 
-    public static ExpenseFormFragment newInstance() {
-        //TODO expand by account id
+    public static ExpenseFormFragment newInstance(int accountId) {
         Bundle args = new Bundle();
         ExpenseFormFragment fragment = new ExpenseFormFragment();
+        args.putInt("accountId", accountId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,6 +55,8 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_expense_add, container, false);
+
+        currentAccountId = getArguments().getInt("accountId", 0);
 
         saveButton = (AppCompatButton) view.findViewById(R.id.button_save);
         saveButton.setOnClickListener(this);
@@ -61,7 +71,16 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         expenseValue = (TextInputEditText) view.findViewById(R.id.expense_value);
         expenseCategory = (TextInputEditText) view.findViewById(R.id.expense_category);
         expenseDate = (DatePicker) view.findViewById(R.id.expense_date_picker);
+
         expenseAccount = (AppCompatSpinner) view.findViewById(R.id.expense_account_type_spinner);
+
+        List<Account> accounts = SQLite.select().from(Account.class).queryList();
+        Log.e(TAG, "size: "+accounts.size());
+        AccountAdapter accountAdapter = new AccountAdapter(getActivity(), android.R.layout.simple_spinner_item, accounts);
+      //  ArrayAdapter accountAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, accounts);
+        accountAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        expenseAccount.setAdapter(accountAdapter);
+
 
         return view;
     }
@@ -78,6 +97,8 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             value = Integer.parseInt(expenseValue.getText().toString());
         }
         expense.value = value;
+
+        expense.accountId = ((Account)expenseAccount.getSelectedItem());
 
         expense.save();
         Log.d(TAG, "Wrote Expense Successful, ID: " + expense.id);

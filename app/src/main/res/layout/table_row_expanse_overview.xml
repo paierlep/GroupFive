@@ -6,33 +6,22 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/overview_name"
+        android:id="@+id/expanse_name"
         android:padding="6dp"
         android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:ellipsize="end"
+        android:maxLines="1" />
 
     <TextView
-        android:id="@+id/overview_balance"
+        android:id="@+id/expanse_value"
         android:padding="6dp"
         android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
 
-    <TextView
-        android:id="@+id/overview_currency"
-        android:padding="6dp"
-        android:textSize="18sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
 
-    <Button
-        android:text="@string/account_delete"
-        android:id="@+id/overview_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+
 </TableRow>

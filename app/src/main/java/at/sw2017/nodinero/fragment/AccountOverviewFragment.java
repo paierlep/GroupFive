@@ -64,7 +64,7 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
         TableLayout account_table = (TableLayout) view.findViewById(R.id.account_list);
 
         for (Account account : SQLite.select().from(Account.class).queryList()) {
-            TableRow row = (TableRow) View.inflate(getContext(), R.layout.table_row_overview, null);
+            TableRow row = (TableRow) View.inflate(getContext(), R.layout.table_row_account_overview, null);
             ((TextView) row.findViewById(R.id.overview_name)).setText(account.name);
             ((TextView) row.findViewById(R.id.overview_balance)).setText(String.valueOf(account.balance)); // TODO replace with localss
             ((TextView) row.findViewById(R.id.overview_currency)).setText(account.currency);
