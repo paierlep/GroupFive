@@ -112,11 +112,18 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             saveExpense();
         } else if (v.getId() == R.id.button_save_back) {
             saveExpense();
-            ((NoDineroActivity)getActivity()).loadAccountOverviewFragment();
+            loadExpanseCorrectView();
         } else if (v.getId() == R.id.button_cancel) {
+            loadExpanseCorrectView();
+        }
+    }
+
+    private void loadExpanseCorrectView(){
+        if (currentAccountId > 0) {
+            ((NoDineroActivity)getActivity()).loadExpensesOverviewFragment(currentAccountId);
+        } else {
             ((NoDineroActivity)getActivity()).loadAccountOverviewFragment();
         }
-
-        //TODO redirect to expanses overview fragment IFF an account id already did exist
     }
+
 }
