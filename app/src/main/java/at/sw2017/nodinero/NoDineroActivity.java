@@ -129,6 +129,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     public void loadExpensesFormFragment(int accountId) {
         loadFragment(ExpenseFormFragment.newInstance(accountId));
     }
+    public void loadExpensesFormFragment(int accountId, int expenseId) {
+        loadFragment(ExpenseFormFragment.newInstance(accountId, expenseId));
+    }
+
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);

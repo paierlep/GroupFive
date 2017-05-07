@@ -106,6 +106,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/saveAndBack"
                 style="@style/Base.Widget.AppCompat.Button.Borderless" />
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/edit"
+                style="@style/Base.Widget.AppCompat.Button.Borderless" />
 
         </android.support.v7.widget.ButtonBarLayout>
 
