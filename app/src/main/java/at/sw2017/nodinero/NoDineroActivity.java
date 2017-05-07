@@ -106,8 +106,11 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.main_content, fragment);
+        fragmentTransaction.addToBackStack("tag");
+
         fragmentTransaction.commit();
         getSupportFragmentManager().executePendingTransactions();
+
     }
 
     public void loadSettingsFragment() {
@@ -142,5 +145,14 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
             view = new View(activity);
         }
         inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
