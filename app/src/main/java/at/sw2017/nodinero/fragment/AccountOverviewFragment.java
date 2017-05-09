@@ -43,9 +43,6 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
         createOverviewTable(view);
         loadQuickAddNavigation();
 
-
-
-
         return view;
     }
 
