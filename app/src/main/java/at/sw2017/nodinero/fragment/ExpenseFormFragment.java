@@ -125,6 +125,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
         List<Account> accounts = SQLite.select().from(Account.class).queryList();
         Log.e(TAG, "size: "+accounts.size());
+
         AccountAdapter accountAdapter = new AccountAdapter(getActivity(), android.R.layout.simple_spinner_item, accounts);
       //  ArrayAdapter accountAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, accounts);
         accountAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -157,7 +158,12 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
     }
 
     private void saveExpense() {
-        expense =  new Expense();
+        Account account = ((Account) expenseAccount.getSelectedItem());
+        if (account == null) {
+            return;
+        }
+
+        expense = new Expense();
         expense.name = expenseName.getText().toString();
         expense.date = expenseDate.toString();
 
@@ -169,10 +175,13 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         }
         expense.value = value;
 
-        Account account = ((Account)expenseAccount.getSelectedItem());
         expense.accountId = account;
 
-        account.balance += value;
+        if (account.balance == 0) {
+            account.balance += value;
+        } else {
+            account.balance = value;
+        }
         account.save();
 
         expense.save();
