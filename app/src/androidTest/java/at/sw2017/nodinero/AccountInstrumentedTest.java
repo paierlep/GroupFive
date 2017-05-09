@@ -1,11 +1,17 @@
 package at.sw2017.nodinero;
 
+import android.os.IBinder;
 import android.os.SystemClock;
+import android.support.test.espresso.Root;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.Gravity;
+import android.view.WindowManager;
 
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
+import org.junit.runner.Description;
+
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -16,14 +22,19 @@ import static android.support.test.espresso.assertion.ViewAssertions.doesNotExis
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.DrawerActions.open;
 import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
+import static android.support.test.espresso.core.deps.guava.base.Predicates.not;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.AllOf.allOf;
 
 /**
  * Created by cpaier on 18/04/2017.
  */
+
+
 
 @RunWith(AndroidJUnit4.class)
 public class AccountInstrumentedTest extends AbstractNoDineroInstrumentedTest {
@@ -138,4 +149,20 @@ public class AccountInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
         onView(withText(account_name)).check(doesNotExist());
     }
+
+    @Test
+    public void quickAdd() {
+
+        onView(withId(R.id.menu_profile)).perform(click());
+
+
+        //onView(withText(R.string.toast)).inRoot(withDecorView(not(is(mActivityRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+
+
+        //onView(withText("Quick")).perform(click());
+        //onView(withText("1 Beer added")).check(matches(isDisplayed()));
+
+    }
+
+
 }

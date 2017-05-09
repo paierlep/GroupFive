@@ -98,7 +98,11 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         }
         expense.value = value;
 
-        expense.accountId = ((Account)expenseAccount.getSelectedItem());
+        Account account = ((Account)expenseAccount.getSelectedItem());
+        expense.accountId = account;
+
+        account.balance += value;
+        account.save();
 
         expense.save();
         Log.d(TAG, "Wrote Expense Successful, ID: " + expense.id);
