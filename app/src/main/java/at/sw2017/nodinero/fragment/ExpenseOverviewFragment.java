@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.util.List;
+
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
 import at.sw2017.nodinero.model.Account;
@@ -51,20 +53,41 @@ public class ExpenseOverviewFragment extends Fragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         //ExpenseFormFragment
-        ((NoDineroActivity) getActivity()).loadExpensesFormFragment(currentAccountId);
+
+
+        if(v.getId() == R.id.add_expense) {
+            ((NoDineroActivity) getActivity()).loadExpensesFormFragment(currentAccountId);
+        } else {
+
+
+            //loadContent((int)v.getTag());
+        }
     }
+
 
     public void createOverviewTable(View view)
     {
         TableLayout expanse_table = (TableLayout) view.findViewById(R.id.expanse_list);
 
-        for (Expense expense : SQLite.select().from(Expense.class).queryList()) {
+        for (final Expense expense : SQLite.select().from(Expense.class).queryList()) {
             TableRow row = (TableRow) View.inflate(getContext(), R.layout.table_row_expanse_overview, null);
             ((TextView) row.findViewById(R.id.expanse_name)).setText(expense.name);
             ((TextView) row.findViewById(R.id.expanse_value)).setText(String.valueOf(expense.value));
 
+            row.setTag(expense.id);
+            //row.setId(expense.id);
+
             row.setClickable(true);
-            row.setOnClickListener(this);
+            //row.setOnClickListener(this);
+            row.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    //Toast toast = Toast.makeText(getApplicationContext(), "Tabele row clicked "+ Integer.toString(v.getId()) , Toast.LENGTH_LONG);
+                    ((NoDineroActivity) getActivity()).loadExpensesFormFragment(currentAccountId, expense.id);
+
+                }
+            });
             expanse_table.addView(row);
         }
     }
