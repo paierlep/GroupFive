@@ -2,7 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:id="@+id/fragment_quick_add_menu"
-    android:background="#00ff00">
+    android:background="#00ff00"
+    android:weightSum="1">
+
+    <Button
+        android:id="@+id/quickAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Beer"
+        
+        android:layout_weight="0.04" />
 
 </LinearLayout>

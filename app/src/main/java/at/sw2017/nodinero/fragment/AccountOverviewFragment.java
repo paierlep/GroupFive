@@ -4,9 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -38,7 +42,10 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
         View view = inflater.inflate(R.layout.fragment_account_overview, container, false);
         createOverviewTable(view);
         loadQuickAddNavigation();
-        //TODO createQuickAddMenu
+
+
+
+
         return view;
     }
 
@@ -64,7 +71,11 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
 
             TableLayout table = (TableLayout) row.getParent();
             table.removeView(row);
+        }else if(v.getId() == R.id.quickAdd)
+        {
+            Log.d("Tester", "Print this ->");
         }
+
     }
 
     public void createOverviewTable(View view)
