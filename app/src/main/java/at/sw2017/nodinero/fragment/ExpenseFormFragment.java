@@ -183,8 +183,6 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         NoDineroActivity.hideKeyboard(this.getActivity());
 
-        Toast.makeText(getActivity(), "zwerg", Toast.LENGTH_LONG).show();
-
         if(v.getId() == R.id.button_save) {
             saveExpense();
         } else if (v.getId() == R.id.button_save_back) {
