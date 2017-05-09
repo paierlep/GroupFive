@@ -36,6 +36,10 @@ before_script:
     - echo no | android create avd --force --name test --target $ANDROID_TARGET --abi $ANDROID_ABI    #Create AVD for given api
     - emulator -avd test -no-skin -no-audio -no-window &    #Start emulator
 
+install:
+  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
+  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+
 script:
     - echo "Travis branch is $TRAVIS_BRANCH"
     - echo "Travis branch is in pull request $TRAVIS_PULL+REQUEST"
