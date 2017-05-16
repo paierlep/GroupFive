@@ -11,22 +11,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-import java.util.Date;
 import java.util.List;
 
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
 import at.sw2017.nodinero.adapter.AccountAdapter;
 import at.sw2017.nodinero.model.Account;
+import at.sw2017.nodinero.model.Account_Table;
 import at.sw2017.nodinero.model.Expense;
 import at.sw2017.nodinero.model.Expense_Table;
 
@@ -78,10 +73,6 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
         int expenseId = getArguments().getInt("expenseId", 0);
 
-
-
-
-
         cancelButton = (AppCompatButton) view.findViewById(R.id.button_cancel);
         cancelButton.setOnClickListener(this);
 
@@ -130,6 +121,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
       //  ArrayAdapter accountAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, accounts);
         accountAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         expenseAccount.setAdapter(accountAdapter);
+        expenseAccount.setSelection(accountAdapter.getPos(currentAccountId));
 
 
         return view;
@@ -177,11 +169,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
         expense.accountId = account;
 
-        if (account.balance == 0) {
-            account.balance += value;
-        } else {
-            account.balance = value;
-        }
+
         account.save();
 
         expense.save();

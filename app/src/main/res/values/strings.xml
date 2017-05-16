@@ -29,6 +29,7 @@
     </string-array>
 
     <string name="add_expense">Add Expense</string>
+    <string name="add_template">Add Template</string>
 
     <!-- Add Expense Items -->
     <string name="expense_name">Name</string>

@@ -4,6 +4,7 @@ import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 
@@ -20,12 +21,23 @@ public class Account extends BaseModel {
     public String name;
 
     @Column
-    public int balance;
+    public int initialBalance;
 
     @Column
     public String type;
 
     @Column
     public String currency;
+
+
+    public int getBalance()
+    {
+        int res = initialBalance;
+        for(Expense exp : SQLite.select().from(Expense.class).where(Expense_Table.accountId_id.eq(id)).queryList())
+        {
+            res += exp.value;
+        }
+        return res;
+    }
 
 }
