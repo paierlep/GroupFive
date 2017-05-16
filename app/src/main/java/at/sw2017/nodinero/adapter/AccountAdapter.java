@@ -50,6 +50,16 @@ public class AccountAdapter extends ArrayAdapter<Account> {
         return accounts.size();
     }
 
+    public int getPos(int accountid)
+    {
+        for(int i = 0 ; i < accounts.size(); i++)
+        {
+            if(accounts.get(i).id ==  accountid)
+                return i;
+        }
+        return -1;
+    }
+
     public Account getItem(int position){
         return accounts.get(position);
     }

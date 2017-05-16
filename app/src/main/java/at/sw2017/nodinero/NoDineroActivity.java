@@ -25,7 +25,10 @@ import at.sw2017.nodinero.fragment.AccountOverviewFragment;
 import at.sw2017.nodinero.fragment.ExpenseFormFragment;
 import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
 import at.sw2017.nodinero.fragment.SettingsFragment;
+import at.sw2017.nodinero.fragment.TemplateFormFragment;
 import at.sw2017.nodinero.model.Database;
+
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class NoDineroActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public final String TAG = "NoDineroActivity";
@@ -40,6 +43,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_main_overview);
 
         initDb();
+        FlowManager.getDatabase("Database").reset(getContext());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -85,6 +89,9 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
             case R.id.add_expense:
                 loadExpensesFormFragment(0);
                 break;
+            case R.id.add_template:
+                loadTemplateFormFragment();
+                break;
             //toolbar
             case R.id.menu_settings:
                 loadSettingsFragment();
@@ -119,6 +126,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
 
     public void loadAccountOverviewFragment() {
         loadFragment(AccountOverviewFragment.newInstance());
+    }
+
+    public void loadTemplateFormFragment() {
+        loadFragment(TemplateFormFragment.newInstance());
     }
 
     public void loadAccountFormFragment() {

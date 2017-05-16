@@ -67,9 +67,9 @@ public class AccountFormFragment extends Fragment implements View.OnClickListene
 
         account.currency = accountCurrency.getSelectedItem().toString();
         if(accountBalance.getText() == null || accountBalance.getText().toString().equals("")) {
-            account.balance = 0;
+            account.initialBalance = 0;
         } else {
-            account.balance = Integer.parseInt(accountBalance.getText().toString());
+            account.initialBalance = Integer.parseInt(accountBalance.getText().toString());
         }
 
         account.type = accountType.getSelectedItem().toString();

@@ -8,9 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,6 +17,10 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
 import at.sw2017.nodinero.model.Account;
+import at.sw2017.nodinero.model.Expense;
+import at.sw2017.nodinero.model.Expense_Table;
+import at.sw2017.nodinero.model.Template;
+import at.sw2017.nodinero.model.Template_Table;
 
 import static at.sw2017.nodinero.model.Account_Table.id;
 
@@ -56,10 +57,16 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         //TODO better swipe ui for delete button
         if (v.getId() == R.id.overview_table_row) {
-            ((NoDineroActivity) getActivity()).loadExpensesOverviewFragment(v.getId());
-        } else if (v.getId() == R.id.overview_delete) {
+            ((NoDineroActivity) getActivity()).loadExpensesOverviewFragment((int)v.getTag());
+        } else if (v.getId() == R.id.overview_delete)
+        {
             SQLite.delete(Account.class)
                     .where(id.is((int) v.getTag()))
+                    .async()
+                    .execute();
+
+            SQLite.delete(Template.class)
+                    .where(Template_Table.accountId_id.eq((int)v.getTag()))
                     .async()
                     .execute();
 
@@ -68,9 +75,7 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
 
             TableLayout table = (TableLayout) row.getParent();
             table.removeView(row);
-        }else if(v.getId() == R.id.quickAdd)
-        {
-            Log.d("Tester", "Print this ->");
+            loadQuickAddNavigation();
         }
 
     }
@@ -82,7 +87,7 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
         for (Account account : SQLite.select().from(Account.class).queryList()) {
             TableRow row = (TableRow) View.inflate(getContext(), R.layout.table_row_account_overview, null);
             ((TextView) row.findViewById(R.id.overview_name)).setText(account.name);
-            ((TextView) row.findViewById(R.id.overview_balance)).setText(String.valueOf(account.balance)); // TODO replace with localss
+            ((TextView) row.findViewById(R.id.overview_balance)).setText(Integer.toString(account.getBalance())); // TODO replace with localss
             ((TextView) row.findViewById(R.id.overview_currency)).setText(account.currency);
 
             row.findViewById(R.id.overview_delete).setTag(account.id);
@@ -94,4 +99,6 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
             account_table.addView(row);
         }
     }
+
+
 }

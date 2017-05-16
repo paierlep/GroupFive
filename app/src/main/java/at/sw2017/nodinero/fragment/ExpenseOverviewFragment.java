@@ -18,6 +18,7 @@ import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
 import at.sw2017.nodinero.model.Account;
 import at.sw2017.nodinero.model.Expense;
+import at.sw2017.nodinero.model.Expense_Table;
 
 /**
  * Created by karin on 4/14/17.
@@ -69,7 +70,8 @@ public class ExpenseOverviewFragment extends Fragment implements View.OnClickLis
     {
         TableLayout expanse_table = (TableLayout) view.findViewById(R.id.expanse_list);
 
-        for (final Expense expense : SQLite.select().from(Expense.class).queryList()) {
+        for (final Expense expense : SQLite.select().from(Expense.class)
+                .where(Expense_Table.accountId_id.eq(currentAccountId)).queryList()) {
             TableRow row = (TableRow) View.inflate(getContext(), R.layout.table_row_expanse_overview, null);
             ((TextView) row.findViewById(R.id.expanse_name)).setText(expense.name);
             ((TextView) row.findViewById(R.id.expanse_value)).setText(String.valueOf(expense.value));
