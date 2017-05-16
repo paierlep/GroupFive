@@ -111,9 +111,9 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
 
-        //onView(withText(R.string.template_overview)).perform(click());
+        onView(withText(R.string.template_overview)).perform(click());
 
-        //onView(withId(R.id.template_list)).check(matches(isDisplayed()));
+        onView(withId(R.id.template_list)).check(matches(isDisplayed()));
 
         onView(withText(template_name)).check(matches(isDisplayed()));
     }

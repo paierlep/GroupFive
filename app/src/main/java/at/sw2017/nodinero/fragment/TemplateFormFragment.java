@@ -42,6 +42,7 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
     public static TemplateFormFragment newInstance() {
         Bundle args = new Bundle();
         TemplateFormFragment fragment = new TemplateFormFragment();
+        fragment.setArguments(args);
         return fragment;
     }
 

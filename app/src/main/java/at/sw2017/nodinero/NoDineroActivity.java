@@ -26,6 +26,7 @@ import at.sw2017.nodinero.fragment.ExpenseFormFragment;
 import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
 import at.sw2017.nodinero.fragment.SettingsFragment;
 import at.sw2017.nodinero.fragment.TemplateFormFragment;
+import at.sw2017.nodinero.fragment.TemplateOverviewFragment;
 import at.sw2017.nodinero.model.Database;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
@@ -43,7 +44,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_main_overview);
 
         initDb();
-        FlowManager.getDatabase("Database").reset(getContext());
+        //FlowManager.getDatabase("Database").reset(getContext());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -99,8 +100,12 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
             case R.id.account_overview:
                 loadAccountOverviewFragment();
                 break;
+            case R.id.template_overview:
+                loadTemplateOverviewFragment();
+                break;
             case R.id.menu_profile:
                 Toast.makeText(this, "not implemented yet!", Toast.LENGTH_LONG).show();
+                break;
             default:
                 return false;
         }
@@ -139,7 +144,9 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     public void loadExpensesOverviewFragment(int accountId) {
         loadFragment(ExpenseOverviewFragment.newInstance(accountId));
     }
-
+    public void loadTemplateOverviewFragment() {
+        loadFragment(TemplateOverviewFragment.newInstance());
+    }
     public void loadExpensesFormFragment(int accountId) {
         loadFragment(ExpenseFormFragment.newInstance(accountId));
     }
