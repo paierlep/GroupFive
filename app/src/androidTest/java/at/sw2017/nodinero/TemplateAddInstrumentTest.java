@@ -118,7 +118,6 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withText(template_name)).check(matches(isDisplayed()));
     }
 
-
     @Test
     public void addTemplateAndEdit() {
         AccountInstrumentedTest.addAccount();
@@ -176,5 +175,4 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(withText("Beer Special")).check(matches(isDisplayed()));
     }
-
 }
