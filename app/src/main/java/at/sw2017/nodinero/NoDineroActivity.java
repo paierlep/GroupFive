@@ -137,6 +137,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         loadFragment(TemplateFormFragment.newInstance());
     }
 
+    public void loadTemplateUpdateFormFragment(int id) {
+        loadFragment(TemplateFormFragment.newInstance(id));
+    }
+
     public void loadAccountFormFragment() {
         loadFragment(AccountFormFragment.newInstance());
     }

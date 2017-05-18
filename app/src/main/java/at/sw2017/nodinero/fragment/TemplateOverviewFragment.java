@@ -53,22 +53,15 @@ public class TemplateOverviewFragment extends Fragment implements View.OnClickLi
     public void onClick(View v) {
 
         if (v.getId() == R.id.template_table_row) {
-            //((NoDineroActivity) getActivity()).loadTemplateOverviewFragment();
+            ((NoDineroActivity) getActivity()).loadTemplateUpdateFormFragment((Integer) v.getTag());
         } else if (v.getId() == R.id.template_delete)
         {
             SQLite.delete(Template.class)
                     .where(id.is((int) v.getTag()))
                     .async()
                     .execute();
-            /*Template t1 = new Template();
-            t1.id = (int)v.getTag();
-            t1.name = "Konstant eini wos";
-            List<Template> t2 = SQLite.select().from(Template.class).where(Template_Table.id.is(t1.id)).queryList();
-            t1.value = t2.get(0).value;
-            t1.save();*/ // for edit template
             TableRow row = (TableRow) v.getParent();
             row.setVisibility(View.INVISIBLE);
-
             TableLayout table = (TableLayout) row.getParent();
             table.removeView(row);
         }

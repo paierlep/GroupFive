@@ -118,4 +118,63 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withText(template_name)).check(matches(isDisplayed()));
     }
 
+
+    @Test
+    public void addTemplateAndEdit() {
+        AccountInstrumentedTest.addAccount();
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText("Add Template")).perform(click());
+
+        onView(withId(R.id.fragment_template_add)).check(matches(isDisplayed()));
+
+        String template_name = "Beer";
+        String template_value = "2";
+
+
+        onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_value)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.expense_name))
+                .perform(typeText(template_name), closeSoftKeyboard());
+
+        onView(withId(R.id.expense_value))
+                .perform(typeText(template_value), closeSoftKeyboard());
+
+        onView(allOf(withId(R.id.button_save_back), isDisplayed())).perform(click());
+
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText(R.string.template_overview)).perform(click());
+
+        onView(withId(R.id.template_list)).check(matches(isDisplayed()));
+
+        onView(withText(template_name)).check(matches(isDisplayed()));
+        onView(withText("Beer")).perform(click());
+        onView(withId(R.id.fragment_template_add)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.expense_name))
+                .perform(typeText(" Special"), closeSoftKeyboard());
+
+        onView(allOf(withId(R.id.button_edit), isDisplayed())).perform(click());
+
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText(R.string.template_overview)).perform(click());
+
+        onView(withId(R.id.template_list)).check(matches(isDisplayed()));
+
+        onView(withText("Beer Special")).check(matches(isDisplayed()));
+    }
+
 }

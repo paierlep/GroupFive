@@ -48,7 +48,7 @@
     <string name="expense_name_label">Name</string>
     <string name="add">Add</string>
     <string name="back">Back</string>
-    <string name="edit">Edit</string>
+    <string name="edit">Update</string>
 
     <string-array name="expense_categories">
         <item>Drink</item>
