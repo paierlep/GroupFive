@@ -61,9 +61,16 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.expense_name)).perform(typeText(template_test));
         onView(withId(R.id.expense_value)).perform(typeText("-10"));
 
+        onView(withId(R.id.button_save_back)).perform(scrollTo()).check(matches(isDisplayed()));
         onView(withId(R.id.button_save_back)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
-        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+        onView(withId(R.id.fragment_template_overview)).check(matches(isDisplayed()));
 
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText(R.string.account_overview)).perform(click());
 
         onView(withText(template_test)).check((matches(isDisplayed())));
 
@@ -81,7 +88,7 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
     }
     @Test
     public void addTemplateAndBack() {
-        AccountInstrumentedTest.addAccount();
+        addAccount();
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
@@ -105,13 +112,7 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(allOf(withId(R.id.button_save_back), isDisplayed())).perform(click());
 
-        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
-
-        onView(withId(R.id.drawer_layout))
-                .check(matches(isClosed(Gravity.START)))
-                .perform(open());
-
-        onView(withText(R.string.template_overview)).perform(click());
+        onView(withId(R.id.fragment_template_overview)).check(matches(isDisplayed()));
 
         onView(withId(R.id.template_list)).check(matches(isDisplayed()));
 
@@ -120,7 +121,7 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
     @Test
     public void addTemplateAndEdit() {
-        AccountInstrumentedTest.addAccount();
+        addAccount();
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
@@ -144,13 +145,7 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(allOf(withId(R.id.button_save_back), isDisplayed())).perform(click());
 
-        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
-
-        onView(withId(R.id.drawer_layout))
-                .check(matches(isClosed(Gravity.START)))
-                .perform(open());
-
-        onView(withText(R.string.template_overview)).perform(click());
+        onView(withId(R.id.fragment_template_overview)).check(matches(isDisplayed()));
 
         onView(withId(R.id.template_list)).check(matches(isDisplayed()));
 
@@ -163,16 +158,42 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(allOf(withId(R.id.button_edit), isDisplayed())).perform(click());
 
-        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
-
-        onView(withId(R.id.drawer_layout))
-                .check(matches(isClosed(Gravity.START)))
-                .perform(open());
-
-        onView(withText(R.string.template_overview)).perform(click());
+        onView(withId(R.id.fragment_template_overview)).check(matches(isDisplayed()));
 
         onView(withId(R.id.template_list)).check(matches(isDisplayed()));
 
         onView(withText("Beer Special")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void addAccount() {
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText(R.string.add_account)).perform(click());
+
+        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.account_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_type)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_init_balance)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_currency)).check(matches(isDisplayed()));
+
+        String account_name = "account test save";
+        onView(withId(R.id.account_name)).perform(typeText(account_name), closeSoftKeyboard());
+
+        onView(allOf(withId(R.id.button_save), isDisplayed())).perform(click());
+        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+        onView(withText(R.string.account_overview)).perform(click());
+
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+        onView(withId(R.id.account_list)).check(matches(isDisplayed()));
+
+        onView(withText(account_name)).check(matches(isDisplayed()));
     }
 }

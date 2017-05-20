@@ -50,7 +50,7 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
     private void loadQuickAddNavigation() {
         Fragment fragment = QuickAddNavigationFragment.newInstance();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.add_quick_fragment, fragment).commit();
+        transaction.replace(R.id.add_quick_fragment, fragment).commit();
     }
 
     @Override
