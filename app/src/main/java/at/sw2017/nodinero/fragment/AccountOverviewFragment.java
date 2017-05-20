@@ -44,6 +44,7 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
         createOverviewTable(view);
         loadQuickAddNavigation();
 
+        ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.account_overview_title);
         return view;
     }
 

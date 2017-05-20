@@ -11,9 +11,13 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.DrawerActions.open;
+import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -34,4 +38,25 @@ public class ActionBarInstrumentedTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.menu_profile)).perform(click());
     }
 
+    @Test
+    public void checkToolBarTitles() {
+        onView(withId(R.id.drawer_layout))
+            .check(matches(isClosed(Gravity.START)))
+            .perform(open());
+
+        onView(withText(R.string.add_account)).perform(click());
+        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
+        onView(allOf(withText(R.string.account_add_title), withParent(withId(R.id.menu_bar))))
+                .check(matches(isDisplayed()));
+
+
+        onView(withId(R.id.drawer_layout))
+            .check(matches(isClosed(Gravity.START)))
+            .perform(open());
+
+        onView(withText(R.string.add_expense)).perform(click());
+        onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
+        onView(allOf(withText(R.string.expense_add_title), withParent(withId(R.id.menu_bar))))
+                .check(matches(isDisplayed()));
+    }
 }

@@ -21,22 +21,27 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class BackButtonInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
-    @Test
-    public void BackToAccountOverview() {
+    public void backButtonTemplateFunction(int buttonText, int newFragment, int targetFragment) {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
+        onView(withText(buttonText)).perform(click());
 
-        onView(withText(R.string.add_account)).perform(click());
-        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed())).perform(pressBack());
+        onView(withId(newFragment)).check(matches(isDisplayed())).perform(pressBack());
+        onView(withId(targetFragment)).check(matches(isDisplayed()));
+    }
 
-        //onView(withContentDescription("Navigate up")).perform(click());
 
-        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+    @Test
+    public void BackToAccountOverview() {
+        backButtonTemplateFunction(R.string.add_account, R.id.fragment_account_form, R.id.fragment_account_overview);
+        backButtonTemplateFunction(R.string.template_overview, R.id.fragment_template_overview, R.id.fragment_account_overview);
+        backButtonTemplateFunction(R.string.add_template, R.id.fragment_template_add, R.id.fragment_account_overview);
     }
 
 }

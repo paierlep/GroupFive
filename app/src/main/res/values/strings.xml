@@ -4,6 +4,17 @@
     <string name="saveAndBack">Save and Back</string>
     <string name="cancel">Cancel</string>
 
+    <!-- Fragment titles -->
+    <string name="account_add_title">Add Account</string>
+    <string name="account_edit_title">Edit Account</string>
+    <string name="account_overview_title">Overview Account</string>
+    <string name="expense_add_title">Add Expense</string>
+    <string name="expense_edit_title">Edit Expense</string>
+    <string name="expense_overview_title">Expense Overview</string>
+    <string name="template_add_title">Add Template</string>
+    <string name="template_edit_title">Edit Template</string>
+    <string name="template_overview_title">Template Overview</string>
+
     <!-- Menu items -->
     <string name="add_account">Add Account</string>
     <string name="menu_settings">Settings</string>

@@ -57,6 +57,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         loadAccountOverviewFragment();
     }
 
+    public void setToolbarTitle(int stringRes) {
+        toolbar.setTitle(stringRes);
+    }
+
     private void initDb() {
         FlowManager.init(new FlowConfig.Builder(this).build());
         FlowManager.getDatabase(Database.class).getWritableDatabase();
@@ -114,15 +118,21 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
 
     private void loadFragment(Fragment fragment) {
+        loadFragment(fragment, "no-history");
+    }
+
+    private void loadFragment(Fragment fragment, String history) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.main_content, fragment);
-        fragmentTransaction.addToBackStack("tag");
+        fragmentTransaction.addToBackStack(history);
 
         fragmentTransaction.commit();
         getSupportFragmentManager().executePendingTransactions();
 
+        int amount = getSupportFragmentManager().getBackStackEntryCount();
+        Log.e(TAG, "current back support: " + amount);
     }
 
     public void loadSettingsFragment() {
@@ -130,7 +140,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
 
     public void loadAccountOverviewFragment() {
-        loadFragment(AccountOverviewFragment.newInstance());
+        loadFragment(AccountOverviewFragment.newInstance(), "history");
     }
 
     public void loadTemplateFormFragment() {
@@ -146,10 +156,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
 
     public void loadExpensesOverviewFragment(int accountId) {
-        loadFragment(ExpenseOverviewFragment.newInstance(accountId));
+        loadFragment(ExpenseOverviewFragment.newInstance(accountId), "history");
     }
     public void loadTemplateOverviewFragment() {
-        loadFragment(TemplateOverviewFragment.newInstance());
+        loadFragment(TemplateOverviewFragment.newInstance(), "history");
     }
     public void loadExpensesFormFragment(int accountId) {
         loadFragment(ExpenseFormFragment.newInstance(accountId));
@@ -157,7 +167,6 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     public void loadExpensesFormFragment(int accountId, int expenseId) {
         loadFragment(ExpenseFormFragment.newInstance(accountId, expenseId));
     }
-
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -171,10 +180,17 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
+        Log.e (TAG, getSupportFragmentManager().getBackStackEntryCount() + "");
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            if(getSupportFragmentManager().getBackStackEntryAt(0).getName().equals("history")) {
+                getSupportFragmentManager().popBackStackImmediate();
+                getSupportFragmentManager().popBackStackImmediate("history", 0);
+            } else {
+                getSupportFragmentManager().popBackStackImmediate("history", 0);
+            }
         } else {
-            super.onBackPressed();
+            finish();
         }
     }
 }

@@ -57,6 +57,12 @@ public class AccountFormFragment extends Fragment implements View.OnClickListene
         accountCurrency = (AppCompatSpinner) view.findViewById(R.id.account_currency);
         accountType = (AppCompatSpinner) view.findViewById(R.id.account_type);
 
+        //TODO edit account
+        // if (account_id == 0) {
+        ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.account_add_title);
+        // } else {
+        //   ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.account_edit_title);
+        // }
         return view;
     }
 

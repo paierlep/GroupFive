@@ -3,6 +3,7 @@ package at.sw2017.nodinero.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,10 @@ public class ExpenseOverviewFragment extends Fragment implements View.OnClickLis
         currentAccountId = getArguments().getInt("accountId", 0);
         view.findViewById(R.id.add_expense).setOnClickListener(this);
 
+        Log.e(TAG, "my account: " + currentAccountId);
         createOverviewTable(view);
+
+        ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.expense_overview_title);
 
         //TODO get account from database
         //redirect to account overview if account id does not exist

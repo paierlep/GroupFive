@@ -72,6 +72,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         currentAccountId = getArguments().getInt("accountId", 0);
 
         int expenseId = getArguments().getInt("expenseId", 0);
+        Log.e(TAG, "my expense: " + expenseId);
 
         cancelButton = (AppCompatButton) view.findViewById(R.id.button_cancel);
         cancelButton.setOnClickListener(this);
@@ -123,6 +124,11 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         expenseAccount.setAdapter(accountAdapter);
         expenseAccount.setSelection(accountAdapter.getPos(currentAccountId));
 
+        if (currentAccountId == 0) {
+          ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.expense_add_title);
+        } else {
+           ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.expense_edit_title);
+         }
 
         return view;
     }

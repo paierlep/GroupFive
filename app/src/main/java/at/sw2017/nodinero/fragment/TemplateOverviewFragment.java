@@ -46,6 +46,8 @@ public class TemplateOverviewFragment extends Fragment implements View.OnClickLi
         View view = inflater.inflate(R.layout.fragment_template_overview, container, false);
         createOverviewTable(view);
 
+        ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.template_overview_title);
+
         return view;
     }
 

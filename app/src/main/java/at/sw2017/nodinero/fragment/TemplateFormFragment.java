@@ -90,6 +90,7 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
         accountAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         templateAccount.setAdapter(accountAdapter);
 
+        ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.template_add_title);
         int templateId = getArguments().getInt("templateID", 0);
         if (templateId != 0)
         {
@@ -100,6 +101,7 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
             templateName.setText(t2.name);
             templateValue.setText(String.valueOf(t2.value));
             templateAccount.setSelection(accountAdapter.getPos(t2.accountId.id));
+            ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.template_edit_title);
         }
         return view;
     }
