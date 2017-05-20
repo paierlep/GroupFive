@@ -22,6 +22,8 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 
 import at.sw2017.nodinero.fragment.AccountFormFragment;
 import at.sw2017.nodinero.fragment.AccountOverviewFragment;
+import at.sw2017.nodinero.fragment.CategoryFormFragment;
+import at.sw2017.nodinero.fragment.CategoryOverviewFragment;
 import at.sw2017.nodinero.fragment.ExpenseFormFragment;
 import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
 import at.sw2017.nodinero.fragment.SettingsFragment;
@@ -93,6 +95,9 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
             case R.id.add_template:
                 loadTemplateFormFragment();
                 break;
+            case R.id.add_category:
+                loadCategoryFormFragment();
+                break;
             //toolbar
             case R.id.menu_settings:
                 loadSettingsFragment();
@@ -133,6 +138,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         loadFragment(AccountOverviewFragment.newInstance());
     }
 
+    public void loadCategoryOverviewFragment() {
+        loadFragment(CategoryOverviewFragment.newInstance());
+    }
+
     public void loadTemplateFormFragment() {
         loadFragment(TemplateFormFragment.newInstance());
     }
@@ -144,6 +153,8 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     public void loadAccountFormFragment() {
         loadFragment(AccountFormFragment.newInstance());
     }
+
+    public void loadCategoryFormFragment() {loadFragment(CategoryFormFragment.newInstance()); }
 
     public void loadExpensesOverviewFragment(int accountId) {
         loadFragment(ExpenseOverviewFragment.newInstance(accountId));

@@ -28,4 +28,10 @@
         android:orderInCategory="100"
         android:title="@string/add_template"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/add_category"
+        android:orderInCategory="100"
+        android:title="@string/add_category"
+        app:showAsAction="never" />
 </menu>

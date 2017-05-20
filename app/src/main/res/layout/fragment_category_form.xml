@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/fragment_account_form"
+    android:layout_height="match_parent"
+    android:padding="32dp">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/category_name"
+            android:hint="@string/account_name"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.v7.widget.ButtonBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="end"
+        android:gravity="end">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            style="@style/Base.Widget.AppCompat.Button.Borderless" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            style="@style/Base.Widget.AppCompat.Button.Borderless" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_save_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/saveAndBack"
+            style="@style/Base.Widget.AppCompat.Button.Borderless" />
+
+    </android.support.v7.widget.ButtonBarLayout>
+
+</LinearLayout>
