@@ -20,8 +20,10 @@ import java.util.List;
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
 import at.sw2017.nodinero.adapter.AccountAdapter;
+import at.sw2017.nodinero.adapter.CategoryAdapter;
 import at.sw2017.nodinero.model.Account;
 import at.sw2017.nodinero.model.Account_Table;
+import at.sw2017.nodinero.model.Category;
 import at.sw2017.nodinero.model.Expense;
 import at.sw2017.nodinero.model.Expense_Table;
 
@@ -39,10 +41,11 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
     private TextInputEditText expenseName;
     private TextInputEditText expenseValue;
-    private TextInputEditText expenseCategory;
+    private AppCompatSpinner expenseCategory;
     private DatePicker expenseDate;
     private AppCompatSpinner expenseAccount;
     private int currentAccountId;
+    private int currentCategoryId;
 
     private Expense expense;
 
@@ -70,6 +73,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_expense_add, container, false);
 
         currentAccountId = getArguments().getInt("accountId", 0);
+        currentCategoryId = getArguments().getInt("categoryId", 0);
 
         int expenseId = getArguments().getInt("expenseId", 0);
 
@@ -78,10 +82,10 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
         expenseName = (TextInputEditText) view.findViewById(R.id.expense_name);
         expenseValue = (TextInputEditText) view.findViewById(R.id.expense_value);
-        expenseCategory = (TextInputEditText) view.findViewById(R.id.expense_category);
         expenseDate = (DatePicker) view.findViewById(R.id.expense_date_picker);
 
         expenseAccount = (AppCompatSpinner) view.findViewById(R.id.expense_account_type_spinner);
+        expenseCategory = (AppCompatSpinner) view.findViewById(R.id.expense_category_spinner);
 
         saveButton = (AppCompatButton) view.findViewById(R.id.button_save);
         saveButton.setOnClickListener(this);
@@ -123,6 +127,13 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         expenseAccount.setAdapter(accountAdapter);
         expenseAccount.setSelection(accountAdapter.getPos(currentAccountId));
 
+        List<Category> categories = SQLite.select().from(Category.class).queryList();
+        Log.e(TAG, "size: "+categories.size());
+
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), android.R.layout.simple_spinner_item, categories);
+        categoryAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        expenseCategory.setAdapter(categoryAdapter);
+        expenseCategory.setSelection(categoryAdapter.getPos(currentCategoryId));
 
         return view;
     }
