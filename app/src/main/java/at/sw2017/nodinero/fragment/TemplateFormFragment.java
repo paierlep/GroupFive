@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -22,9 +21,6 @@ import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
 import at.sw2017.nodinero.adapter.AccountAdapter;
 import at.sw2017.nodinero.model.Account;
-import at.sw2017.nodinero.model.Account_Table;
-import at.sw2017.nodinero.model.Category;
-import at.sw2017.nodinero.model.Category_Table;
 import at.sw2017.nodinero.model.Template;
 import at.sw2017.nodinero.model.Template_Table;
 
@@ -40,9 +36,7 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
     private TextInputEditText templateName;
     private TextInputEditText templateValue;
     private TextInputEditText templateCategory;
-    private AppCompatSpinner teplateAccount;
-    private int currentAccountId;
-    private int templateID;
+    private AppCompatSpinner templateAccount;
 
     private Template template;
 
@@ -72,13 +66,10 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
         this.getArguments();
         cancelButton = (AppCompatButton) view.findViewById(R.id.button_cancel);
         cancelButton.setOnClickListener(this);
-
         templateName = (TextInputEditText) view.findViewById(R.id.expense_name);
         templateValue = (TextInputEditText) view.findViewById(R.id.expense_value);
         templateCategory = (TextInputEditText) view.findViewById(R.id.expense_category);
-
-
-        teplateAccount = (AppCompatSpinner) view.findViewById(R.id.expense_account_type_spinner);
+        templateAccount = (AppCompatSpinner) view.findViewById(R.id.expense_account_type_spinner);
 
         saveButton = (AppCompatButton) view.findViewById(R.id.button_save);
         saveButton.setOnClickListener(this);
@@ -91,49 +82,34 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
 
         editButton.setVisibility(View.GONE);
 
-        int expenseId = getArguments().getInt("templateID", 0);
-        if (expenseId != 0)
-        {
-            Template t1 = new Template();
-            t1.id = expenseId;
-            List<Template> t2 = SQLite.select().from(Template.class).where(Template_Table.id.is(t1.id)).queryList();
-            t1.value = t2.get(0).value;
-            t1.name = t2.get(0).name;
-            saveButton.setVisibility(View.GONE);
-            saveAndBackButton.setVisibility(View.GONE);
-            editButton.setVisibility(View.VISIBLE);
-            templateName.setText(t1.name);
-            templateValue.setText(String.valueOf(t1.value));
-
-            // TO DO: Set Account and Category Spinner
-            List<Account> a1 = SQLite.select().from(Account.class).where(Account_Table.id.is(t1.id)).queryList();
-            //List<Category> c1 = SQLite.select().from(Category.class).where(Category_Table.id.is(t1.categoryId)).queryList();
-
-
-
-
-
-        }
-
         List<Account> accounts = SQLite.select().from(Account.class).queryList();
         Log.e(TAG, "size: "+accounts.size());
 
         AccountAdapter accountAdapter = new AccountAdapter(getActivity(), android.R.layout.simple_spinner_item, accounts);
-      //  ArrayAdapter accountAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, accounts);
+        //  ArrayAdapter accountAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, accounts);
         accountAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        teplateAccount.setAdapter(accountAdapter);
+        templateAccount.setAdapter(accountAdapter);
 
-
+        int templateId = getArguments().getInt("templateID", 0);
+        if (templateId != 0)
+        {
+            Template t2 = SQLite.select().from(Template.class).where(Template_Table.id.is(templateId)).querySingle();
+            saveButton.setVisibility(View.GONE);
+            saveAndBackButton.setVisibility(View.GONE);
+            editButton.setVisibility(View.VISIBLE);
+            templateName.setText(t2.name);
+            templateValue.setText(String.valueOf(t2.value));
+            templateAccount.setSelection(accountAdapter.getPos(t2.accountId.id));
+        }
         return view;
     }
 
 
-    private void editTemplate() {
-
+    private void editTemplate()
+    {
         Template template = new Template();
-        int expenseId = getArguments().getInt("templateID", 0);
-        template.id = expenseId;
-
+        int templateId = getArguments().getInt("templateID", 0);
+        template.id = templateId;
         template.name = templateName.getText().toString();
 
         int value;
@@ -143,19 +119,16 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
             value = Integer.parseInt(templateValue.getText().toString());
         }
         template.value = value;
-
-        template.accountId = ((Account) teplateAccount.getSelectedItem());
-
+        template.accountId = ((Account) templateAccount.getSelectedItem());
         template.save();
         Log.d(TAG, "Wrote template Successful, ID: " + template.id);
     }
 
     private void saveTemplate() {
-        Account account = ((Account) teplateAccount.getSelectedItem());
+        Account account = ((Account) templateAccount.getSelectedItem());
         if (account == null) {
             return;
         }
-
         template = new Template();
         template.name = templateName.getText().toString();
 
@@ -166,9 +139,7 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
             value = Integer.parseInt(templateValue.getText().toString());
         }
         template.value = value;
-
         template.accountId = account;
-
         template.save();
         Log.d(TAG, "Wrote template Successful, ID: " + template.id);
     }
@@ -181,12 +152,12 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
             saveTemplate();
         } else if (v.getId() == R.id.button_save_back) {
             saveTemplate();
-            ((NoDineroActivity)getActivity()).loadAccountOverviewFragment();
+            ((NoDineroActivity)getActivity()).loadTemplateOverviewFragment();
         } else if (v.getId() == R.id.button_cancel) {
-            ((NoDineroActivity)getActivity()).loadAccountOverviewFragment();
+            ((NoDineroActivity)getActivity()).loadTemplateOverviewFragment();
         } else if (v.getId() == R.id.button_edit) {
             editTemplate();
-            ((NoDineroActivity)getActivity()).loadAccountOverviewFragment();
+            ((NoDineroActivity)getActivity()).loadTemplateOverviewFragment();
         }
     }
 

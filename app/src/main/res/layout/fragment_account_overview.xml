@@ -8,10 +8,9 @@
     >
 
     <FrameLayout
-        android:background="#ffff00"
         android:id="@+id/add_quick_fragment"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="48dp"
 
         android:layout_margin="0dp"
 

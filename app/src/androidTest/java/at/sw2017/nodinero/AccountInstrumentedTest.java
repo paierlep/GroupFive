@@ -68,7 +68,7 @@ public class AccountInstrumentedTest extends AbstractNoDineroInstrumentedTest {
     }
 
     @Test
-    public static void addAccount() {
+    public void addAccount() {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
