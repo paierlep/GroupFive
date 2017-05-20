@@ -98,6 +98,9 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
             case R.id.add_category:
                 loadCategoryFormFragment();
                 break;
+            case R.id.category_overview:
+                loadCategoryOverviewFragment();
+                break;
             //toolbar
             case R.id.menu_settings:
                 loadSettingsFragment();

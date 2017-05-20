@@ -16,6 +16,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
 import at.sw2017.nodinero.model.Account;
+import at.sw2017.nodinero.model.Category;
 import at.sw2017.nodinero.model.Template;
 import at.sw2017.nodinero.model.Template_Table;
 
@@ -53,18 +54,11 @@ public class CategoryOverviewFragment extends Fragment implements View.OnClickLi
     @Override
     public void onClick(View v) {
         //TODO better swipe ui for delete button
-        /*
-        if (v.getId() == R.id.overview_table_row) {
-            ((NoDineroActivity) getActivity()).loadExpensesOverviewFragment((int)v.getTag());
-        } else if (v.getId() == R.id.overview_delete)
-        {
-            SQLite.delete(Account.class)
+        if (v.getId() == R.id.overview_category_table_row) {
+            ((NoDineroActivity) getActivity()).loadCategoryOverviewFragment();
+        } else if (v.getId() == R.id.overview_category_delete) {
+            SQLite.delete(Category.class)
                     .where(id.is((int) v.getTag()))
-                    .async()
-                    .execute();
-
-            SQLite.delete(Template.class)
-                    .where(Template_Table.accountId_id.eq((int)v.getTag()))
                     .async()
                     .execute();
 
@@ -74,31 +68,29 @@ public class CategoryOverviewFragment extends Fragment implements View.OnClickLi
             TableLayout table = (TableLayout) row.getParent();
             table.removeView(row);
             loadQuickAddNavigation();
-        }*/
-
+        }
     }
 
     public void createOverviewTable(View view)
     {
         TableLayout category_table = (TableLayout) view.findViewById(R.id.category_list);
 
-        /*
-        for (Account account : SQLite.select().from(Account.class).queryList()) {
 
-            TableRow row = (TableRow) View.inflate(getContext(), R.layout.table_row_account_overview, null);
-            ((TextView) row.findViewById(R.id.overview_name)).setText(account.name);
-            ((TextView) row.findViewById(R.id.overview_balance)).setText(Integer.toString(account.getBalance())); // TODO replace with localss
-            ((TextView) row.findViewById(R.id.overview_currency)).setText(account.currency);
+        for (Category category : SQLite.select().from(Category.class).queryList()) {
 
-            row.findViewById(R.id.overview_delete).setTag(account.id);
-            row.findViewById(R.id.overview_delete).setOnClickListener(this);
+            TableRow row = (TableRow) View.inflate(getContext(), R.layout.table_row_category_overview, null);
+            ((TextView) row.findViewById(R.id.overview_category_name)).setText(category.name);
 
-            row.setTag(account.id);
+
+            row.findViewById(R.id.overview_category_delete).setTag(category.id);
+            row.findViewById(R.id.overview_category_delete).setOnClickListener(this);
+
+            row.setTag(category.id);
             row.setClickable(true);
             row.setOnClickListener(this);
-            account_table.addView(row);
+            category_table.addView(row);
 
-        }*/
+        }
     }
 
 

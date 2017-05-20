@@ -62,7 +62,7 @@ public class CategoryInstrumentedTest extends AbstractNoDineroInstrumentedTest {
     }
 
     @Test
-    public static void addCategory() {
+    public void addCategory() {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
@@ -73,7 +73,7 @@ public class CategoryInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
         onView(withId(R.id.category_name)).check(matches(isDisplayed()));
 
-        String account_name = "category test save";
+        String category_name = "category test save";
         onView(withId(R.id.category_name)).perform(typeText(category_name), closeSoftKeyboard());
 
         onView(allOf(withId(R.id.button_save), isDisplayed())).perform(click());
@@ -119,8 +119,8 @@ public class CategoryInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
         onView(withId(R.id.category_name)).check(matches(isDisplayed()));
 
-        String account_name = "category test";
-        onView(withId(R.id.category_name)).perform(typeText(account_name), closeSoftKeyboard());
+        String category_name = "category test";
+        onView(withId(R.id.category_name)).perform(typeText(category_name), closeSoftKeyboard());
 
         onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());
 
@@ -130,8 +130,8 @@ public class CategoryInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
         onView(withText(category_name)).check(matches(isDisplayed()));
 
-        onView(allOf(withText(R.string.category_delete), isDisplayed())).perform(click());
-
+        onView(allOf(withText(R.string.account_delete), isDisplayed())).perform(click());
+        
         onView(withText(category_name)).check(doesNotExist());
     }
 }

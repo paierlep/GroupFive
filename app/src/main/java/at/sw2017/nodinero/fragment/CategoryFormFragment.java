@@ -25,6 +25,7 @@ public class CategoryFormFragment extends Fragment implements View.OnClickListen
     private AppCompatButton saveAndBackButton;
     private AppCompatButton cancelButton;
 
+    private TextInputEditText categoryName;
 
     public static CategoryFormFragment newInstance() {
         Bundle args = new Bundle();
@@ -47,12 +48,16 @@ public class CategoryFormFragment extends Fragment implements View.OnClickListen
         cancelButton = (AppCompatButton) view.findViewById(R.id.button_cancel);
         cancelButton.setOnClickListener(this);
 
-
+        categoryName = (TextInputEditText) view.findViewById(R.id.category_name);
         return view;
     }
 
     private void saveCategory()
     {
+        Category category = new Category();
+        category.name = categoryName.getText().toString();
+        category.save();
+        Log.d("DB","Wrote Successful, ID: " + category.id);
 
     }
 

@@ -12,6 +12,11 @@
         android:title="@string/template_overview"
         app:showAsAction="never" />
     <item
+        android:id="@+id/category_overview"
+        android:orderInCategory="100"
+        android:title="@string/category_overview"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/add_account"
         android:orderInCategory="100"
         android:title="@string/add_account"
