@@ -131,7 +131,7 @@ public class CategoryInstrumentedTest extends AbstractNoDineroInstrumentedTest {
         onView(withText(category_name)).check(matches(isDisplayed()));
 
         onView(allOf(withText(R.string.account_delete), isDisplayed())).perform(click());
-        
+
         onView(withText(category_name)).check(doesNotExist());
     }
 }

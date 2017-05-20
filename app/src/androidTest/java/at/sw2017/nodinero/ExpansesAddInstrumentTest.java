@@ -46,7 +46,7 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
 
         onView(withId(R.id.expense_account_type_spinner)).check(matches(isDisplayed()));
-        //TODO onView(withId(R.id.expense_category_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_category_spinner)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_date_picker)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_value)).check(matches(isDisplayed()));
@@ -85,7 +85,7 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
 
         onView(withId(R.id.expense_account_type_spinner)).check(matches(isDisplayed()));
-        //TODO onView(withId(R.id.expense_category_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_category_spinner)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_date_picker)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_value)).check(matches(isDisplayed()));
@@ -116,7 +116,7 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
 
         onView(withId(R.id.expense_account_type_spinner)).check(matches(isDisplayed()));
-        //TODO onView(withId(R.id.expense_category_spinner)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_category_spinner)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_date_picker)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_value)).check(matches(isDisplayed()));
@@ -158,5 +158,7 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(withId(R.id.fragment_expense_overview)).check(matches(isDisplayed()));
         onView(withText(expense_name)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.expense_category_spinner)).check(matches(isDisplayed()));
     }
 }
