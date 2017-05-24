@@ -162,6 +162,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
     private void saveExpense() {
         Account account = ((Account) expenseAccount.getSelectedItem());
+        Category category = ((Category) expenseCategory.getSelectedItem());
         if (account == null) {
             return;
         }
@@ -179,6 +180,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         expense.value = value;
 
         expense.accountId = account;
+        expense.categoryId = category;
 
 
         account.save();

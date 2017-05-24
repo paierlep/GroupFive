@@ -97,7 +97,7 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(withId(R.id.fragment_template_add)).check(matches(isDisplayed()));
 
-        String template_name = "Beer";
+        String template_name = "Beer123";
         String template_value = "2";
 
 
