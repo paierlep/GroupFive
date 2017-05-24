@@ -122,6 +122,7 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
     @Test
     public void addTemplateAndEdit() {
         addAccount();
+        addCategory();
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
@@ -130,7 +131,7 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(withId(R.id.fragment_template_add)).check(matches(isDisplayed()));
 
-        String template_name = "Beer";
+        String template_name = "Beer123";
         String template_value = "2";
 
 
@@ -150,8 +151,12 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.template_list)).check(matches(isDisplayed()));
 
         onView(withText(template_name)).check(matches(isDisplayed()));
-        onView(withText("Beer")).perform(click());
+        onView(withText("Beer123")).perform(click());
         onView(withId(R.id.fragment_template_add)).check(matches(isDisplayed()));
+
+        // Check if Category is displayed correctly
+        onView(withText("category test save")).check(matches(isDisplayed()));
+
 
         onView(withId(R.id.expense_name))
                 .perform(typeText(" Special"), closeSoftKeyboard());
@@ -162,7 +167,7 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(withId(R.id.template_list)).check(matches(isDisplayed()));
 
-        onView(withText("Beer Special")).check(matches(isDisplayed()));
+        onView(withText("Beer123 Special")).check(matches(isDisplayed()));
     }
 
     @Test
@@ -195,5 +200,34 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.account_list)).check(matches(isDisplayed()));
 
         onView(withText(account_name)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void addCategory() {
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText(R.string.add_category)).perform(click());
+
+        onView(withId(R.id.fragment_category_form)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.category_name)).check(matches(isDisplayed()));
+
+        String category_name = "category test save";
+        onView(withId(R.id.category_name)).perform(typeText(category_name), closeSoftKeyboard());
+
+        onView(allOf(withId(R.id.button_save), isDisplayed())).perform(click());
+        onView(withId(R.id.fragment_category_form)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+        onView(withText(R.string.category_overview)).perform(click());
+
+        onView(withId(R.id.fragment_category_overview)).check(matches(isDisplayed()));
+        onView(withId(R.id.category_list)).check(matches(isDisplayed()));
+
+        onView(withText(category_name)).check(matches(isDisplayed()));
     }
 }
