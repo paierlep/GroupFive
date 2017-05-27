@@ -3,23 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/account_overview"
+        android:icon="@drawable/ic_home_black_24dp"
         android:orderInCategory="100"
         android:title="@string/account_overview"
         app:showAsAction="never" />
     <item
         android:id="@+id/template_overview"
+        android:icon="@drawable/ic_shopping_basket_black_24dp"
         android:orderInCategory="100"
         android:title="@string/template_overview"
         app:showAsAction="never" />
     <item
         android:id="@+id/category_overview"
+        android:icon="@drawable/ic_list_black_24dp"
         android:orderInCategory="100"
         android:title="@string/category_overview"
         app:showAsAction="never" />
 
-
     <item
         android:id="@+id/view_map"
+        android:icon="@drawable/ic_place_black_24dp"
         android:orderInCategory="100"
         android:title="@string/view_map"
         app:showAsAction="never" />
