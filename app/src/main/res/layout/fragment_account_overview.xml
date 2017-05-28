@@ -11,8 +11,7 @@
     <FrameLayout
         android:id="@+id/add_quick_fragment"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-
+        android:layout_height="80dp"
         android:layout_margin="0dp"
 
         app:layout_constraintRight_toRightOf="parent"
