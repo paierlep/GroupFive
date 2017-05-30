@@ -90,6 +90,24 @@
                 android:datePickerMode="spinner"/>
         </LinearLayout>
 
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_image"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_centerHorizontal="true"
+                android:onClick="takePicture"
+                android:text="Take a picture" />
+        </RelativeLayout>
+
         <android.support.v7.widget.ButtonBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -109,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/save"
                 style="@style/Base.Widget.AppCompat.Button.Borderless" />
-             <android.support.v7.widget.AppCompatButton
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/button_save_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
