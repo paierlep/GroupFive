@@ -82,6 +82,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         ExpenseFormFragment fragment = new ExpenseFormFragment();
         args.putInt("accountId", accountId);
         args.putInt("expenseId", expenseId);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,6 +94,8 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_expense_add, container, false);
 
         currentAccountId = getArguments().getInt("accountId", 0);
+
+
         currentCategoryId = getArguments().getInt("categoryId", 0);
 
         int expenseId = getArguments().getInt("expenseId", 0);
@@ -131,17 +134,15 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
         if(expenseId != 0)
         {
-            //todo add edit button
+
             expense = SQLite.select().from(Expense.class).where(Expense_Table.id.eq(expenseId)).querySingle();
             expenseName.setText(expense.name);
             expenseValue.setText(Integer.toString(expense.value));
 
-            //toDo
+            if(expense.categoryId != null) {
 
-            expenseCategory.setSelection(categoryAdapter.getPos(expense.categoryId.id));
-            //expenseCategory.setText();
-            //expenseDate.updateDate();
-
+                expenseCategory.setSelection(categoryAdapter.getPos(expense.categoryId.id));
+            }
             saveButton.setVisibility(View.GONE);
             saveAndBackButton.setVisibility(View.GONE);
             editButton.setVisibility(View.VISIBLE);
@@ -151,7 +152,6 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             saveButton.setVisibility(View.VISIBLE);
             saveAndBackButton.setVisibility(View.VISIBLE);
         }
-
 
         List<Account> accounts = SQLite.select().from(Account.class).queryList();
         Log.e(TAG, "size: "+accounts.size());
