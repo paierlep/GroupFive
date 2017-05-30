@@ -1,9 +1,14 @@
 package at.sw2017.nodinero.fragment;
 
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatSpinner;
@@ -13,6 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
@@ -29,8 +40,11 @@ import at.sw2017.nodinero.model.Expense_Table;
  * Created by kosha on 21/04/2017.
  */
 
-public class ExpenseFormFragment extends Fragment implements View.OnClickListener{
+public class ExpenseFormFragment extends Fragment implements View.OnClickListener,
+        LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     final private String TAG = "AddExpenseFragement";
+
+    final private int GEOLOC_PERM = 1;
 
     private AppCompatButton saveButton;
     private AppCompatButton editButton;
@@ -45,6 +59,10 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
     private int currentAccountId;
 
     private Expense expense;
+
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private LatLng latLng;
 
     public static ExpenseFormFragment newInstance(int accountId) {
         Bundle args = new Bundle();
@@ -93,8 +111,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         editButton = (AppCompatButton) view.findViewById(R.id.button_edit);
         editButton.setOnClickListener(this);
 
-        if(expenseId != 0)
-        {
+        if (expenseId != 0) {
             //todo add edit button
             expense = SQLite.select().from(Expense.class).where(Expense_Table.id.eq(expenseId)).querySingle();
             expenseName.setText(expense.name);
@@ -107,8 +124,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             saveButton.setVisibility(View.GONE);
             saveAndBackButton.setVisibility(View.GONE);
             editButton.setVisibility(View.VISIBLE);
-        } else
-        {
+        } else {
             editButton.setVisibility(View.GONE);
             saveButton.setVisibility(View.VISIBLE);
             saveAndBackButton.setVisibility(View.VISIBLE);
@@ -116,23 +132,28 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
 
         List<Account> accounts = SQLite.select().from(Account.class).queryList();
-        Log.e(TAG, "size: "+accounts.size());
+        Log.e(TAG, "size: " + accounts.size());
 
         AccountAdapter accountAdapter = new AccountAdapter(getActivity(), android.R.layout.simple_spinner_item, accounts);
-      //  ArrayAdapter accountAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, accounts);
+        //  ArrayAdapter accountAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, accounts);
         accountAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         expenseAccount.setAdapter(accountAdapter);
         expenseAccount.setSelection(accountAdapter.getPos(currentAccountId));
 
         if (currentAccountId == 0) {
-          ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.expense_add_title);
+            ((NoDineroActivity) getActivity()).setToolbarTitle(R.string.expense_add_title);
         } else {
-           ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.expense_edit_title);
-         }
+            ((NoDineroActivity) getActivity()).setToolbarTitle(R.string.expense_edit_title);
+        }
 
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        this.getGeolocationPermission();
+    }
 
     private void editExpense() {
 
@@ -149,10 +170,14 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         }
         expense.value = value;
 
-        expense.accountId = ((Account)expenseAccount.getSelectedItem());
+        if (latLng != null) {
+            expense.latitude = latLng.latitude;
+            expense.longitude = latLng.longitude;
+        }
+
+        expense.accountId = ((Account) expenseAccount.getSelectedItem());
 
         expense.update();
-        Log.d(TAG, "Wrote Expense Successful, ID: " + expense.id);
     }
 
     private void saveExpense() {
@@ -172,21 +197,23 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             value = Integer.parseInt(expenseValue.getText().toString());
         }
         expense.value = value;
-
         expense.accountId = account;
 
+        if (latLng != null) {
+            expense.latitude = latLng.latitude;
+            expense.longitude = latLng.longitude;
+        }
 
         account.save();
 
         expense.save();
-        Log.d(TAG, "Wrote Expense Successful, ID: " + expense.id);
     }
 
     @Override
     public void onClick(View v) {
         NoDineroActivity.hideKeyboard(this.getActivity());
 
-        if(v.getId() == R.id.button_save) {
+        if (v.getId() == R.id.button_save) {
             saveExpense();
         } else if (v.getId() == R.id.button_save_back) {
             saveExpense();
@@ -199,16 +226,102 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void loadExpanseCorrectView(){
+    private void loadExpanseCorrectView() {
         if (currentAccountId > 0) {
-            ((NoDineroActivity)getActivity()).loadExpensesOverviewFragment(currentAccountId);
+            ((NoDineroActivity) getActivity()).loadExpensesOverviewFragment(currentAccountId);
         } else {
-            ((NoDineroActivity)getActivity()).loadAccountOverviewFragment();
+            ((NoDineroActivity) getActivity()).loadAccountOverviewFragment();
         }
     }
 
-    public void loadContent(int expenseId){
+    public void getGeolocationPermission() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED
+                ) {
+            requestPermissions(new String[]{
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION}, GEOLOC_PERM);
+        } else {
+            enableGeolocation();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        if (requestCode == GEOLOC_PERM) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                enableGeolocation();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void enableGeolocation() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this.getActivity())
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this).build();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Location mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mCurrentLocation != null) {
+            latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        }
+        startLocationUpdates();
+    }
+
+    protected void startLocationUpdates() {
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(2000)
+                .setFastestInterval(1000);
+        if (ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
+                mLocationRequest, this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 
+    public void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    public void onStop() {
+        if (mGoogleApiClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+    }
 }

@@ -24,6 +24,7 @@ import at.sw2017.nodinero.fragment.AccountFormFragment;
 import at.sw2017.nodinero.fragment.AccountOverviewFragment;
 import at.sw2017.nodinero.fragment.ExpenseFormFragment;
 import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
+import at.sw2017.nodinero.fragment.MapFragment;
 import at.sw2017.nodinero.fragment.SettingsFragment;
 import at.sw2017.nodinero.fragment.TemplateFormFragment;
 import at.sw2017.nodinero.fragment.TemplateOverviewFragment;
@@ -44,7 +45,6 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_main_overview);
 
         initDb();
-        //FlowManager.getDatabase("Database").reset(getContext());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -96,6 +96,9 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.add_template:
                 loadTemplateFormFragment();
+                break;
+            case R.id.view_map:
+                loadMapFragment();
                 break;
             //toolbar
             case R.id.menu_settings:
@@ -166,6 +169,9 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
     public void loadExpensesFormFragment(int accountId, int expenseId) {
         loadFragment(ExpenseFormFragment.newInstance(accountId, expenseId));
+    }
+    public void loadMapFragment() {
+        loadFragment(MapFragment.newInstance());
     }
 
     public static void hideKeyboard(Activity activity) {

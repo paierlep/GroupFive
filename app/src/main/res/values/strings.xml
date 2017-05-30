@@ -20,6 +20,8 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_profile">Profile</string>
     <string name="account_overview">Overview</string>
+    <string name="view_map">Map</string>
+
     <!-- Template -->
     <string name="template_delete">Delete</string>
     <string name="template_overview">Template Overview</string>
