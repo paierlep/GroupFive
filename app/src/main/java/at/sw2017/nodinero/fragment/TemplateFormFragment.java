@@ -89,7 +89,6 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
         editButton.setVisibility(View.GONE);
 
         List<Account> accounts = SQLite.select().from(Account.class).queryList();
-        List<Template> templates = SQLite.select().from(Template.class).queryList();
         List<Category> categories = SQLite.select().from(Category.class).queryList();
         Log.e(TAG, "size: "+accounts.size());
 

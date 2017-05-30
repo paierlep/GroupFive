@@ -87,6 +87,13 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         expenseAccount = (AppCompatSpinner) view.findViewById(R.id.expense_account_type_spinner);
         expenseCategory = (AppCompatSpinner) view.findViewById(R.id.expense_category_spinner);
 
+        List<Category> categories = SQLite.select().from(Category.class).queryList();
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), android.R.layout.simple_spinner_item, categories);
+        categoryAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        expenseCategory.setAdapter(categoryAdapter);
+        expenseCategory.setSelection(categoryAdapter.getPos(currentCategoryId));
+
+
         saveButton = (AppCompatButton) view.findViewById(R.id.button_save);
         saveButton.setOnClickListener(this);
 
@@ -104,6 +111,8 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             expenseValue.setText(Integer.toString(expense.value));
 
             //toDo
+
+            expenseCategory.setSelection(categoryAdapter.getPos(expense.categoryId.id));
             //expenseCategory.setText();
             //expenseDate.updateDate();
 
@@ -127,13 +136,9 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         expenseAccount.setAdapter(accountAdapter);
         expenseAccount.setSelection(accountAdapter.getPos(currentAccountId));
 
-        List<Category> categories = SQLite.select().from(Category.class).queryList();
-        Log.e(TAG, "size: "+categories.size());
 
-        CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), android.R.layout.simple_spinner_item, categories);
-        categoryAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        expenseCategory.setAdapter(categoryAdapter);
-        expenseCategory.setSelection(categoryAdapter.getPos(currentCategoryId));
+
+
 
         return view;
     }
@@ -155,6 +160,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         expense.value = value;
 
         expense.accountId = ((Account)expenseAccount.getSelectedItem());
+        expense.categoryId = ((Category) expenseCategory.getSelectedItem());
 
         expense.update();
         Log.d(TAG, "Wrote Expense Successful, ID: " + expense.id);
