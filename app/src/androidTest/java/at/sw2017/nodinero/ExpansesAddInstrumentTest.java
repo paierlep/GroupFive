@@ -213,8 +213,8 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         String expense_name = "very important expense";
         //TODO other fields
         onView(withId(R.id.expense_name)).perform(typeText(expense_name), closeSoftKeyboard());
-        onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());
-
+        //onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.button_save_back)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
         onView(withId(R.id.fragment_expense_overview)).check(matches(isDisplayed()));
         onView(withText(expense_name)).check(matches(isDisplayed()));
 
