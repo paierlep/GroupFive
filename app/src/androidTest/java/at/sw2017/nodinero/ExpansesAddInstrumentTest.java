@@ -35,15 +35,78 @@ import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest {
+
+    public void setUpAccount(String account_name)
+    {
+        onView(withId(R.id.add_account)).perform(click());
+        onView(withId(R.id.account_name)).perform(typeText(account_name), closeSoftKeyboard());
+        onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+    }
+
+
+
+    public void validExpenseAdd(String name, String value)
+    {
+        onView(withId(R.id.add_expense)).perform(click());
+        onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_value)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.expense_name))
+                .perform(typeText(name), closeSoftKeyboard());
+        onView(withId(R.id.expense_value))
+                .perform(typeText(value), closeSoftKeyboard());
+
+        onView(withId(R.id.button_save_back)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.fragment_expense_overview)).check(matches(isDisplayed()));
+    }
+    public void invalidExpenseAdd(String name, String value)
+    {
+        onView(withId(R.id.add_expense)).perform(click());
+        onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.expense_value)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.expense_name))
+                .perform(typeText(name), closeSoftKeyboard());
+        onView(withId(R.id.expense_value))
+                .perform(typeText(value), closeSoftKeyboard());
+
+        onView(withId(R.id.button_save_back)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_cancel)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
+    }
+
+
+    @Test
+    public void addExpenseInputTests()
+    {
+        String account_name ="testaccount";
+        setUpAccount(account_name);
+        onView(withText(account_name)).check(matches(isDisplayed())).perform(click());
+
+        validExpenseAdd("test1", "2.0");
+        validExpenseAdd("test2", "-10.0");
+        validExpenseAdd("test3", "2");
+        validExpenseAdd("test4", "-10");
+
+        invalidExpenseAdd("test5", ".");
+    }
+
+
     @Test
     public void addExpense()
     {
-        onView(withId(R.id.drawer_layout))
-                .check(matches(isClosed(Gravity.START)))
-                .perform(open());
+        String account_name = "test";
+        setUpAccount(account_name);
+        onView(withText(account_name)).check(matches(isDisplayed())).perform(click());
 
-        onView(withText(R.string.add_expense)).perform(click());
+        onView(withId(R.id.add_expense)).perform(click());
         onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
+        onView(withText(R.string.expense_add_title)).check(matches(isDisplayed()));
 
         onView(withId(R.id.expense_account_type_spinner)).check(matches(isDisplayed()));
         //TODO onView(withId(R.id.expense_category_spinner)).check(matches(isDisplayed()));
@@ -77,11 +140,11 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
     @Test
     public void addExpenseAndBack() {
 
-        onView(withId(R.id.drawer_layout))
-                .check(matches(isClosed(Gravity.START)))
-                .perform(open());
+        String account_name = "test";
+        setUpAccount(account_name);
+        onView(withText(account_name)).check(matches(isDisplayed())).perform(click());
 
-        onView(withText(R.string.add_expense)).perform(click());
+        onView(withId(R.id.add_expense)).perform(click());
         onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
 
         onView(withId(R.id.expense_account_type_spinner)).check(matches(isDisplayed()));
@@ -101,18 +164,20 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.expense_name)).perform(typeText(expense_test));
 
         onView(withId(R.id.button_save_back)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
-        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+        onView(withId(R.id.fragment_expense_overview)).check(matches(isDisplayed()));
 
         //TODO check account form
     }
 
     @Test
     public void addExpenseCancel() {
-        onView(withId(R.id.drawer_layout))
-                .check(matches(isClosed(Gravity.START)))
-                .perform(open());
 
-        onView(withText(R.string.add_expense)).perform(click());
+        String account_name = "test";
+        setUpAccount(account_name);
+        onView(withText(account_name)).check(matches(isDisplayed())).perform(click());
+
+        onView(withId(R.id.add_expense)).check(matches(isDisplayed())).perform(click());
+
         onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
 
         onView(withId(R.id.expense_account_type_spinner)).check(matches(isDisplayed()));
@@ -128,21 +193,15 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
 
         onView(withId(R.id.button_cancel)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
-        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+        onView(withId(R.id.fragment_expense_overview)).check(matches(isDisplayed()));
     }
 
     @Test
     public void addExpenseFromAccountDetail() {
-        onView(withId(R.id.drawer_layout))
-                .check(matches(isClosed(Gravity.START)))
-                .perform(open());
 
-        onView(withText(R.string.add_account)).perform(click());
+        String account_name = "test acoount";
 
-        String account_name = "account add expense";
-        onView(withId(R.id.account_name)).perform(typeText(account_name), closeSoftKeyboard());
-        onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());
-        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+        setUpAccount(account_name);
 
         onView(withText(account_name)).check(matches(isDisplayed())).perform(click());
 

@@ -21,7 +21,7 @@ public class Account extends BaseModel {
     public String name;
 
     @Column
-    public int initialBalance;
+    public float initialBalance;
 
     @Column
     public String type;
@@ -30,9 +30,9 @@ public class Account extends BaseModel {
     public String currency;
 
 
-    public int getBalance()
+    public float getBalance()
     {
-        int res = initialBalance;
+        float res = initialBalance;
         for(Expense exp : SQLite.select().from(Expense.class).where(Expense_Table.accountId_id.eq(id)).queryList())
         {
             res += exp.value;

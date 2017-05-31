@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -113,37 +114,55 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
         int templateId = getArguments().getInt("templateID", 0);
         template.id = templateId;
         template.name = templateName.getText().toString();
-
-        int value;
-        if (templateValue.getText() == null || templateValue.getText().toString().equals("")) {
-            value = 0;
-        } else {
-            value = Integer.parseInt(templateValue.getText().toString());
-        }
-        template.value = value;
         template.accountId = ((Account) templateAccount.getSelectedItem());
+
+        if (templateValue.getText() == null || templateValue.getText().toString().equals("")) {
+            template.value = 0.0f;
+        } else {
+            try {
+                template.value = Float.parseFloat(templateValue.getText().toString());
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(getContext(), "Please enter a valid number", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
         template.save();
-        Log.d(TAG, "Wrote template Successful, ID: " + template.id);
+        ((NoDineroActivity)getActivity()).loadTemplateOverviewFragment();
+        Log.d(TAG, "Updated template Successful, ID: " + template.id);
     }
 
-    private void saveTemplate() {
+    private void saveTemplate(boolean stay) {
         Account account = ((Account) templateAccount.getSelectedItem());
         if (account == null) {
             return;
         }
         template = new Template();
         template.name = templateName.getText().toString();
-
-        int value;
-        if (templateValue.getText() == null || templateValue.getText().toString().equals("")) {
-            value = 0;
-        } else {
-            value = Integer.parseInt(templateValue.getText().toString());
-        }
-        template.value = value;
         template.accountId = account;
+
+
+        if (templateValue.getText() == null || templateValue.getText().toString().equals("")) {
+            template.value = 0.0f;
+        } else {
+            try {
+                template.value = Float.parseFloat(templateValue.getText().toString());
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(getContext(), "Please enter a valid number", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
+
         template.save();
         Log.d(TAG, "Wrote template Successful, ID: " + template.id);
+        if(!stay)
+            ((NoDineroActivity)getActivity()).loadTemplateOverviewFragment();
+
     }
 
     @Override
@@ -151,15 +170,13 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
         NoDineroActivity.hideKeyboard(this.getActivity());
 
         if(v.getId() == R.id.button_save) {
-            saveTemplate();
+            saveTemplate(true);
         } else if (v.getId() == R.id.button_save_back) {
-            saveTemplate();
-            ((NoDineroActivity)getActivity()).loadTemplateOverviewFragment();
+            saveTemplate(false);
         } else if (v.getId() == R.id.button_cancel) {
             ((NoDineroActivity)getActivity()).loadTemplateOverviewFragment();
         } else if (v.getId() == R.id.button_edit) {
             editTemplate();
-            ((NoDineroActivity)getActivity()).loadTemplateOverviewFragment();
         }
     }
 

@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -115,7 +116,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             //todo add edit button
             expense = SQLite.select().from(Expense.class).where(Expense_Table.id.eq(expenseId)).querySingle();
             expenseName.setText(expense.name);
-            expenseValue.setText(Integer.toString(expense.value));
+            expenseValue.setText(Float.toString(expense.value));
 
             //toDo
             //expenseCategory.setText();
@@ -140,7 +141,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         expenseAccount.setAdapter(accountAdapter);
         expenseAccount.setSelection(accountAdapter.getPos(currentAccountId));
 
-        if (currentAccountId == 0) {
+        if (expenseId == 0) {
             ((NoDineroActivity) getActivity()).setToolbarTitle(R.string.expense_add_title);
         } else {
             ((NoDineroActivity) getActivity()).setToolbarTitle(R.string.expense_edit_title);
@@ -161,26 +162,31 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
         expense.name = expenseName.getText().toString();
         expense.date = expenseDate.toString();
-
-        int value;
-        if (expenseValue.getText() == null || expenseValue.getText().toString().equals("")) {
-            value = 0;
-        } else {
-            value = Integer.parseInt(expenseValue.getText().toString());
-        }
-        expense.value = value;
-
         if (latLng != null) {
             expense.latitude = latLng.latitude;
             expense.longitude = latLng.longitude;
         }
-
         expense.accountId = ((Account) expenseAccount.getSelectedItem());
 
+        if (expenseValue.getText() == null || expenseValue.getText().toString().equals("")) {
+            expense.value = 0.0f;
+        } else {
+            try {
+                expense.value = Float.parseFloat(expenseValue.getText().toString());
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(getContext(), "Please enter a valid number", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
+
         expense.update();
+        loadExpanseCorrectView();
     }
 
-    private void saveExpense() {
+    private void saveExpense(boolean stay) {
         Account account = ((Account) expenseAccount.getSelectedItem());
         if (account == null) {
             return;
@@ -189,14 +195,6 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         expense = new Expense();
         expense.name = expenseName.getText().toString();
         expense.date = expenseDate.toString();
-
-        int value;
-        if (expenseValue.getText() == null || expenseValue.getText().toString().equals("")) {
-            value = 0;
-        } else {
-            value = Integer.parseInt(expenseValue.getText().toString());
-        }
-        expense.value = value;
         expense.accountId = account;
 
         if (latLng != null) {
@@ -204,9 +202,22 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             expense.longitude = latLng.longitude;
         }
 
-        account.save();
+        if (expenseValue.getText() == null || expenseValue.getText().toString().equals("")) {
+            expense.value = 0.0f;
+        } else {
+            try {
+                expense.value = Float.parseFloat(expenseValue.getText().toString());
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(getContext(), "Please enter a valid number", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
 
         expense.save();
+        if(!stay)
+            loadExpanseCorrectView();
     }
 
     @Override
@@ -214,15 +225,13 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         NoDineroActivity.hideKeyboard(this.getActivity());
 
         if (v.getId() == R.id.button_save) {
-            saveExpense();
+            saveExpense(true);
         } else if (v.getId() == R.id.button_save_back) {
-            saveExpense();
-            loadExpanseCorrectView();
+            saveExpense(false);
         } else if (v.getId() == R.id.button_cancel) {
             loadExpanseCorrectView();
         } else if (v.getId() == R.id.button_edit) {
             editExpense();
-            loadExpanseCorrectView();
         }
     }
 
