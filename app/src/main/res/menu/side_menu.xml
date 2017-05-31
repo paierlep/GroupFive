@@ -11,11 +11,22 @@
         android:orderInCategory="100"
         android:title="@string/template_overview"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/category_overview"
+        android:orderInCategory="100"
+        android:title="@string/category_overview"
+        app:showAsAction="never" />
 
 
     <item
         android:id="@+id/view_map"
         android:orderInCategory="100"
         android:title="@string/view_map"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/add_category"
+        android:orderInCategory="100"
+        android:title="@string/add_category"
         app:showAsAction="never" />
 </menu>

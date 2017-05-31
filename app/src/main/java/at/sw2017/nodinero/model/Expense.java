@@ -31,10 +31,4 @@ public class Expense extends BaseModel {
 
     @Column
     public String place;
-
-    @Column
-    public double latitude;
-
-    @Column
-    public double longitude;
 }

@@ -2,21 +2,33 @@ package at.sw2017.nodinero.fragment;
 
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.CursorLoader;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatSpinner;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -27,13 +39,20 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
 import at.sw2017.nodinero.adapter.AccountAdapter;
+import at.sw2017.nodinero.adapter.CategoryAdapter;
 import at.sw2017.nodinero.model.Account;
-import at.sw2017.nodinero.model.Account_Table;
+import at.sw2017.nodinero.model.Category;
 import at.sw2017.nodinero.model.Expense;
 import at.sw2017.nodinero.model.Expense_Table;
 
@@ -44,6 +63,9 @@ import at.sw2017.nodinero.model.Expense_Table;
 public class ExpenseFormFragment extends Fragment implements View.OnClickListener,
         LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     final private String TAG = "AddExpenseFragement";
+    final private int CAM_PERM = 2;
+    private static final int SELECT_PICTURE = 1;
+    private static final int TAKE_PHOTO     = 0;
 
     final private int GEOLOC_PERM = 1;
 
@@ -51,13 +73,19 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
     private AppCompatButton editButton;
     private AppCompatButton saveAndBackButton;
     private AppCompatButton cancelButton;
+    private AppCompatButton takePictureButton;
+    private AppCompatButton selectPictureButton;
+    private ImageView imageView;
 
     private TextInputEditText expenseName;
     private TextInputEditText expenseValue;
-    private TextInputEditText expenseCategory;
+    private AppCompatSpinner expenseCategory;
     private DatePicker expenseDate;
     private AppCompatSpinner expenseAccount;
     private int currentAccountId;
+    private int currentCategoryId;
+    private Uri currentPhotoFile;
+    private String currentPhoto;
 
     private Expense expense;
 
@@ -78,6 +106,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         ExpenseFormFragment fragment = new ExpenseFormFragment();
         args.putInt("accountId", accountId);
         args.putInt("expenseId", expenseId);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -90,6 +119,9 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
         currentAccountId = getArguments().getInt("accountId", 0);
 
+
+        currentCategoryId = getArguments().getInt("categoryId", 0);
+
         int expenseId = getArguments().getInt("expenseId", 0);
         Log.e(TAG, "my expense: " + expenseId);
 
@@ -98,10 +130,30 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
         expenseName = (TextInputEditText) view.findViewById(R.id.expense_name);
         expenseValue = (TextInputEditText) view.findViewById(R.id.expense_value);
-        expenseCategory = (TextInputEditText) view.findViewById(R.id.expense_category);
         expenseDate = (DatePicker) view.findViewById(R.id.expense_date_picker);
 
         expenseAccount = (AppCompatSpinner) view.findViewById(R.id.expense_account_type_spinner);
+        expenseCategory = (AppCompatSpinner) view.findViewById(R.id.expense_category_spinner);
+
+        List<Category> categories = SQLite.select().from(Category.class).queryList();
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), android.R.layout.simple_spinner_item, categories);
+        categoryAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        expenseCategory.setAdapter(categoryAdapter);
+        expenseCategory.setSelection(categoryAdapter.getPos(currentCategoryId));
+
+        takePictureButton = (AppCompatButton) view.findViewById(R.id.button_image);
+        takePictureButton.setOnClickListener(this);
+        imageView = (ImageView) view.findViewById(R.id.imageview);
+        if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)) {
+            takePictureButton.setEnabled(false);
+            requestPermissions(new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAM_PERM);
+        } else {
+            takePictureButton.setEnabled(true);
+        }
+
+        selectPictureButton = (AppCompatButton) view.findViewById(R.id.button_image_gallery);
+        selectPictureButton.setOnClickListener(this);
+
 
         saveButton = (AppCompatButton) view.findViewById(R.id.button_save);
         saveButton.setOnClickListener(this);
@@ -112,15 +164,19 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         editButton = (AppCompatButton) view.findViewById(R.id.button_edit);
         editButton.setOnClickListener(this);
 
-        if (expenseId != 0) {
-            //todo add edit button
+        if(expenseId != 0)
+        {
             expense = SQLite.select().from(Expense.class).where(Expense_Table.id.eq(expenseId)).querySingle();
             expenseName.setText(expense.name);
             expenseValue.setText(Float.toString(expense.value));
 
-            //toDo
-            //expenseCategory.setText();
-            //expenseDate.updateDate();
+            if(expense.categoryId != null) {
+                expenseCategory.setSelection(categoryAdapter.getPos(expense.categoryId.id));
+            }
+
+            if (expense.photo != null) {
+                displayImage(expense.photo);
+            }
 
             saveButton.setVisibility(View.GONE);
             saveAndBackButton.setVisibility(View.GONE);
@@ -130,7 +186,6 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             saveButton.setVisibility(View.VISIBLE);
             saveAndBackButton.setVisibility(View.VISIBLE);
         }
-
 
         List<Account> accounts = SQLite.select().from(Account.class).queryList();
         Log.e(TAG, "size: " + accounts.size());
@@ -159,7 +214,6 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
     private void editExpense() {
 
         //Expense expense =  new Expense();
-
         expense.name = expenseName.getText().toString();
         expense.date = expenseDate.toString();
         if (latLng != null) {
@@ -181,6 +235,12 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             }
         }
 
+        if(currentPhoto != null && currentPhoto.length() > 0) {
+            expense.photo = currentPhoto;
+        }
+
+        expense.accountId = ((Account)expenseAccount.getSelectedItem());
+        expense.categoryId = ((Category) expenseCategory.getSelectedItem());
 
         expense.update();
         loadExpanseCorrectView();
@@ -188,6 +248,7 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
     private void saveExpense(boolean stay) {
         Account account = ((Account) expenseAccount.getSelectedItem());
+        Category category = ((Category) expenseCategory.getSelectedItem());
         if (account == null) {
             return;
         }
@@ -215,6 +276,10 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             }
         }
 
+        expense.categoryId = category;
+        if(currentPhoto != null && currentPhoto.length() > 0) {
+            expense.photo = currentPhoto;
+        }
         expense.save();
         if(!stay)
             loadExpanseCorrectView();
@@ -232,10 +297,18 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
             loadExpanseCorrectView();
         } else if (v.getId() == R.id.button_edit) {
             editExpense();
+        } else if (v.getId() == R.id.button_image) {
+            takePhoto();
+        } else if (v.getId() == R.id.button_image_gallery) {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
         }
+        
     }
 
-    private void loadExpanseCorrectView() {
+    private void loadExpanseCorrectView(){
         if (currentAccountId > 0) {
             ((NoDineroActivity) getActivity()).loadExpensesOverviewFragment(currentAccountId);
         } else {

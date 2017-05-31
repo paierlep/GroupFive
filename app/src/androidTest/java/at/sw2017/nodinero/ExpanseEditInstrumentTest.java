@@ -47,7 +47,7 @@ public class ExpanseEditInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(withId(R.id.expense_name)).perform(typeText(expense_name), closeSoftKeyboard());
         onView(withId(R.id.expense_value)).perform(typeText(expense_value), closeSoftKeyboard());
-        onView(withId(R.id.expense_category)).perform(typeText(expense_cat), closeSoftKeyboard());
+        //onView(withId(R.id.expense_category_spinner)).perform(typeText(expense_cat), closeSoftKeyboard());
 
         onView(withId(R.id.button_save_back)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
 
@@ -86,7 +86,7 @@ public class ExpanseEditInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(withId(R.id.expense_name)).perform(typeText(expense_name), closeSoftKeyboard());
         onView(withId(R.id.expense_value)).perform(typeText(expense_value), closeSoftKeyboard());
-        onView(withId(R.id.expense_category)).perform(typeText(expense_cat), closeSoftKeyboard());
+        //onView(withId(R.id.expense_category)).perform(typeText(expense_cat), closeSoftKeyboard());
 
         onView(withId(R.id.button_save_back)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
 
@@ -107,7 +107,9 @@ public class ExpanseEditInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(withId(R.id.expense_name)).perform(replaceText(expense_name_new), closeSoftKeyboard());
         onView(withId(R.id.expense_value)).perform(replaceText(expense_value_new), closeSoftKeyboard());
-        onView(withId(R.id.expense_category)).perform(replaceText(expense_cat_new), closeSoftKeyboard());
+        //onView(withId(R.id.expense_category)).perform(replaceText(expense_cat_new), closeSoftKeyboard());
+        onView(withText(R.string.select_picture)).check(matches(isDisplayed()));
+        onView(withText(R.string.take_picture)).check(matches(isDisplayed()));
 
         onView(withId(R.id.button_edit)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
 
@@ -117,7 +119,6 @@ public class ExpanseEditInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withText(expense_name_new)).check(matches(isDisplayed()));
         onView(withText(expense_value_new)).check(matches(isDisplayed()));
         //TODO category
-
-
+        //TODO photo
     }
 }

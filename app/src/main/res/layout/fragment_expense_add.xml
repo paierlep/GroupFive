@@ -41,16 +41,25 @@
 
         </LinearLayout>
 
-
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/expense_category_label"
+                />
+
+            <android.support.v7.widget.AppCompatSpinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/expense_category"
-                android:hint="@string/expense_category_label"/>
-        </android.support.design.widget.TextInputLayout>
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                android:entries="@array/expense_categories"
+                android:id="@+id/expense_category_spinner">
+            </android.support.v7.widget.AppCompatSpinner>
+
+        </LinearLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -81,6 +90,38 @@
                 android:datePickerMode="spinner"/>
         </LinearLayout>
 
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_image"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_weight="0.5"
+                android:text="@string/take_picture" />
+
+             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_image_gallery"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                 android:layout_weight="0.5"
+                android:text="@string/select_picture" />
+            </LinearLayout>
+        </RelativeLayout>
+
         <android.support.v7.widget.ButtonBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/save"
                 style="@style/Base.Widget.AppCompat.Button.Borderless" />
-             <android.support.v7.widget.AppCompatButton
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/button_save_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

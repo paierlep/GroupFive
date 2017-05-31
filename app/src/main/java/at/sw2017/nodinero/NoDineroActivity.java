@@ -22,6 +22,8 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 
 import at.sw2017.nodinero.fragment.AccountFormFragment;
 import at.sw2017.nodinero.fragment.AccountOverviewFragment;
+import at.sw2017.nodinero.fragment.CategoryFormFragment;
+import at.sw2017.nodinero.fragment.CategoryOverviewFragment;
 import at.sw2017.nodinero.fragment.ExpenseFormFragment;
 import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
 import at.sw2017.nodinero.fragment.MapFragment;
@@ -45,6 +47,8 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_main_overview);
 
         initDb();
+
+        //FlowManager.getDatabase("Database").reset(getContext());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -90,6 +94,9 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
             //Side menu
             case R.id.view_map:
                 loadMapFragment();
+                break;
+            case R.id.category_overview:
+                loadCategoryOverviewFragment();
                 break;
             //toolbar
             case R.id.menu_settings:
@@ -137,6 +144,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         loadFragment(AccountOverviewFragment.newInstance(), "history");
     }
 
+    public void loadCategoryOverviewFragment() {
+        loadFragment(CategoryOverviewFragment.newInstance());
+    }
+
     public void loadTemplateFormFragment() {
         loadFragment(TemplateFormFragment.newInstance());
     }
@@ -148,6 +159,8 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     public void loadAccountFormFragment() {
         loadFragment(AccountFormFragment.newInstance());
     }
+
+    public void loadCategoryFormFragment() {loadFragment(CategoryFormFragment.newInstance()); }
 
     public void loadExpensesOverviewFragment(int accountId) {
         loadFragment(ExpenseOverviewFragment.newInstance(accountId), "history");
