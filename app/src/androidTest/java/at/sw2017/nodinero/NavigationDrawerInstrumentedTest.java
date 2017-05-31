@@ -26,22 +26,22 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class NavigationDrawerInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
     @Test
-    public void checkIfMenuDrawerAddAccountExistsAndCanBeClicked() {
+    public void checkIfMenuDrawerOverviewExistsAndCanBeClicked() {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
 
-        onView(withText(R.string.add_account)).perform(click());
-        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
+        onView(withText(R.string.account_overview)).perform(click());
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void checkIfMenuDrawerAddExpenseExistsAndCanBeClicked() {
+    public void checkIfMenuDrawerTemplateeExistsAndCanBeClicked() {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
 
-        onView(withText(R.string.add_expense)).perform(click());
-        onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
+        onView(withText(R.string.template_overview)).perform(click());
+        onView(withId(R.id.fragment_template_overview)).check(matches(isDisplayed()));
     }
 }

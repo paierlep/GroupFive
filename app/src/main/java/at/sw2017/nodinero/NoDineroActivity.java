@@ -88,15 +88,6 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     public boolean loadContent(int id) {
         switch (id) {
             //Side menu
-            case R.id.add_account:
-                loadAccountFormFragment();
-                break;
-            case R.id.add_expense:
-                loadExpensesFormFragment(0);
-                break;
-            case R.id.add_template:
-                loadTemplateFormFragment();
-                break;
             case R.id.view_map:
                 loadMapFragment();
                 break;

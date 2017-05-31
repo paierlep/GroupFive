@@ -45,6 +45,7 @@ public class TemplateOverviewFragment extends Fragment implements View.OnClickLi
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_template_overview, container, false);
         createOverviewTable(view);
+        view.findViewById(R.id.add_template).setOnClickListener(this);
 
         ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.template_overview_title);
 
@@ -67,6 +68,9 @@ public class TemplateOverviewFragment extends Fragment implements View.OnClickLi
             TableLayout table = (TableLayout) row.getParent();
             table.removeView(row);
         }
+        else if(v.getId() == R.id.add_template) {
+            ((NoDineroActivity) getActivity()).loadTemplateFormFragment();
+        }
 
     }
 
@@ -77,7 +81,7 @@ public class TemplateOverviewFragment extends Fragment implements View.OnClickLi
         for (Template template : SQLite.select().from(Template.class).queryList()) {
             TableRow row = (TableRow) View.inflate(getContext(), R.layout.table_row_template_overview, null);
             ((TextView) row.findViewById(R.id.template_name)).setText(template.name);
-            ((TextView) row.findViewById(R.id.template_value)).setText(String.format("Value: %s", Integer.toString(template.value)));
+            ((TextView) row.findViewById(R.id.template_value)).setText(String.format("Value: %s", Float.toString(template.value)));
 
 
             row.findViewById(R.id.template_delete).setTag(template.id);
