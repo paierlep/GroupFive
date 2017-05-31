@@ -42,7 +42,10 @@ public class CategoryInstrumentedTest extends AbstractNoDineroInstrumentedTest {
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
 
-        onView(withText(R.string.add_category)).perform(click());
+        onView(withText(R.string.category_overview)).perform(click());
+
+        onView(withId(R.id.add_category)).perform(click());
+
 
         onView(withId(R.id.fragment_category_form)).check(matches(isDisplayed()));
 
@@ -67,7 +70,10 @@ public class CategoryInstrumentedTest extends AbstractNoDineroInstrumentedTest {
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
 
-        onView(withText(R.string.add_category)).perform(click());
+        onView(withText(R.string.category_overview)).perform(click());
+
+        onView(withId(R.id.add_category)).perform(click());
+
 
         onView(withId(R.id.fragment_category_form)).check(matches(isDisplayed()));
 
@@ -82,6 +88,7 @@ public class CategoryInstrumentedTest extends AbstractNoDineroInstrumentedTest {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
+
         onView(withText(R.string.category_overview)).perform(click());
 
         onView(withId(R.id.fragment_category_overview)).check(matches(isDisplayed()));
@@ -96,7 +103,10 @@ public class CategoryInstrumentedTest extends AbstractNoDineroInstrumentedTest {
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
 
-        onView(withText(R.string.add_category)).perform(click());
+        onView(withText(R.string.category_overview)).perform(click());
+
+        onView(withId(R.id.add_category)).perform(click());
+
 
         onView(withId(R.id.fragment_category_form)).check(matches(isDisplayed()));
 
@@ -113,7 +123,10 @@ public class CategoryInstrumentedTest extends AbstractNoDineroInstrumentedTest {
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
 
-        onView(withText(R.string.add_category)).perform(click());
+
+        onView(withText(R.string.category_overview)).perform(click());
+
+        onView(withId(R.id.add_category)).perform(click());
 
         onView(withId(R.id.fragment_category_form)).check(matches(isDisplayed()));
 

@@ -39,6 +39,8 @@ public class CategoryFormFragment extends Fragment implements View.OnClickListen
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category_form, container, false);
 
+        ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.add_category_title);
+
         saveButton = (AppCompatButton) view.findViewById(R.id.button_save);
         saveButton.setOnClickListener(this);
 

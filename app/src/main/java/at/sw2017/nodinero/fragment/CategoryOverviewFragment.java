@@ -39,17 +39,14 @@ public class CategoryOverviewFragment extends Fragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category_overview, container, false);
-        createOverviewTable(view);
-        loadQuickAddNavigation();
 
+        view.findViewById(R.id.add_category).setOnClickListener(this);
+
+        createOverviewTable(view);
+        ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.category_overview_title);
         return view;
     }
 
-    private void loadQuickAddNavigation() {
-        Fragment fragment = QuickAddNavigationFragment.newInstance();
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.add_quick_fragment, fragment).commit();
-    }
 
     @Override
     public void onClick(View v) {
@@ -67,7 +64,10 @@ public class CategoryOverviewFragment extends Fragment implements View.OnClickLi
 
             TableLayout table = (TableLayout) row.getParent();
             table.removeView(row);
-            loadQuickAddNavigation();
+        }
+        else if(v.getId() == R.id.add_category)
+        {
+            ((NoDineroActivity) getActivity()).loadCategoryFormFragment();
         }
     }
 

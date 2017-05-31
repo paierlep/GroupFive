@@ -66,6 +66,8 @@
     <string name="category_overview">Category Overview</string>
     <string name="take_picture">Use Camera</string>
     <string name="select_picture">Select a picture</string>
+    <string name="category_overview_title">Category Overview</string>
+    <string name="add_category_title">Add category</string>
 
     <string-array name="expense_categories">
         <item>Drink</item>

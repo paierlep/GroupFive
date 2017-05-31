@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -405,5 +406,52 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
     @Override
     public void onLocationChanged(Location location) {
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
+    }
+
+    private void displayImage(String imageUri) {
+        Log.e(TAG, "==> " + imageUri);
+        try {
+            InputStream is = getContext().getContentResolver().openInputStream(Uri.parse(imageUri));
+            Bitmap d = new BitmapDrawable(is).getBitmap();
+            int nh = (int) (d.getHeight() * (512.0 / d.getWidth()));
+            Bitmap scaled = Bitmap.createScaledBitmap(d, 512, nh, true);
+            imageView.setImageBitmap(scaled);
+            currentPhoto = imageUri;
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Do nothing
+        }
+    }
+    private void takePhoto() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if (takePictureIntent.resolveActivity(this.getContext().getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+            }
+
+            if (photoFile != null) {
+                currentPhotoFile = Uri.fromFile(photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        currentPhotoFile);
+                startActivityForResult(takePictureIntent, 0);
+            }
+        }
+    }
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        // Save a file: path for use with ACTION_VIEW intents
+        return image;
     }
 }

@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -27,9 +28,14 @@ public class ExpansesPhotoInstrumentedTest extends AbstractNoDineroInstrumentedT
     @Test
     public void addExpense()
     {
-        onView(withId(R.id.drawer_layout))
-                .check(matches(isClosed(Gravity.START)))
-                .perform(open());
+        onView(withId(R.id.add_account)).perform(click());
+        onView(withId(R.id.account_name)).perform(typeText("testaccount"), closeSoftKeyboard());
+        onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+
+        onView(withText("testaccount")).check(matches(isDisplayed())).perform(click());
+
+        onView(withId(R.id.add_expense)).perform(click());
 
         onView(withText(R.string.add_expense)).perform(click());
         onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));

@@ -77,9 +77,8 @@ public class GoogleMapInstrumentedTest extends AbstractNoDineroInstrumentedTest 
     @Test
     public void checkToolBarMenuClicked() throws Exception {
         openApp();
-        openNavDrawer();
 
-        onView(withText(R.string.add_account)).perform(click());
+        onView(withId(R.id.add_account)).perform(click());
 
         String account_name = "edit test account";
         onView(withId(R.id.account_name)).perform(typeText(account_name), closeSoftKeyboard());
@@ -94,12 +93,10 @@ public class GoogleMapInstrumentedTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
 
         String expense_name = "google map expanse";
-        String expense_value = "100";
-        String expense_cat = "miau";
+        String expense_value = "100.0";
 
         onView(withId(R.id.expense_name)).perform(typeText(expense_name), closeSoftKeyboard());
         onView(withId(R.id.expense_value)).perform(typeText(expense_value), closeSoftKeyboard());
-        onView(withId(R.id.expense_category)).perform(typeText(expense_cat), closeSoftKeyboard());
 
         onView(withId(R.id.button_save_back)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
 

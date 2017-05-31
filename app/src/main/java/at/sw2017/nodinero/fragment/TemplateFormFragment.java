@@ -136,6 +136,7 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
         template.id = templateId;
         template.name = templateName.getText().toString();
         template.accountId = ((Account) templateAccount.getSelectedItem());
+        template.categoryId = ((Category) templateCategory.getSelectedItem());
 
         if (templateValue.getText() == null || templateValue.getText().toString().equals("")) {
             template.value = 0.0f;
@@ -149,9 +150,7 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
                 return;
             }
         }
-        template.value = value;
-        template.accountId = ((Account) templateAccount.getSelectedItem());
-        template.categoryId = ((Category) templateCategory.getSelectedItem());
+
         template.save();
         ((NoDineroActivity)getActivity()).loadTemplateOverviewFragment();
         Log.d(TAG, "Updated template Successful, ID: " + template.id);
