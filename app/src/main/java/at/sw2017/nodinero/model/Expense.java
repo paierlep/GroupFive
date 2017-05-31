@@ -31,4 +31,7 @@ public class Expense extends BaseModel {
 
     @Column
     public String place;
+
+    @Column
+    public String photo;
 }
