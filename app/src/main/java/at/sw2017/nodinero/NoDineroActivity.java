@@ -25,6 +25,7 @@ import at.sw2017.nodinero.fragment.AccountOverviewFragment;
 import at.sw2017.nodinero.fragment.ExpenseFormFragment;
 import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
 import at.sw2017.nodinero.fragment.MapFragment;
+import at.sw2017.nodinero.fragment.ReportFragment;
 import at.sw2017.nodinero.fragment.SettingsFragment;
 import at.sw2017.nodinero.fragment.TemplateFormFragment;
 import at.sw2017.nodinero.fragment.TemplateOverviewFragment;
@@ -100,6 +101,9 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
             case R.id.view_map:
                 loadMapFragment();
                 break;
+            case R.id.view_report:
+                loadReportFragment();
+                break;
             //toolbar
             case R.id.menu_settings:
                 loadSettingsFragment();
@@ -172,6 +176,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
     public void loadMapFragment() {
         loadFragment(MapFragment.newInstance());
+    }
+
+    public void loadReportFragment() {
+        loadFragment(ReportFragment.newInstance());
     }
 
     public static void hideKeyboard(Activity activity) {

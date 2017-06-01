@@ -34,4 +34,10 @@
         android:orderInCategory="100"
         android:title="@string/view_map"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/view_report"
+        android:orderInCategory="100"
+        android:title="@string/view_report"
+        app:showAsAction="never" />
 </menu>

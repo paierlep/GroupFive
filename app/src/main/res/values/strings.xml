@@ -21,6 +21,7 @@
     <string name="menu_profile">Profile</string>
     <string name="account_overview">Overview</string>
     <string name="view_map">Map</string>
+    <string name="view_report">Report</string>
 
     <!-- Template -->
     <string name="template_delete">Delete</string>
@@ -74,4 +75,8 @@
         <item>dummy2</item>
     </string-array>
 
+    <!-- Report Stuff -->
+    <string name="report_account">Account</string>
+    <string name="report_category">Category</string>
+    <string name="report_other">Other</string>
 </resources>
