@@ -92,7 +92,7 @@ public class GoogleMapInstrumentedTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.add_expense)).check(matches(isDisplayed())).perform(click());
         onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
 
-        String expense_name = "google map expanse";
+        String expense_name = "map expanse";
         String expense_value = "100.0";
 
         onView(withId(R.id.expense_name)).perform(typeText(expense_name), closeSoftKeyboard());
