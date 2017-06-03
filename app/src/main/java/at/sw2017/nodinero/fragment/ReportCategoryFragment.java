@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
@@ -39,16 +41,32 @@ public class ReportCategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_report_tablayout, container, false);
+        View view = inflater.inflate(R.layout.fragment_report_categories, container, false);
 
-        spendingChart = (PieChart) view.findViewById(R.id.spendingChart);
+        spendingChart = (PieChart) view.findViewById(R.id.spendingsChart);
         incomeChart = (PieChart) view.findViewById(R.id.incomeChart);
 
         // set an alternative background color
         spendingChart.setBackgroundColor(Color.WHITE);
+        incomeChart.setBackgroundColor(Color.WHITE);
+
+        spendingChart.getDescription().setEnabled(false);
+        incomeChart.getDescription().setEnabled(false);
+
+        spendingChart.setTouchEnabled(false);
+        incomeChart.setTouchEnabled(false);
 
         setData();
         spendingChart.invalidate();
+        incomeChart.invalidate();
+
+        Legend spendingLegend =spendingChart.getLegend();
+        spendingLegend.setTextSize(15f);
+        spendingLegend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_INSIDE);
+
+        Legend incomeLegend =incomeChart.getLegend();
+        incomeLegend.setTextSize(15f);
+        incomeLegend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART_INSIDE);
 
 
         return view;
@@ -57,22 +75,31 @@ public class ReportCategoryFragment extends Fragment {
     private void setData()
     {
         List<PieEntry> incomeEntries = new ArrayList<>();
-        /* allIncome = 0f;
-        float allSpendings = 0f;
-        for(Category cat : SQLite.select().from(Category.class).queryList())
-        {
-            allIncome += cat.getIncome();
-            allSpendings += cat.getSpendings();
-        }
-        */
+        List<PieEntry> spendingEntries = new ArrayList<>();
+
 
         for(Category cat : SQLite.select().from(Category.class).queryList())
         {
             incomeEntries.add(new PieEntry(cat.getIncome(), cat.name));
+            spendingEntries.add(new PieEntry(cat.getSpendings()*-1f, cat.name));
         }
 
+
         PieDataSet set = new PieDataSet(incomeEntries, "Income");
+        set.setColors(ColorTemplate.COLORFUL_COLORS);
+        set.setValueTextSize(15f);
+        set.setDrawValues(true);
         PieData data = new PieData(set);
+
+
+        PieDataSet set2 = new PieDataSet(spendingEntries, "Spendings");
+        set2.setColors(ColorTemplate.COLORFUL_COLORS);
+        set2.setValueTextSize(15f);
+        set2.setDrawValues(true);
+        PieData data2 = new PieData(set2);
+
+        spendingChart.setData(data2);
         incomeChart.setData(data);
+
     }
 }

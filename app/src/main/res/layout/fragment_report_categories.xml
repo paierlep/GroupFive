@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:background="#00ffff"
     android:layout_height="match_parent">
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/spendingChart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <com.github.mikephil.charting.charts.PieChart
+    android:id="@+id/incomeChart"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+     />
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/incomeChart"
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/spendingsChart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="300dp"
+        android:layout_marginTop="310dp"
+        />
 </RelativeLayout>

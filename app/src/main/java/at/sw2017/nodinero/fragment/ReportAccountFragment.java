@@ -94,7 +94,6 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
 
         // get the legend (only possible after setting data)
         Legend l = barChart.getLegend();
-        l.setTextSize(10f);
         l.setEnabled(false);
 
         XAxis xAxis = barChart.getXAxis();

@@ -31,7 +31,12 @@ public class ReportInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
 
         onView(withText(R.string.report_account)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.chart1)).check(matches(isDisplayed()));
         onView(withText(R.string.report_category)).check(matches(isDisplayed())).perform(click());
+
+        //Todo
+        //onView(withId(R.id.incomeChart)).check(matches(isDisplayed()));
+        //onView(withId(R.id.incomeChart)).check(matches(isDisplayed()));
         onView(withText(R.string.report_other)).check(matches(isDisplayed())).perform(click());
     }
 
