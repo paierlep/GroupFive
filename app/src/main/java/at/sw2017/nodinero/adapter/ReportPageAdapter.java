@@ -39,11 +39,11 @@ public class ReportPageAdapter extends FragmentStatePagerAdapter {
     }
 
     private Fragment categoryReport() {
-        return ReportAccountFragment.newInstance();
+        return ReportCategoryFragment.newInstance();
     }
 
     private Fragment accountReport() {
-        return ReportCategoryFragment.newInstance();
+        return ReportAccountFragment.newInstance();
     }
 
     @Override
