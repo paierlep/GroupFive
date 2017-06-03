@@ -39,5 +39,27 @@ public class Account extends BaseModel {
         }
         return res;
     }
+    public float getSpendings()
+    {
+        float res = 0.0f;
+        for(Expense exp : SQLite.select().from(Expense.class).where(Expense_Table.accountId_id.eq(id)).queryList())
+        {
+            if(exp.value < 0)
+                res += (float)exp.value;
+        }
+        return res;
+    }
+
+    public float getIncome()
+    {
+        float res = 0.0f;
+        for(Expense exp : SQLite.select().from(Expense.class).where(Expense_Table.accountId_id.eq(id)).queryList())
+        {
+            if(exp.value > 0)
+                res += (float)exp.value;
+        }
+        return res;
+
+    }
 
 }

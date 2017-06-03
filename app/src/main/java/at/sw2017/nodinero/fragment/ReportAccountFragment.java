@@ -89,7 +89,7 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
 
 
         // add data
-        setData(100, 30);
+        setData();
         barChart.invalidate();
 
         // get the legend (only possible after setting data)
@@ -126,7 +126,7 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
         return view;
     }
 
-    private void setData(int count, float range) {
+    private void setData() {
 
         List<Account> accounts = SQLite.select().from(Account.class).queryList();
         ArrayList<BarEntry> entries = new ArrayList<>();
@@ -155,12 +155,7 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        textView.setText("" + (seekBar.getProgress()));
 
-        setData(seekBar.getProgress(), 50);
-
-        // redraw
-        lineChart.invalidate();
     }
 
     @Override

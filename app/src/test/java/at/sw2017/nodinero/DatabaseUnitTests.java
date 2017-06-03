@@ -89,17 +89,94 @@ public class DatabaseUnitTests extends AbstractNoDineroUnitTest {
         expense.value = 42;
         expense.date = "2017-04-21";
         expense.accountId = account;
+        expense.save();
 
         Expense expense2 = new Expense();
-        expense.name = "test expense2";
-        expense.value = 40;
-        expense.date = "2017-04-21";
-        expense.accountId = account;
-        expense.save();
-        ;
+        expense2.name = "test expense2";
+        expense2.value = 40;
+        expense2.date = "2017-04-21";
+        expense2.accountId = account;
+        expense2.save();
 
         assertEquals(account.getBalance(), expense.value + expense2.value + account.initialBalance);
     }
+
+    @Test
+    public void getSpendings() throws Exception {
+        Account account = new Account();
+        account.name = "test";
+        account.save();
+
+        Expense expense = new Expense();
+        expense.name = "test expense";
+        expense.value = 42;
+        expense.date = "2017-04-21";
+        expense.accountId = account;
+        expense.save();
+
+        Expense expense2 = new Expense();
+        expense2.name = "test expense2";
+        expense2.value = -70;
+        expense2.date = "2017-04-21";
+        expense2.accountId = account;
+        expense2.save();
+
+        Expense expense3 = new Expense();
+        expense3.name = "test expense2";
+        expense3.value = 40;
+        expense3.date = "2017-04-21";
+        expense3.accountId = account;
+        expense3.save();
+
+        Expense expense4 = new Expense();
+        expense4.name = "test expense2";
+        expense4.value = -30;
+        expense4.date = "2017-04-21";
+        expense4.accountId = account;
+        expense4.save();
+
+
+        assertEquals(account.getSpendings(), expense2.value + expense4.value,0.001f);
+    }
+
+    @Test
+    public void getIncome() throws Exception {
+        Account account = new Account();
+        account.name = "test";
+        account.save();
+
+        Expense expense = new Expense();
+        expense.name = "test expense";
+        expense.value = 42;
+        expense.date = "2017-04-21";
+        expense.accountId = account;
+        expense.save();
+
+        Expense expense2 = new Expense();
+        expense2.name = "test expense2";
+        expense2.value = -70;
+        expense2.date = "2017-04-21";
+        expense2.accountId = account;
+        expense2.save();
+
+        Expense expense3 = new Expense();
+        expense3.name = "test expense2";
+        expense3.value = 40;
+        expense3.date = "2017-04-21";
+        expense3.accountId = account;
+        expense3.save();
+
+        Expense expense4 = new Expense();
+        expense4.name = "test expense2";
+        expense4.value = -30;
+        expense4.date = "2017-04-21";
+        expense4.accountId = account;
+        expense4.save();
+        ;
+
+        assertEquals(account.getIncome(), expense.value + expense3.value,0.001f);
+    }
+
 
 
     @Test
@@ -126,6 +203,58 @@ public class DatabaseUnitTests extends AbstractNoDineroUnitTest {
 
         assertEquals(expense.name, testExpense.name);
         assertEquals(expense.categoryId, catgeory1);
+    }
+
+    @Test
+    public void categorySpendingsIncome() throws Exception {
+        Account account1 = new Account();
+        account1.name = "test";
+        account1.save();
+
+        Account account2 = new Account();
+        account2.name = "test2";
+        account2.save();
+
+        Category catgeory1 = new Category();
+        catgeory1.name = "beer";
+        catgeory1.save();
+
+
+
+        Expense expense = new Expense();
+        expense.name = "test expense";
+        expense.value = 42;
+        expense.date = "2017-04-21";
+        expense.accountId = account1;
+        expense.categoryId = catgeory1;
+        expense.save();
+
+        Expense expense1 = new Expense();
+        expense1.name = "test expense";
+        expense1.value = -42;
+        expense1.date = "2017-04-21";
+        expense1.accountId = account1;
+        expense1.categoryId = catgeory1;
+        expense1.save();
+
+        Expense expense3 = new Expense();
+        expense3.name = "test expense";
+        expense3.value = 420;
+        expense3.date = "2017-04-21";
+        expense3.accountId = account2;
+        expense3.categoryId = catgeory1;
+        expense3.save();
+
+        Expense expense4 = new Expense();
+        expense4.name = "test expense";
+        expense4.value = -420;
+        expense4.date = "2017-04-21";
+        expense4.accountId = account2;
+        expense4.categoryId = catgeory1;
+        expense4.save();
+
+        assertEquals(catgeory1.getIncome(), expense.value + expense3.value,0.001f);
+        assertEquals(catgeory1.getSpendings(), expense1.value + expense4.value,0.001f);
     }
 
 }
