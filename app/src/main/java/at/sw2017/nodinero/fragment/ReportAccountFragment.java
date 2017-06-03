@@ -131,15 +131,14 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
         List<Account> accounts = SQLite.select().from(Account.class).queryList();
         ArrayList<BarEntry> entries = new ArrayList<>();
 
-        // increment by 1 hour
         for (int x = 0; x < accounts.size(); x++) {
-            String tmp = accounts.get(x).name;
             labels.add(accounts.get(x).name);
             entries.add(new BarEntry(x, accounts.get(x).getBalance())); // add one entry per hour
         }
 
         // create a dataset and give it a type
         BarDataSet barSet = new BarDataSet(entries, "DataSet 1");
+        barSet.setColors(ColorTemplate.COLORFUL_COLORS);
         BarData data = new BarData(barSet);
         data.setBarWidth(0.9f);
         data.setValueTextSize(20f);
