@@ -74,6 +74,7 @@ public class QuickAddNavigationFragment extends Fragment implements View.OnClick
         expense.date = new Date().toString();
         expense.value = template.value;
         expense.accountId = template.accountId;
+        expense.categoryId = template.categoryId;
         expense.save();
 
 

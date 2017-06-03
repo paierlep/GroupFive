@@ -24,7 +24,7 @@ public class Template extends BaseModel {
     public String name;
 
     @Column
-    public int value;
+    public float value;
 
     @Column
     public String place;

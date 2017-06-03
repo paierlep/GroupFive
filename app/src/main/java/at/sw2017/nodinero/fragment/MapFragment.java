@@ -49,13 +49,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        boolean has_coords = false;
         for (final Expense expense : SQLite.select().from(Expense.class).queryList()) {
             Log.e("TAG", "lat" + expense.latitude + " " + expense.longitude);
             if (expense.latitude > 0 && expense.longitude > 0) {
                 LatLng ll = new LatLng(expense.latitude, expense.longitude);
                 googleMap.addMarker(new MarkerOptions().position(ll).title(expense.name));
                 builder.include(ll);
+                has_coords = true;
             }
+        }
+
+        if (!has_coords) {
+            return;
         }
 
         LatLngBounds bounds = builder.build();

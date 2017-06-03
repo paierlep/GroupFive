@@ -12,22 +12,11 @@
         android:title="@string/template_overview"
         app:showAsAction="never" />
     <item
-        android:id="@+id/add_account"
+        android:id="@+id/category_overview"
         android:orderInCategory="100"
-        android:title="@string/add_account"
+        android:title="@string/category_overview"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/add_expense"
-        android:orderInCategory="100"
-        android:title="@string/add_expense"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/add_template"
-        android:orderInCategory="100"
-        android:title="@string/add_template"
-        app:showAsAction="never" />
 
     <item
         android:id="@+id/view_map"
@@ -35,9 +24,4 @@
         android:title="@string/view_map"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/view_report"
-        android:orderInCategory="100"
-        android:title="@string/view_report"
-        app:showAsAction="never" />
 </menu>

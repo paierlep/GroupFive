@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.DrawerActions.open;
 import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
@@ -44,9 +45,9 @@ public class ActionBarInstrumentedTest extends AbstractNoDineroInstrumentedTest 
             .check(matches(isClosed(Gravity.START)))
             .perform(open());
 
-        onView(withText(R.string.add_account)).perform(click());
-        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
-        onView(allOf(withText(R.string.account_add_title), withParent(withId(R.id.menu_bar))))
+        onView(withText(R.string.account_overview)).perform(click());
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+        onView(allOf(withText(R.string.account_overview_title), withParent(withId(R.id.menu_bar))))
                 .check(matches(isDisplayed()));
 
 
@@ -54,9 +55,9 @@ public class ActionBarInstrumentedTest extends AbstractNoDineroInstrumentedTest 
             .check(matches(isClosed(Gravity.START)))
             .perform(open());
 
-        onView(withText(R.string.add_expense)).perform(click());
-        onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
-        onView(allOf(withText(R.string.expense_add_title), withParent(withId(R.id.menu_bar))))
+        onView(withText(R.string.template_overview)).perform(click());
+        onView(withId(R.id.fragment_template_overview)).check(matches(isDisplayed()));
+        onView(allOf(withText(R.string.template_overview_title), withParent(withId(R.id.menu_bar))))
                 .check(matches(isDisplayed()));
     }
 }

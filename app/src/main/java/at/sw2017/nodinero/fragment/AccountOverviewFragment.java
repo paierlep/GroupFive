@@ -43,6 +43,7 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
         View view = inflater.inflate(R.layout.fragment_account_overview, container, false);
         createOverviewTable(view);
         loadQuickAddNavigation();
+        view.findViewById(R.id.add_account).setOnClickListener(this);
 
         ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.account_overview_title);
         return view;
@@ -78,6 +79,8 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
             table.removeView(row);
             loadQuickAddNavigation();
         }
+        else if(v.getId() == R.id.add_account)
+            ((NoDineroActivity) getActivity()).loadAccountFormFragment();
 
     }
 
@@ -88,7 +91,7 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
         for (Account account : SQLite.select().from(Account.class).queryList()) {
             TableRow row = (TableRow) View.inflate(getContext(), R.layout.table_row_account_overview, null);
             ((TextView) row.findViewById(R.id.overview_name)).setText(account.name);
-            ((TextView) row.findViewById(R.id.overview_balance)).setText(Integer.toString(account.getBalance())); // TODO replace with localss
+            ((TextView) row.findViewById(R.id.overview_balance)).setText(Float.toString(account.getBalance()));
             ((TextView) row.findViewById(R.id.overview_currency)).setText(account.currency);
 
             row.findViewById(R.id.overview_delete).setTag(account.id);

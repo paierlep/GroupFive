@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
@@ -66,32 +67,40 @@ public class AccountFormFragment extends Fragment implements View.OnClickListene
         return view;
     }
 
-    private void saveAccount()
+    private void saveAccount(boolean stay)
     {
         Account account =  new Account();
         account.name = accountName.getText().toString();
 
         account.currency = accountCurrency.getSelectedItem().toString();
+        account.type = accountType.getSelectedItem().toString();
+
         if(accountBalance.getText() == null || accountBalance.getText().toString().equals("")) {
             account.initialBalance = 0;
         } else {
-            account.initialBalance = Integer.parseInt(accountBalance.getText().toString());
+            try {
+                account.initialBalance = Float.parseFloat(accountBalance.getText().toString());
+            }
+            catch(Exception e) {
+                Toast.makeText(getContext(), "Please enter a valid number", Toast.LENGTH_LONG).show();
+                return;
+            }
         }
-
-        account.type = accountType.getSelectedItem().toString();
 
         account.save();
         Log.d("DB","Wrote Successful, ID: " + account.id);
+        if(!stay)
+            ((NoDineroActivity) getActivity()).loadAccountOverviewFragment();
+
     }
 
     @Override
     public void onClick(View v) {
         NoDineroActivity.hideKeyboard(this.getActivity());
         if (v.getId() == R.id.button_save) {
-            saveAccount();
+            saveAccount(true);
         } else if (v.getId() == R.id.button_save_back) {
-            saveAccount();
-            ((NoDineroActivity) getActivity()).loadAccountOverviewFragment();
+            saveAccount(false);
         } else if (v.getId() == R.id.button_cancel) {
             ((NoDineroActivity)getActivity()).loadAccountOverviewFragment();
         }

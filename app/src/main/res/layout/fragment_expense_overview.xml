@@ -14,16 +14,17 @@
             android:id = "@+id/expanse_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/add_expense"
-                android:src="@drawable/ic_account_circle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </TableLayout>
-
-
-
     </ScrollView>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_expense"
+        android:src="@drawable/ic_add_white_48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_account_overview"
     android:orientation="vertical"
     android:layout_width="fill_parent"
@@ -43,8 +44,17 @@
             android:id="@+id/account_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
         </TableLayout>
     </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_account"
+        android:src="@drawable/ic_create_white_48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/add_quick_fragment"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

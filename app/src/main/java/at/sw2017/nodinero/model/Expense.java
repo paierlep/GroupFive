@@ -24,13 +24,16 @@ public class Expense extends BaseModel {
     public String name;
 
     @Column
-    public int value;
+    public float value;
 
     @Column
     public String date;
 
     @Column
     public String place;
+
+    @Column
+    public String photo;
 
     @Column
     public double latitude;

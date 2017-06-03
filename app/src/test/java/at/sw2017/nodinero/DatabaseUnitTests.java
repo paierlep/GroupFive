@@ -33,7 +33,7 @@ public class DatabaseUnitTests extends AbstractNoDineroUnitTest {
         List<Account> accs = SQLite.select().from(Account.class).queryList();
         Account acc2 = accs.get(0);
         assertEquals(account1.name, acc2.name);
-        assertEquals(account1.initialBalance, acc2.initialBalance);
+        assertEquals(account1.initialBalance, acc2.initialBalance, 0.01f);
         assertEquals(account1.currency,acc2.currency);
         assertEquals(account1.type,acc2.type);
     }

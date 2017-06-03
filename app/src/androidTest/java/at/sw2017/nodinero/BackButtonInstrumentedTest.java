@@ -39,9 +39,21 @@ public class BackButtonInstrumentedTest extends AbstractNoDineroInstrumentedTest
 
     @Test
     public void BackToAccountOverview() {
-        backButtonTemplateFunction(R.string.add_account, R.id.fragment_account_form, R.id.fragment_account_overview);
+
+        onView(withId(R.id.add_account)).perform(click());
+
+        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed())).perform(pressBack());
+        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
+
         backButtonTemplateFunction(R.string.template_overview, R.id.fragment_template_overview, R.id.fragment_account_overview);
-        backButtonTemplateFunction(R.string.add_template, R.id.fragment_template_add, R.id.fragment_account_overview);
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+        onView(withText(R.string.template_overview)).perform(click());
+
+        backButtonTemplateFunction(R.string.account_overview, R.id.fragment_account_overview, R.id.fragment_template_overview);
+
     }
 
 }
