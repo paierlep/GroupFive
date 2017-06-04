@@ -80,10 +80,11 @@
         <item>dummy2</item>
     </string-array>
 
-    <string name="title_activity_welcome">Welcome to NoDinero</string>
+
     <string name="TextIntro1">With NoDinero you can track your earnings and spendings as easy as possible!</string>
 
     <string name="title_activity_welcome2">Create Account</string>
     <string name="TextIntro2">Please create your first account, and start tracking your earnings and spendings</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
 
 </resources>

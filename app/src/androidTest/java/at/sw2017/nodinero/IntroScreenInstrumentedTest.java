@@ -26,8 +26,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class IntroScreenInstrumentedTest {
 
-    //@Rule
-    //public ActivityTestRule activityTestRule = new ActivityTestRule(WelcomeActivity.class);
+    @Rule
+    public ActivityTestRule activityTestRule = new ActivityTestRule(WelcomeActivity.class);
 
     @Test
     public void checkifExists() {
@@ -39,6 +39,7 @@ public class IntroScreenInstrumentedTest {
         onView(withText(R.string.title_activity_welcome2)).check(matches(isDisplayed()));
         onView(withText(R.string.TextIntro2)).check(matches(isDisplayed()));
         onView(withText(R.string.title_activity_welcome2)).perform(swipeLeft());
+
 
 
     }
