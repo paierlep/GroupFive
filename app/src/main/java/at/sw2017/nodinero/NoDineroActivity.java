@@ -6,6 +6,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,9 @@ import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import at.sw2017.nodinero.fragment.AccountFormFragment;
 import at.sw2017.nodinero.fragment.AccountOverviewFragment;
@@ -119,15 +123,20 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
 
     private void loadFragment(Fragment fragment) {
-        loadFragment(fragment, "no-history");
+        loadFragment(fragment, getResources().getString(R.string.no_back_stack));
     }
 
-    private void loadFragment(Fragment fragment, String history) {
+    private void loadFragment(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.main_content, fragment);
-        fragmentTransaction.addToBackStack(history);
+
+        //if(!tag.equals(getResources().getString(R.string.no_back_stack))) {
+            addToStackTree(tag);
+        //}
+
+        fragmentTransaction.addToBackStack(tag);
 
         fragmentTransaction.commit();
         getSupportFragmentManager().executePendingTransactions();
@@ -136,16 +145,44 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         Log.e(TAG, "current back support: " + amount);
     }
 
+    Deque<String> backStack = new ArrayDeque<String>();
+
+    private void addToStackTree(String tag)
+    {
+        //first entry
+        if(backStack.isEmpty() && tag.equals(AccountOverviewFragment.TAG))
+        {
+            backStack.push(tag);
+            return;
+        }
+
+        if(backStack.peek().equals(getResources().getString(R.string.no_back_stack)))
+        {
+            getSupportFragmentManager().popBackStackImmediate();
+            backStack.pop();
+        }
+
+        if(backStack.peek().equals(tag))
+        {
+            getSupportFragmentManager().popBackStackImmediate();
+            backStack.pop();
+        }
+
+
+
+        backStack.push(tag);
+    }
+
     public void loadSettingsFragment() {
         loadFragment(SettingsFragment.newInstance());
     }
 
     public void loadAccountOverviewFragment() {
-        loadFragment(AccountOverviewFragment.newInstance(), "history");
+        loadFragment(AccountOverviewFragment.newInstance(), AccountOverviewFragment.TAG);
     }
 
     public void loadCategoryOverviewFragment() {
-        loadFragment(CategoryOverviewFragment.newInstance());
+        loadFragment(CategoryOverviewFragment.newInstance(), CategoryOverviewFragment.TAG);
     }
 
     public void loadTemplateFormFragment() {
@@ -163,10 +200,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     public void loadCategoryFormFragment() {loadFragment(CategoryFormFragment.newInstance()); }
 
     public void loadExpensesOverviewFragment(int accountId) {
-        loadFragment(ExpenseOverviewFragment.newInstance(accountId), "history");
+        loadFragment(ExpenseOverviewFragment.newInstance(accountId), ExpenseOverviewFragment.TAG);
     }
     public void loadTemplateOverviewFragment() {
-        loadFragment(TemplateOverviewFragment.newInstance(), "history");
+        loadFragment(TemplateOverviewFragment.newInstance(), TemplateOverviewFragment.TAG);
     }
     public void loadExpensesFormFragment(int accountId) {
         loadFragment(ExpenseFormFragment.newInstance(accountId));
@@ -192,13 +229,12 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     public void onBackPressed() {
         Log.e (TAG, getSupportFragmentManager().getBackStackEntryCount() + "");
 
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            if(getSupportFragmentManager().getBackStackEntryAt(0).getName().equals("history")) {
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+        {
+            mDrawerLayout.closeDrawers();
+        } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
                 getSupportFragmentManager().popBackStackImmediate();
-                getSupportFragmentManager().popBackStackImmediate("history", 0);
-            } else {
-                getSupportFragmentManager().popBackStackImmediate("history", 0);
-            }
+                backStack.pop();
         } else {
             finish();
         }

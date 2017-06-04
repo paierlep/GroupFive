@@ -80,4 +80,5 @@
         <item>dummy2</item>
     </string-array>
 
+    <string name="no_back_stack">noBackStack</string>
 </resources>

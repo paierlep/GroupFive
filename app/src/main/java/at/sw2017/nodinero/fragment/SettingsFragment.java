@@ -14,6 +14,7 @@ import at.sw2017.nodinero.R;
  */
 
 public class SettingsFragment extends Fragment {
+    public static final String TAG = "SettingFragment";
 
     public static ExpenseFormFragment newInstance() {
         Bundle args = new Bundle();

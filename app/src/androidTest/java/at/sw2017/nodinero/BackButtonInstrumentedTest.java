@@ -96,4 +96,49 @@ public class BackButtonInstrumentedTest extends AbstractNoDineroInstrumentedTest
                 .check(matches(isDisplayed()));
     }
 
+    @Test
+    public void OverviewAndAddMix() {
+        onView(withId(R.id.add_account))
+                .perform(click());
+
+        onView(withId(R.id.fragment_account_form))
+                .check(matches(isDisplayed()))
+                .perform(pressBack());
+
+        onView(withId(R.id.fragment_account_overview))
+                .check(matches(isDisplayed()));
+
+        onView(withId(R.id.add_account))
+                .perform(click());
+
+        onView(withId(R.id.fragment_account_form))
+                .check(matches(isDisplayed()))
+                .perform(pressBack());
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText(R.string.category_overview))
+                .perform(click());
+
+        onView(withId(R.id.add_category)).perform(click());
+        onView(withId(R.id.fragment_category_form))
+                .check(matches(isDisplayed()));
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+
+        onView(withText(R.string.template_overview))
+                .perform(click());
+
+        onView(withId(R.id.fragment_template_overview))
+                .check(matches(isDisplayed()))
+                .perform(pressBack());
+
+        onView(withId(R.id.fragment_category_overview))
+                .check(matches(isDisplayed()));
+    }
+
 }
