@@ -80,4 +80,15 @@
         <item>dummy2</item>
     </string-array>
 
+    <!-- Profile -->
+    <string name="profile_name">Name</string>
+    <string name="profile_default_language">Language</string>
+    <string name="profile_default_currency">Currency</string>
+    <string name="profile_intro">Show Intro</string>
+    <string name="profile_password">Password</string>
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>German</item>
+    </string-array>
 </resources>

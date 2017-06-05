@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -27,12 +26,10 @@ import at.sw2017.nodinero.fragment.CategoryOverviewFragment;
 import at.sw2017.nodinero.fragment.ExpenseFormFragment;
 import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
 import at.sw2017.nodinero.fragment.MapFragment;
-import at.sw2017.nodinero.fragment.SettingsFragment;
+import at.sw2017.nodinero.fragment.ProfileFragment;
 import at.sw2017.nodinero.fragment.TemplateFormFragment;
 import at.sw2017.nodinero.fragment.TemplateOverviewFragment;
 import at.sw2017.nodinero.model.Database;
-
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class NoDineroActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public final String TAG = "NoDineroActivity";
@@ -99,17 +96,14 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
                 loadCategoryOverviewFragment();
                 break;
             //toolbar
-            case R.id.menu_settings:
-                loadSettingsFragment();
+            case R.id.menu_profile:
+                loadProfileFragment();
                 break;
             case R.id.account_overview:
                 loadAccountOverviewFragment();
                 break;
             case R.id.template_overview:
                 loadTemplateOverviewFragment();
-                break;
-            case R.id.menu_profile:
-                Toast.makeText(this, "not implemented yet!", Toast.LENGTH_LONG).show();
                 break;
             default:
                 return false;
@@ -136,8 +130,8 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         Log.e(TAG, "current back support: " + amount);
     }
 
-    public void loadSettingsFragment() {
-        loadFragment(SettingsFragment.newInstance());
+    public void loadProfileFragment() {
+        loadFragment(ProfileFragment.newInstance());
     }
 
     public void loadAccountOverviewFragment() {
