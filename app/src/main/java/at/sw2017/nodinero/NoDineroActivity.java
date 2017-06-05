@@ -187,7 +187,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
 
 
     public void loadProfileFragment() {
-        loadFragment(ProfileFragment.newInstance());
+        loadFragment(ProfileFragment.newInstance(), ProfileFragment.TAG);
     }
 
     public void loadAccountOverviewFragment() {

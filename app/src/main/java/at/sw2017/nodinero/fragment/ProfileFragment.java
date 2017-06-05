@@ -28,6 +28,7 @@ import at.sw2017.nodinero.model.Profile;
  */
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
+    public static final String TAG = "ProfileFragment";
 
     private AppCompatSpinner currencySpinner;
     private AppCompatSpinner languageSpinner;
