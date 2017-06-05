@@ -28,6 +28,13 @@ public class WelcomeActivity extends AppIntro {
                 R.drawable.create,
                 Color.parseColor("#8c50e3")));
 
+        showStatusBar(false);
+        showSkipButton(false);
+        setFadeAnimation();
+
+        // TO DO: Permissions einholen
+        //askForPermissions(new String[]{Manifest.permission.CAMERA}, 3);
+
     }
 
     @Override
