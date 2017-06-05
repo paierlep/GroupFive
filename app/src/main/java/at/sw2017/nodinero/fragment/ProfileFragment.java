@@ -1,5 +1,8 @@
 package at.sw2017.nodinero.fragment;
 
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -7,11 +10,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatSpinner;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+
+import java.util.Locale;
 
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
@@ -43,7 +49,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
 
         view.findViewById(R.id.button_save).setOnClickListener(this);
-        view.findViewById(R.id.button_cancel).setOnClickListener(this);
 
         nameEditText = (TextInputEditText) view.findViewById(R.id.profile_name);
         passwordEditText = (TextInputEditText) view.findViewById(R.id.profile_password);
@@ -76,6 +81,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         Profile.storeByName("currency", Integer.toString(currencySpinner.getSelectedItemPosition()));
         Profile.storeByName("language", Integer.toString(languageSpinner.getSelectedItemPosition()));
         Profile.storeByName("show_intro", Boolean.toString(showIntro.isChecked()));
+
+        ((NoDineroActivity) getActivity()).checkLocale();
     }
 
     private void fillData() {
@@ -94,4 +101,5 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             this.showIntro.setChecked(Boolean.parseBoolean(showIntro));
         }
     }
+
 }

@@ -1,6 +1,11 @@
 package at.sw2017.nodinero;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -19,6 +24,8 @@ import android.view.inputmethod.InputMethodManager;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import java.util.Locale;
+
 import at.sw2017.nodinero.fragment.AccountFormFragment;
 import at.sw2017.nodinero.fragment.AccountOverviewFragment;
 import at.sw2017.nodinero.fragment.CategoryFormFragment;
@@ -30,6 +37,7 @@ import at.sw2017.nodinero.fragment.ProfileFragment;
 import at.sw2017.nodinero.fragment.TemplateFormFragment;
 import at.sw2017.nodinero.fragment.TemplateOverviewFragment;
 import at.sw2017.nodinero.model.Database;
+import at.sw2017.nodinero.model.Profile;
 
 public class NoDineroActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public final String TAG = "NoDineroActivity";
@@ -44,6 +52,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_main_overview);
 
         initDb();
+        checkLocale();
 
         //FlowManager.getDatabase("Database").reset(getContext());
 
@@ -196,5 +205,34 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         } else {
             finish();
         }
+    }
+
+    public void checkLocale() {
+        String currentLang = getResources().getConfiguration().locale.getLanguage();
+        String[] languages = getResources().getStringArray(R.array.languages_short);
+        String language = languages[Integer.parseInt(Profile.getByName("language"))];
+
+        if (!currentLang.equals(new Locale(language).getLanguage())) {
+            setLocale(language);
+        }
+    }
+
+    private void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+
+        Resources resources = getBaseContext().getResources();
+
+        Configuration configuration = resources.getConfiguration();
+        configuration.locale = locale;
+
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+
+        getBaseContext().getResources().updateConfiguration(configuration,
+                getBaseContext().getResources().getDisplayMetrics());
+
+        Intent refresh = new Intent(this, NoDineroActivity.class);
+        startActivity(refresh);
+        finish();
     }
 }

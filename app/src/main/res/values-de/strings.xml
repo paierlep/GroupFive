@@ -1,2 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">NoDinero</string>
+    <string name="account_add_title">Konto hinzufügen</string>
+    <string name="account_currency">Währung</string>
+    <string name="account_delete">Löschen</string>
+    <string name="account_edit_title">Konto bearbeiten</string>
+    <string name="account_initbalance">Startsaldo</string>
+    <string name="account_name">Name</string>
+    <string name="account_overview">Überblick</string>
+    <string name="account_overview_title">Konto Überblick</string>
+    <string name="account_type">Typ</string>
+    <string name="accounts">Konten</string>
+    <string name="add">Neu</string>
+    <string name="add_account">Neues Konto</string>
+    <string name="add_category">Neue Kategorie</string>
+    <string name="add_category_title">Neuer Kategorie</string>
+    <string name="add_template">Neues Template</string>
+    <string name="back">Zurück</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="category_overview">Kategorie Übersicht</string>
+    <string name="category_overview_title">Kategorie Übersicht</string>
+    <string name="dummy_date">2000-01-01</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="expense_account">Konto</string>
+    <string name="expense_account_label">Konto</string>
+    <string name="expense_add_title">Umsatz</string>
+    <string name="add_expense">Umsatz</string>
+    <string name="expense_category">Kategorie</string>
+    <string name="expense_category_label">Kategorie</string>
+    <string name="expense_date">Datum</string>
+    <string name="expense_date_label">Datum</string>
+    <string name="expense_edit_title">Umsatz bearbeiten</string>
+    <string name="expense_name">Name</string>
+    <string name="expense_name_label">Name</string>
+    <string name="expense_overview_title">Umsatz Übersicht</string>
+    <string name="expense_value">Wert</string>
+    <string name="expense_value_label">Wert</string>
+    <string name="menu_profile">Profil</string>
+    <string name="menu_settings">Einstellung</string>
+    <string name="profile_default_currency">Währung</string>
+    <string name="profile_default_language">Sprache</string>
+    <string name="profile_intro">Intro zeigen</string>
+    <string name="profile_name">Name</string>
+    <string name="profile_password">Passwort</string>
+    <string name="save">Speichern</string>
+    <string name="saveAndBack">Speichern und zurück</string>
+    <string name="select_picture">Bild wählen</string>
+    <string name="take_picture">Kamera nutzen</string>
+    <string name="template_add_title">Neues Template</string>
+    <string name="template_delete">Löschen</string>
+    <string name="template_edit_title">Template bearbeiten</string>
+    <string name="template_overview">Template Übersicht</string>
+    <string name="template_overview_title">Template Übersicht</string>
+    <string name="view_map">Karte</string>
+</resources>

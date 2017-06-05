@@ -91,4 +91,9 @@
         <item>English</item>
         <item>German</item>
     </string-array>
+
+    <string-array name="languages_short">
+        <item>en</item>
+        <item>de</item>
+    </string-array>
 </resources>
