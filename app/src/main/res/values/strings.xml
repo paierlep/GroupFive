@@ -87,6 +87,11 @@
     <string name="profile_intro">Show Intro</string>
     <string name="profile_password">Password</string>
 
+    <!-- Login Page -->
+    <string name="login">Login</string>
+    <string name="error_no_login">Login not possible: wrong or no password</string>
+    <string name="password_protected">Password Protected</string>
+
     <string-array name="languages">
         <item>English</item>
         <item>German</item>

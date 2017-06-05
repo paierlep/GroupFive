@@ -33,6 +33,7 @@ import at.sw2017.nodinero.fragment.CategoryOverviewFragment;
 import at.sw2017.nodinero.fragment.ExpenseFormFragment;
 import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
 import at.sw2017.nodinero.fragment.MapFragment;
+import at.sw2017.nodinero.fragment.PasswordFragment;
 import at.sw2017.nodinero.fragment.ProfileFragment;
 import at.sw2017.nodinero.fragment.TemplateFormFragment;
 import at.sw2017.nodinero.fragment.TemplateOverviewFragment;
@@ -46,6 +47,8 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     private Toolbar toolbar;
     private DrawerLayout mDrawerLayout;
 
+    private boolean loggedIn = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,13 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         initDb();
         checkLocale();
 
+        toolbar = (Toolbar) findViewById(R.id.menu_bar);
+
+        String password = Profile.getByName("password");
+        if (!loggedIn && password != null && password.length() > 0) {
+            loadPasswordFragment();
+            return;
+        }
         //FlowManager.getDatabase("Database").reset(getContext());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -61,7 +71,6 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         navigation = (NavigationView) findViewById(R.id.nav_view);
         navigation.setNavigationItemSelectedListener(this);
 
-        toolbar = (Toolbar) findViewById(R.id.menu_bar);
         setSupportActionBar(toolbar);
 
         loadAccountOverviewFragment();
@@ -181,6 +190,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         loadFragment(MapFragment.newInstance());
     }
 
+    public void loadPasswordFragment() {
+        loadFragment(PasswordFragment.newInstance());
+    }
+
     public static void hideKeyboard(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
@@ -208,9 +221,16 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
 
     public void checkLocale() {
+
+        String userLanguage = Profile.getByName("language");
+
+        if (userLanguage == null || userLanguage.length() == 0) {
+            return;
+        }
+
         String currentLang = getResources().getConfiguration().locale.getLanguage();
         String[] languages = getResources().getStringArray(R.array.languages_short);
-        String language = languages[Integer.parseInt(Profile.getByName("language"))];
+        String language = languages[Integer.parseInt(userLanguage)];
 
         if (!currentLang.equals(new Locale(language).getLanguage())) {
             setLocale(language);
@@ -234,5 +254,19 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         Intent refresh = new Intent(this, NoDineroActivity.class);
         startActivity(refresh);
         finish();
+    }
+
+    public void setIsLoggedIn() {
+        this.loggedIn = true;
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        navigation = (NavigationView) findViewById(R.id.nav_view);
+        navigation.setNavigationItemSelectedListener(this);
+
+        toolbar = (Toolbar) findViewById(R.id.menu_bar);
+        setSupportActionBar(toolbar);
+
+        loadAccountOverviewFragment();
     }
 }
