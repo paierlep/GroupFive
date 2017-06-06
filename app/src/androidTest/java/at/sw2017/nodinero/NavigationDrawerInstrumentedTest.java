@@ -59,6 +59,12 @@ public class NavigationDrawerInstrumentedTest extends AbstractNoDineroInstrument
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
                 .perform(open());
+        onView(withText(R.string.template_overview)).perform(click());
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
         onView(withText(profile_name)).check(matches(isDisplayed()));
+
     }
 }

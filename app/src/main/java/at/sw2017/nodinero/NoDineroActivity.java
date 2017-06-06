@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -74,6 +75,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
 
         navigation = (NavigationView) findViewById(R.id.nav_view);
         navigation.setNavigationItemSelectedListener(this);
+        setUsername();
 
         setSupportActionBar(toolbar);
 
@@ -305,5 +307,12 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         setSupportActionBar(toolbar);
 
         loadAccountOverviewFragment();
+    }
+
+    public void setUsername() {
+        String name = Profile.getByName("name");
+        if (name != null) {
+            ((TextView) navigation.getHeaderView(0).findViewById(R.id.user_name)).setText(name);
+        }
     }
 }

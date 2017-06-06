@@ -94,6 +94,7 @@
     <string name="login">Login</string>
     <string name="error_no_login">Login not possible: wrong or no password</string>
     <string name="password_protected">Password Protected</string>
+    <string name="profile_saved">User Profile saved</string>
 
     <string-array name="languages">
         <item>English</item>

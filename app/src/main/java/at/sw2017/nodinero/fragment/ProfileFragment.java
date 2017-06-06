@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -84,6 +85,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         Profile.storeByName("show_intro", Boolean.toString(showIntro.isChecked()));
 
         ((NoDineroActivity) getActivity()).checkLocale();
+        ((NoDineroActivity) getActivity()).setUsername();
+        Toast.makeText(getActivity(), R.string.profile_saved, Toast.LENGTH_SHORT).show();
+
     }
 
     private void fillData() {
