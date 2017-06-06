@@ -25,7 +25,7 @@ import at.sw2017.nodinero.model.Expense_Table;
  * Created by karin on 4/14/17.
  */
 public class ExpenseOverviewFragment extends Fragment implements View.OnClickListener {
-    public final String TAG = "ExpenseOverviewFragment";
+    public static final String TAG = "ExpenseOverviewFragment";
     private int currentAccountId;
 
     public static ExpenseOverviewFragment newInstance(int accountId) {

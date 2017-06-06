@@ -28,7 +28,7 @@ import static at.sw2017.nodinero.model.Account_Table.id;
  * Created by karin on 4/14/17.
  */
 public class AccountOverviewFragment extends Fragment implements View.OnClickListener{
-    public final String TAG = "AccountOverviewFragment";
+    public static final String TAG = "AccountOverviewFragment";
 
     public static AccountOverviewFragment newInstance() {
         Bundle args = new Bundle();
