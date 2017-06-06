@@ -31,7 +31,7 @@ import static at.sw2017.nodinero.model.Template_Table.value;
  * Created by karin on 4/14/17.
  */
 public class TemplateOverviewFragment extends Fragment implements View.OnClickListener{
-    public final String TAG = "TemplateOverviewFragment";
+    public static final String TAG = "TemplateOverviewFragment";
 
     public static TemplateOverviewFragment newInstance() {
         Bundle args = new Bundle();
