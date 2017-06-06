@@ -53,4 +53,12 @@
     <string name="template_overview">Template Übersicht</string>
     <string name="template_overview_title">Template Übersicht</string>
     <string name="view_map">Karte</string>
+
+    <string-array name="expense_filter_array">
+        <item>alle</item>
+        <item>letztes Monat</item>
+        <item>letzten 3 Monate</item>
+        <item>letzten 6 Monate</item>
+        <item>letztes Jahr</item>
+    </string-array>
 </resources>
