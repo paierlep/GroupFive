@@ -1,8 +1,10 @@
 package at.sw2017.nodinero;
 
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.Gravity;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -25,6 +27,10 @@ import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class BackButtonInstrumentedTest extends AbstractNoDineroInstrumentedTest {
+
+    @Rule
+    public ActivityTestRule activityTestRule =
+            new ActivityTestRule(NoDineroActivity.class, true, false);
 
     public void backButtonTemplateFunction(int buttonText, int newFragment, int targetFragment) {
         onView(withId(R.id.drawer_layout))

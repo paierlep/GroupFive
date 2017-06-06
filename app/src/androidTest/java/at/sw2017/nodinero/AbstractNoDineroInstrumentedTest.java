@@ -28,5 +28,6 @@ public abstract class AbstractNoDineroInstrumentedTest {
     @After
     public void tearDown() throws Exception {
         FlowManager.destroy();
+
     }
 }

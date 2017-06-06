@@ -188,7 +188,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     private void addToStackTree(String tag)
     {
         //first entry
-        if(backStack.isEmpty() && tag.equals(AccountOverviewFragment.TAG))
+        if(backStack.isEmpty() /*&& tag.equals(AccountOverviewFragment.TAG)*/)
         {
             backStack.push(tag);
             return;
@@ -255,7 +255,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
 
     public void loadPasswordFragment() {
-        loadFragment(PasswordFragment.newInstance());
+        loadFragment(PasswordFragment.newInstance(), PasswordFragment.TAG);
     }
 
     public static void hideKeyboard(Activity activity) {

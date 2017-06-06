@@ -4,6 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.Gravity;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,9 +40,6 @@ public class IntroScreenInstrumentedTest {
         onView(withText(R.string.title_activity_welcome2)).check(matches(isDisplayed()));
         onView(withText(R.string.TextIntro2)).check(matches(isDisplayed()));
         onView(withText(R.string.title_activity_welcome2)).perform(swipeLeft());
-
-
-
     }
 
 

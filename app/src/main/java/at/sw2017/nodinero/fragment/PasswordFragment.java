@@ -20,7 +20,7 @@ import at.sw2017.nodinero.model.Profile;
  */
 
 public class PasswordFragment extends Fragment implements View.OnClickListener {
-
+    public static final String TAG = "PasswordFragment";
     private TextInputEditText passwordField;
 
     public static PasswordFragment newInstance() {
