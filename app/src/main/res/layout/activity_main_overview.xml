@@ -17,7 +17,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/menu_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="#159615"
                 android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
@@ -38,6 +38,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/side_menu" />
+        app:menu="@menu/side_menu"
+        app:headerLayout="@layout/drawer_header"/>
 
 </android.support.v4.widget.DrawerLayout>

@@ -5,17 +5,29 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+    <android.support.v7.widget.AppCompatSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+        android:entries="@array/expense_filter_array"
+        android:id="@+id/expense_filter_spinner"
+        android:layout_alignParentTop="true">
+    </android.support.v7.widget.AppCompatSpinner>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id = "@+id/account_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/expense_filter_spinner">
         <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id = "@+id/expanse_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
         </TableLayout>
     </ScrollView>
+
+
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_expense"

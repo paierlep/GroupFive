@@ -7,13 +7,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
@@ -25,8 +33,9 @@ import at.sw2017.nodinero.model.Expense_Table;
  * Created by karin on 4/14/17.
  */
 public class ExpenseOverviewFragment extends Fragment implements View.OnClickListener {
-    public final String TAG = "ExpenseOverviewFragment";
+    public static final String TAG = "ExpenseOverviewFragment";
     private int currentAccountId;
+    private Spinner filterSpinner;
 
     public static ExpenseOverviewFragment newInstance(int accountId) {
         Bundle args = new Bundle();
@@ -35,17 +44,33 @@ public class ExpenseOverviewFragment extends Fragment implements View.OnClickLis
         fragment.setArguments(args);
         return fragment;
     }
-
+    //public View view;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_expense_overview, container, false);
+        final View view = inflater.inflate(R.layout.fragment_expense_overview, container, false);
 
         currentAccountId = getArguments().getInt("accountId", 0);
         view.findViewById(R.id.add_expense).setOnClickListener(this);
 
+        filterSpinner = (Spinner)view.findViewById(R.id.expense_filter_spinner);
+
+        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                createOverviewTable(view);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
         Log.e(TAG, "my account: " + currentAccountId);
-        createOverviewTable(view);
+
+        //createOverviewTable(view);
 
         ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.expense_overview_title);
 
@@ -73,6 +98,40 @@ public class ExpenseOverviewFragment extends Fragment implements View.OnClickLis
     public void createOverviewTable(View view)
     {
         TableLayout expanse_table = (TableLayout) view.findViewById(R.id.expanse_list);
+        expanse_table.removeAllViews();
+
+        Calendar cal = Calendar.getInstance();
+
+        long expenseDate = 0, filterDate = 0;
+        long currentDate = cal.getTimeInMillis();
+
+        boolean filterAll = false;
+        switch (filterSpinner.getSelectedItemPosition())
+        {
+            default:
+                filterAll = true;
+                break;
+            case 1:
+                cal.add(Calendar.MONTH, -1);
+                break;
+            case 2:
+                cal.add(Calendar.MONTH, -3);
+                break;
+            case 3:
+                cal.add(Calendar.MONTH, -6);
+                break;
+            case 4:
+                cal.add(Calendar.YEAR, -1);
+                break;
+        }
+
+        SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat(getResources().getString(R.string.simple_date_format));
+        String filterDateString = simpleDateFormat.format(cal.getTime());
+        //Date filterDate = cal.getTime();
+
+
+        //DateFormat dateFormat = DateFormat.getDateInstance();
 
         for (final Expense expense : SQLite.select().from(Expense.class)
                 .where(Expense_Table.accountId_id.eq(currentAccountId)).queryList()) {
@@ -94,7 +153,22 @@ public class ExpenseOverviewFragment extends Fragment implements View.OnClickLis
 
                 }
             });
-            expanse_table.addView(row);
+
+
+            if(!filterAll) {
+                try {
+                    filterDate = simpleDateFormat.parse(filterDateString).getTime();
+                    expenseDate = simpleDateFormat.parse(expense.date).getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                //long filterDateLong = filterDate.getTime();
+                if ((expenseDate >= filterDate) && (expenseDate < currentDate)) {
+                    expanse_table.addView(row);
+                }
+            } else {
+                expanse_table.addView(row);
+            }
         }
     }
 }
