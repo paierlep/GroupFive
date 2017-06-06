@@ -1,11 +1,17 @@
 package at.sw2017.nodinero;
 
 import android.app.Activity;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -58,9 +64,29 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_overview);
-
         initDb();
         checkLocale();
+
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                boolean isfirstStart = getPrefs.getBoolean("firstStart", true);
+
+                if (isfirstStart) {
+                    startActivity(new Intent(NoDineroActivity.this,WelcomeActivity.class));
+                    SharedPreferences.Editor e = getPrefs.edit();
+                    e.putBoolean("firstStart",false);
+                    e.apply();
+                }
+
+            }
+        });
+
+        thread.start();
+
+        //FlowManager.getDatabase("Database").reset(getContext());
 
         toolbar = (Toolbar) findViewById(R.id.menu_bar);
 

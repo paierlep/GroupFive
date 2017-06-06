@@ -23,6 +23,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.format.DateUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,9 +45,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import at.sw2017.nodinero.NoDineroActivity;
 import at.sw2017.nodinero.R;
@@ -216,7 +222,8 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
         //Expense expense =  new Expense();
         expense.name = expenseName.getText().toString();
-        expense.date = expenseDate.toString();
+        //expense.date = expenseDate.toString();
+        expense.date = getDatePickerFormatedString();
         if (latLng != null) {
             expense.latitude = latLng.latitude;
             expense.longitude = latLng.longitude;
@@ -256,7 +263,8 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
         expense = new Expense();
         expense.name = expenseName.getText().toString();
-        expense.date = expenseDate.toString();
+        //expense.date = expenseDate.toString();
+        expense.date = getDatePickerFormatedString();
         expense.accountId = account;
 
         if (latLng != null) {
@@ -453,5 +461,23 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         );
         // Save a file: path for use with ACTION_VIEW intents
         return image;
+    }
+
+    private String getDatePickerFormatedString()
+    {
+        String finalDateTime = "";
+
+        int year = expenseDate.getYear();
+        int month = expenseDate.getMonth();
+        int day = expenseDate.getDayOfMonth();
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, day);
+
+        SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat(getResources().getString(R.string.simple_date_format));
+        finalDateTime = simpleDateFormat.format(cal.getTime());
+
+        return finalDateTime;
     }
 }
