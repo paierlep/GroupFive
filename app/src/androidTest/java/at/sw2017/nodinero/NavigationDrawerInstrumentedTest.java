@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.DrawerActions.open;
 import static android.support.test.espresso.contrib.DrawerMatchers.isClosed;
@@ -43,5 +45,20 @@ public class NavigationDrawerInstrumentedTest extends AbstractNoDineroInstrument
 
         onView(withText(R.string.template_overview)).perform(click());
         onView(withId(R.id.fragment_template_overview)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void checkIfUsernameisDisplayed(){
+        String profile_name = "test profile";
+
+        onView(withId(R.id.menu_profile)).perform(click());
+        onView(withId(R.id.profile_name)).perform(typeText(profile_name), closeSoftKeyboard());
+
+        onView(withId(R.id.button_save)).check(matches(isDisplayed())).perform(click());
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.START)))
+                .perform(open());
+        onView(withText(profile_name)).check(matches(isDisplayed()));
     }
 }
