@@ -31,10 +31,6 @@ import static org.hamcrest.core.AllOf.allOf;
 @RunWith(AndroidJUnit4.class)
 public class PasswordInstrumentTest extends AbstractNoDineroInstrumentedTest {
 
-    @Rule
-    public ActivityTestRule<NoDineroActivity> myActivityTestRule =
-            new ActivityTestRule<>(NoDineroActivity.class, true, false);
-
     @Test
     public void saveProfile() throws Exception {
         String password = "1234";

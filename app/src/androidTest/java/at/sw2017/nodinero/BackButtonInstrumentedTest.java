@@ -28,10 +28,6 @@ import static org.hamcrest.core.AllOf.allOf;
 @RunWith(AndroidJUnit4.class)
 public class BackButtonInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
-    @Rule
-    public ActivityTestRule activityTestRule =
-            new ActivityTestRule(NoDineroActivity.class, true, false);
-
     public void backButtonTemplateFunction(int buttonText, int newFragment, int targetFragment) {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.START)))
