@@ -83,10 +83,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         Profile.storeByName("currency", Integer.toString(currencySpinner.getSelectedItemPosition()));
         Profile.storeByName("language", Integer.toString(languageSpinner.getSelectedItemPosition()));
         Profile.storeByName("show_intro", Boolean.toString(showIntro.isChecked()));
+
+<<<<<<< HEAD
         ((NoDineroActivity) getActivity()).checkLocale();
         ((NoDineroActivity) getActivity()).setUsername();
         Toast.makeText(getActivity(), R.string.profile_saved, Toast.LENGTH_SHORT).show();
 
+=======
         boolean somethingIsChanged = false;
         somethingIsChanged = ((NoDineroActivity) getActivity()).checkLocale();
 
@@ -101,6 +104,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         if(somethingIsChanged) {
             ((NoDineroActivity) getActivity()).restartActivity();
         }
+>>>>>>> develop
     }
 
     private void fillData() {

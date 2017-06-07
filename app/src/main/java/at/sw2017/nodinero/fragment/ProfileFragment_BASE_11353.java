@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -75,7 +74,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void saveProfile() {
         Profile.storeByName("name", nameEditText.getText().toString());
-        String oldPw = Profile.getByName("password");
+
         if (passwordEditText.getText().length() > 0) {
             Profile.storeByName("password", passwordEditText.getText().toString());
         }
@@ -83,24 +82,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         Profile.storeByName("currency", Integer.toString(currencySpinner.getSelectedItemPosition()));
         Profile.storeByName("language", Integer.toString(languageSpinner.getSelectedItemPosition()));
         Profile.storeByName("show_intro", Boolean.toString(showIntro.isChecked()));
+
         ((NoDineroActivity) getActivity()).checkLocale();
-        ((NoDineroActivity) getActivity()).setUsername();
-        Toast.makeText(getActivity(), R.string.profile_saved, Toast.LENGTH_SHORT).show();
-
-        boolean somethingIsChanged = false;
-        somethingIsChanged = ((NoDineroActivity) getActivity()).checkLocale();
-
-        if(passwordEditText.length() > 0) {
-            if (oldPw == null) {
-                somethingIsChanged = true;
-            } else if (!oldPw.equals(passwordEditText.getText().toString())) {
-                somethingIsChanged = true;
-            }
-        }
-
-        if(somethingIsChanged) {
-            ((NoDineroActivity) getActivity()).restartActivity();
-        }
     }
 
     private void fillData() {

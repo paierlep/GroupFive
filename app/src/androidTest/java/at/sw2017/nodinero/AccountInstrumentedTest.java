@@ -102,8 +102,6 @@ public class AccountInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
     @Test
     public void addAccountAndBack() {
-
-
         onView(withId(R.id.add_account)).perform(click());
         onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
         String account_name = "account test";
