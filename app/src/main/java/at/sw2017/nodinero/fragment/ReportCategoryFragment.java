@@ -56,7 +56,7 @@ public class ReportCategoryFragment extends Fragment implements AdapterView.OnIt
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_report_categories, container, false);
 
-        dateFilter = (AppCompatSpinner)view.findViewById(R.id.date_filter_spinner);
+        dateFilter = (AppCompatSpinner)view.findViewById(R.id.date_filter_spinner_cat);
         dateFilter.setOnItemSelectedListener(this);
 
         spendingChart = (PieChart) view.findViewById(R.id.spendingsChart);

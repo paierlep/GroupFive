@@ -75,7 +75,7 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_report_accounts, container, false);
 
-        dateFilter = (AppCompatSpinner)view.findViewById(R.id.date_filter_spinner);
+        dateFilter = (AppCompatSpinner)view.findViewById(R.id.date_filter_spinner_acc);
         dateFilter.setOnItemSelectedListener(this);
 
         labels = new ArrayList<String>();

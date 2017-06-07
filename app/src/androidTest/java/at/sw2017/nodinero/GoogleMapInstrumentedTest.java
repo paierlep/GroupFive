@@ -117,4 +117,5 @@ public class GoogleMapInstrumentedTest extends AbstractNoDineroInstrumentedTest 
         UiObject marker = mDevice.findObject(selector);
         marker.click();
     }
+
 }

@@ -74,7 +74,6 @@ public class CategoryInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
         onView(withId(R.id.add_category)).perform(click());
 
-
         onView(withId(R.id.fragment_category_form)).check(matches(isDisplayed()));
 
         onView(withId(R.id.category_name)).check(matches(isDisplayed()));

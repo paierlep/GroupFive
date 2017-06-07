@@ -206,22 +206,4 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
             editTemplate();
         }
     }
-
-    public void loadContent(){
-
-    }
-
-    private int getSpinnerIndex(Spinner spinner, String myString)
-    {
-        int index = 0;
-
-        for (int i=0;i<spinner.getCount();i++){
-            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
-
 }

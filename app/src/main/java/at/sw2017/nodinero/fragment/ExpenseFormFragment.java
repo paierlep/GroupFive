@@ -151,9 +151,10 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         takePictureButton = (AppCompatButton) view.findViewById(R.id.button_image);
         takePictureButton.setOnClickListener(this);
         imageView = (ImageView) view.findViewById(R.id.imageview);
-        if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA)) {
-            takePictureButton.setEnabled(false);
-            requestPermissions(new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAM_PERM);
+        if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) ||
+                (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE))) {
+                takePictureButton.setEnabled(false);
+                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAM_PERM);
         } else {
             takePictureButton.setEnabled(true);
         }
@@ -231,6 +232,18 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.getGeolocationPermission();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == getActivity().RESULT_OK) {
+            if (requestCode == TAKE_PHOTO) {
+                displayImage("file://" + currentPhotoFile.getPath());
+            } else if (requestCode == SELECT_PICTURE) {
+                displayImage(data.getData().toString());
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void editExpense() {
@@ -448,11 +461,14 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
     private void takePhoto() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+        Log.e("TAG", "in takePhoto");
         if (takePictureIntent.resolveActivity(this.getContext().getPackageManager()) != null) {
+            Log.e("TAG", "in takePhoto 2");
             File photoFile = null;
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
+                ex.printStackTrace();
             }
 
             if (photoFile != null) {
@@ -498,6 +514,5 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
     }
 }
