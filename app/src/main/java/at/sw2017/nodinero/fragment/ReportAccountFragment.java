@@ -200,8 +200,7 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
                 break;
         }
         Calendar calNow = Calendar.getInstance();
-        SimpleDateFormat sdf =
-                new SimpleDateFormat(getResources().getString(R.string.simple_date_format));
+        SimpleDateFormat sdf = new SimpleDateFormat(getResources().getString(R.string.simple_date_format));
         String currentDate = sdf.format(calNow.getTime());
         String otherDate = sdf.format(cal.getTime());
 
@@ -209,20 +208,24 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
         ArrayList<BarEntry> entries = new ArrayList<>();
 
         for (int x = 0; x < accounts.size(); x++) {
-
+            int currentAccountID = accounts.get(x).id;
             /*
             String sql = SQLite.select(sum(Expense_Table.value).as("sum")).from(Expense.class).
                     where(Expense_Table.accountId_id.eq(accounts.get(x).id)).
                     and(Expense_Table.date.between(otherDate).and(currentDate)).getQuery();
-
-            Log.e("TAGSQL", "sql " + sql);
             */
 
             //Cursor query = SQLite.select(sum(Expense_Table.value).as("sum")).from(Expense.class).
             //        where(Expense_Table.accountId_id.eq(accounts.get(x).id)).query()
                     //and(Expense_Table.date.between(otherDate).and(currentDate)).query();
 
-            List<Expense> expList = SQLite.select().from(Expense.class).queryList();
+            float res = accounts.get(x).getExpensesBetween(currentDate, otherDate, sdf);
+
+            labels.add(accounts.get(x).name);
+            entries.add(new BarEntry(x, res));
+
+
+
             /*
             long am = SQLite.select(count(Expense_Table.accountId_id)).from(Expense.class).
                     where(Expense_Table.accountId_id.eq(accounts.get(x).id)).
@@ -244,13 +247,6 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
            //     query.close();
             //}
 
-            /*
-            if (ams != null && ams.size() > 0) {
-               for (Expense ex: ams) {
-                   Log.e("TAG", "========  " + ex.date + " " + ex.value);
-               }
-            }
-            */
         }
 
         drawData(entries);

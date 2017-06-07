@@ -21,6 +21,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/view_report"
+        android:icon="@drawable/ic_assessment_black_24dp"
         android:orderInCategory="100"
         android:title="@string/view_report"
         app:showAsAction="never" />
