@@ -74,7 +74,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void saveProfile() {
         Profile.storeByName("name", nameEditText.getText().toString());
-
+        String oldPw = Profile.getByName("password");
         if (passwordEditText.getText().length() > 0) {
             Profile.storeByName("password", passwordEditText.getText().toString());
         }
@@ -83,7 +83,20 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         Profile.storeByName("language", Integer.toString(languageSpinner.getSelectedItemPosition()));
         Profile.storeByName("show_intro", Boolean.toString(showIntro.isChecked()));
 
-        ((NoDineroActivity) getActivity()).checkLocale();
+        boolean somethingIsChanged = false;
+        somethingIsChanged = ((NoDineroActivity) getActivity()).checkLocale();
+
+        if(passwordEditText.length() > 0) {
+            if (oldPw == null) {
+                somethingIsChanged = true;
+            } else if (!oldPw.equals(passwordEditText.getText().toString())) {
+                somethingIsChanged = true;
+            }
+        }
+
+        if(somethingIsChanged) {
+            ((NoDineroActivity) getActivity()).restartActivity();
+        }
     }
 
     private void fillData() {
