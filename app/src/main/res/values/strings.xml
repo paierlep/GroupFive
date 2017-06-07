@@ -85,4 +85,13 @@
     <string name="report_account">Account</string>
     <string name="report_category">Category</string>
     <string name="report_other">Other</string>
+
+
+    <string-array name="expense_filter_array">
+        <item>all</item>
+        <item>last 1 month</item>
+        <item>last 3 months</item>
+        <item>last 6 months</item>
+        <item>1 year</item>
+    </string-array>
 </resources>

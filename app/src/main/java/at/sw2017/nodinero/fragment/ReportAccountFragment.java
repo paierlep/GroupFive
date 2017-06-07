@@ -1,5 +1,6 @@
 package at.sw2017.nodinero.fragment;
 
+import android.database.Cursor;
 import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
@@ -7,9 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatSpinner;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -31,24 +35,32 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import at.sw2017.nodinero.R;
 import at.sw2017.nodinero.model.Account;
+import at.sw2017.nodinero.model.Account_Table;
+import at.sw2017.nodinero.model.Expense;
+import at.sw2017.nodinero.model.Expense_Table;
+
+import static com.raizlabs.android.dbflow.sql.language.Method.sum;
 
 /**
  * Created by karin on 4/14/17.
  */
 
-public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
+public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBarChangeListener, AdapterView.OnItemSelectedListener {
 
     private TextView textView;
     private SeekBar seekBar;
     private LineChart lineChart;
     private BarChart barChart;
     private List<String> labels;
+
+    private AppCompatSpinner dateFilter;
 
     public static ReportAccountFragment newInstance() {
         Bundle args = new Bundle();
@@ -62,6 +74,8 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_report_accounts, container, false);
 
+        dateFilter = (AppCompatSpinner)view.findViewById(R.id.date_filter_spinner);
+        dateFilter.setOnItemSelectedListener(this);
 
         labels = new ArrayList<String>();
 
@@ -90,7 +104,6 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
 
         // add data
         setData();
-        barChart.invalidate();
 
         // get the legend (only possible after setting data)
         Legend l = barChart.getLegend();
@@ -134,8 +147,10 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
             labels.add(accounts.get(x).name);
             entries.add(new BarEntry(x, accounts.get(x).getBalance())); // add one entry per hour
         }
+        drawData(entries);
+    }
 
-        // create a dataset and give it a type
+    private void drawData(List<BarEntry> entries) {
         BarDataSet barSet = new BarDataSet(entries, "DataSet 1");
         barSet.setColors(ColorTemplate.COLORFUL_COLORS);
         BarData data = new BarData(barSet);
@@ -145,11 +160,8 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
 
         barChart.setData(data);
         barChart.setFitBars(false);
-    }
-
-
-    protected float getRandom(float range, float startsfrom) {
-        return (float) (Math.random() * range) + startsfrom;
+        barChart.notifyDataSetChanged();
+        barChart.invalidate();
     }
 
     @Override
@@ -164,6 +176,56 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        int filter = dateFilter.getSelectedItemPosition();
+        Calendar cal = Calendar.getInstance();
+        switch (filter) {
+            default:
+            case 0:
+                setData();
+                return;
+            case 1:
+                cal.add(Calendar.MONTH, -1);
+                break;
+            case 2:
+                cal.add(Calendar.MONTH, -3);
+                break;
+            case 3:
+                cal.add(Calendar.MONTH, -6);
+                break;
+            case 4:
+                cal.add(Calendar.YEAR, -1);
+                return;
+        }
+
+        List<Account> accounts = SQLite.select().from(Account.class).queryList();
+        ArrayList<BarEntry> entries = new ArrayList<>();
+
+        for (int x = 0; x < accounts.size(); x++) {
+
+            Cursor query = SQLite.select(sum(Expense_Table.value).as("sum")).from(Expense.class).
+                    where(Expense_Table.accountId_id.eq(accounts.get(x).id)).
+                    and(Expense_Table.date.between(new Date().toString()).and(cal)).query();
+
+            if (query != null && query.moveToFirst()) {
+
+                float amount = query.getFloat(0);
+
+                labels.add(accounts.get(x).name);
+                entries.add(new BarEntry(x, amount));
+                query.close();
+            }
+        }
+
+        drawData(entries);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }
