@@ -8,6 +8,7 @@ import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.AppCompatSpinner;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -178,7 +179,7 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
     }
 
     @Test
-    public void addExpenseCancel() {
+    public void addExpenseCancel() throws Exception {
 
         String account_name = "test";
         setUpAccount(account_name);
