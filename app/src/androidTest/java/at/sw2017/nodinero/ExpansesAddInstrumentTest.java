@@ -145,8 +145,6 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withText(R.string.account_overview)).perform(click());
 
         onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
-
-        //TODO check account form
     }
 
     @Test
@@ -177,8 +175,6 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(withId(R.id.button_save_back)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
         onView(withId(R.id.fragment_expense_overview)).check(matches(isDisplayed()));
-
-        //TODO check account form
     }
 
     @Test
@@ -223,7 +219,6 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.fragment_expense_add)).check(matches(isDisplayed()));
 
         String expense_name = "very important expense";
-        //TODO other fields
         onView(withId(R.id.expense_name)).perform(typeText(expense_name), closeSoftKeyboard());
         //onView(withId(R.id.button_save_back)).check(matches(isDisplayed())).perform(click());
         onView(withId(R.id.button_save_back)).perform(scrollTo()).check(matches(isDisplayed())).perform(click());
@@ -234,7 +229,7 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
     }
 
     @Test
-    public void ExpenseFilterDetail() {
+    public void ExpenseFilterDetail() throws Exception {
 
         String account_name = "test acoount";
         String[] expense_name = {"todays expense",
@@ -250,6 +245,7 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         int day = cal.get(cal.DAY_OF_MONTH);
 
         setUpAccount(account_name);
+
 
         //String[] filterArray = R.array.expense_filter_array;
         onView(withText(account_name)).check(matches(isDisplayed())).perform(click());
@@ -271,7 +267,6 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
 
         onView(withId(R.id.expense_name)).perform(clearText(), typeText(expense_name[2]), closeSoftKeyboard());
-
 
         onView(withId(R.id.expense_date_picker))
                 .perform(PickerActions.setDate(year, month - 2, day));

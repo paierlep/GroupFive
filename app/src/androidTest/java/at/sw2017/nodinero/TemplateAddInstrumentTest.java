@@ -72,7 +72,6 @@ public class TemplateAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withId(R.id.fragment_template_add)).check(matches(isDisplayed()));
 
         onView(withId(R.id.expense_account_type_spinner)).check(matches(isDisplayed()));
-        //TODO onView(withId(R.id.expense_category_spinner)).check(matches(isDisplayed()));
 
         onView(withId(R.id.expense_name)).check(matches(isDisplayed()));
         onView(withId(R.id.expense_value)).check(matches(isDisplayed()));

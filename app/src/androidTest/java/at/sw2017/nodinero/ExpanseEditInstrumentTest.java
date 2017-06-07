@@ -55,12 +55,8 @@ public class ExpanseEditInstrumentTest extends AbstractNoDineroInstrumentedTest 
 
         onView(withText(expense_name)).check(matches(isDisplayed())).perform(click());
 
-        //check predefined text
         onView(withText(expense_name)).check(matches(isDisplayed()));
         onView(withText(expense_value)).check(matches(isDisplayed()));
-
-        //TODO category is not implemented
-        //onView(withText(expense_cat)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -98,9 +94,6 @@ public class ExpanseEditInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withText(expense_name)).check(matches(isDisplayed()));
         onView(withText(expense_value)).check(matches(isDisplayed()));
 
-        //TODO category is not implemented
-        //onView(withText(expense_cat)).check(matches(isDisplayed()));
-
         String expense_name_new = "most important expense";
         String expense_value_new = "150.0";
         String expense_cat_new = "wuff";
@@ -118,7 +111,5 @@ public class ExpanseEditInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withText(expense_name)).check(doesNotExist());
         onView(withText(expense_name_new)).check(matches(isDisplayed()));
         onView(withText(expense_value_new)).check(matches(isDisplayed()));
-        //TODO category
-        //TODO photo
     }
 }
