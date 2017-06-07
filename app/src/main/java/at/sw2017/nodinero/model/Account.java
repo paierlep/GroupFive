@@ -88,7 +88,7 @@ public class Account extends BaseModel {
                 e.printStackTrace();
             }
 
-            if((date >= filterDate2) && (date < filterDate)) {
+            if((date >= filterDate2) && (date <= filterDate)) {
                 res += (float) exp.value;
             }
         }
