@@ -26,6 +26,14 @@ public class ReportInstrumentedTest extends AbstractNoDineroInstrumentedTest {
 
     @Test
     public void checkifExists() throws Exception {
+
+        onView(withId(R.id.add_account)).perform(click());
+        onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
+        String account_name = "account test";
+        onView(withId(R.id.account_name))
+                .perform(typeText(account_name), closeSoftKeyboard());
+        onView(allOf(withId(R.id.button_save_back), isDisplayed())).perform(click());
+
         onView(withId(R.id.drawer_layout))
                     .check(matches(isClosed(Gravity.START)))
                     .perform(open());
