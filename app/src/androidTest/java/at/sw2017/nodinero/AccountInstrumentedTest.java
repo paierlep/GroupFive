@@ -80,9 +80,6 @@ public class AccountInstrumentedTest extends AbstractNoDineroInstrumentedTest {
         onView(allOf(withId(R.id.button_save_back), isDisplayed())).perform(click());
         onView(withId(R.id.fragment_account_form)).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.button_cancel), isDisplayed())).perform(click());
-        //
-
-        // TODO: 31.05.2017
     }
 
 

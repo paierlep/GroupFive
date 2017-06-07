@@ -322,9 +322,5 @@ public class ExpansesAddInstrumentTest extends AbstractNoDineroInstrumentedTest 
         onView(withText(expense_name[1])).check(matches(isDisplayed()));
         onView(withText(expense_name[2])).check(matches(isDisplayed()));
         onView(withText(expense_name[3])).check(matches(isDisplayed()));
-
-
-
-
     }
 }

@@ -61,19 +61,19 @@
         <item>letzten 6 Monate</item>
         <item>letztes Jahr</item>
     </string-array>
-    <string name="TextIntro1" translatable="false">Mit NoDinero wird das Erfassen von Einnahmen und Ausgaben einfach!</string>
-    <string name="TextIntro2" translatable="false">Bitte erstellen Sie als erstes ein Konto.</string>
-    <string name="TextIntro3" translatable="false">Für immer wiederkehrende Ausgaben können sie Vorlagen und Button erstellen</string>
-    <string name="error_no_login" translatable="false">Login nicht möglich: falsches oder kein Passwort</string>
-    <string name="login" translatable="false">Login</string>
-    <string name="report_account" translatable="false">Konto</string>
-    <string name="report_category" translatable="false">Kategorie</string>
+    <string name="TextIntro1" >Mit NoDinero wird das Erfassen von Einnahmen und Ausgaben einfach!</string>
+    <string name="TextIntro2" >Bitte erstellen Sie als erstes ein Konto.</string>
+    <string name="TextIntro3" >Für immer wiederkehrende Ausgaben können sie Vorlagen und Button erstellen</string>
+    <string name="error_no_login" >Login nicht möglich: falsches oder kein Passwort</string>
+    <string name="login" >Login</string>
+    <string name="report_account" >Konto Statistik</string>
+    <string name="report_category" >Kategorie Statistik</string>
     <string name="profile_saved">Benutzerprofil gespeichert</string>
-    <string name="report_other" translatable="false">Diverses</string>
-    <string name="title_activity_welcome" translatable="false">Willkommen bei NoDinero!</string>
-    <string name="title_activity_welcome2" translatable="false">Konto erstellen</string>
-    <string name="title_activity_welcome3" translatable="false">Schnellerfassen mittels Templates</string>
-    <string name="view_report" translatable="false">Statistiken</string>
+    <string name="report_other" >Diverses</string>
+    <string name="title_activity_welcome" >Willkommen bei NoDinero!</string>
+    <string name="title_activity_welcome2" >Konto erstellen</string>
+    <string name="title_activity_welcome3" >Schnellerfassen mittels Templates</string>
+    <string name="view_report" >Statistiken</string>
     <string name="title_activity_welcome4">Kategorien und Statistiken</string>
     <string name="TextIntro4">Ausgaben können mittels Kategorien versehen werden, was die Übersicht in den Statistiken verbessert.</string>
 
