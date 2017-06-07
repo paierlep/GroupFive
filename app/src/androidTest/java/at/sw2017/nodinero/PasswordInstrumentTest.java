@@ -4,11 +4,16 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.Gravity;
 
+import com.raizlabs.android.dbflow.config.FlowManager;
+
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
+
+import at.sw2017.nodinero.model.Database;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -31,6 +36,12 @@ import static org.hamcrest.core.AllOf.allOf;
 @RunWith(AndroidJUnit4.class)
 public class PasswordInstrumentTest extends AbstractNoDineroInstrumentedTest {
 
+    @Override
+    public void tearDown() throws Exception {
+        FlowManager.getDatabase(Database.class).reset(mActivityTestRule.getActivity());
+        FlowManager.destroy();
+    }
+
     @Test
     public void saveProfile() throws Exception {
         String password = "1234";
@@ -38,7 +49,7 @@ public class PasswordInstrumentTest extends AbstractNoDineroInstrumentedTest {
         onView(withId(R.id.profile_password)).perform(typeText(password), closeSoftKeyboard());
         onView(withId(R.id.button_save)).check(matches(isDisplayed())).perform(click());
 
-        pressBack();
+        //pressBack();
 
         onView(withText(R.string.login));
         onView(withId(R.id.password)).perform(typeText(password), closeSoftKeyboard());

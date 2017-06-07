@@ -94,6 +94,7 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
             loadPasswordFragment();
             return;
         }
+
         //FlowManager.getDatabase("Database").reset(getContext());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -180,10 +181,19 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         getSupportFragmentManager().executePendingTransactions();
 
         int amount = getSupportFragmentManager().getBackStackEntryCount();
-        Log.e(TAG, "current back support: " + amount);
+        Log.e(TAG, "current back support: " + amount + " || " + tag);
     }
 
     Deque<String> backStack = new ArrayDeque<String>();
+
+    private void clearBackStack()
+    {
+        while(!backStack.isEmpty())
+        {
+            backStack.pop();
+            getSupportFragmentManager().popBackStackImmediate();
+        }
+    }
 
     private void addToStackTree(String tag)
     {
@@ -205,9 +215,6 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
             getSupportFragmentManager().popBackStackImmediate();
             backStack.pop();
         }
-
-
-
         backStack.push(tag);
     }
 
@@ -283,12 +290,12 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    public void checkLocale() {
+    public boolean checkLocale() {
 
         String userLanguage = Profile.getByName("language");
 
         if (userLanguage == null || userLanguage.length() == 0) {
-            return;
+            return false;
         }
 
         String currentLang = getResources().getConfiguration().locale.getLanguage();
@@ -297,7 +304,9 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
 
         if (!currentLang.equals(new Locale(language).getLanguage())) {
             setLocale(language);
+            return true;
         }
+        return false;
     }
 
     private void setLocale(String lang) {
@@ -314,14 +323,22 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         getBaseContext().getResources().updateConfiguration(configuration,
                 getBaseContext().getResources().getDisplayMetrics());
 
+        /*Intent refresh = new Intent(this, NoDineroActivity.class);
+        startActivity(refresh);
+        finish();*/
+        //restartActivity();
+    }
+
+    public void restartActivity()
+    {
         Intent refresh = new Intent(this, NoDineroActivity.class);
         startActivity(refresh);
         finish();
     }
-
     public void setIsLoggedIn() {
         this.loggedIn = true;
 
+        clearBackStack();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         navigation = (NavigationView) findViewById(R.id.nav_view);

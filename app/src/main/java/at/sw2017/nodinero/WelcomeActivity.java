@@ -39,7 +39,7 @@ public class WelcomeActivity extends AppIntro {
 
     @Override
     public void onDonePressed(){
-        startActivity(new Intent(this, NoDineroActivity.class));
+        //startActivity(new Intent(this, NoDineroActivity.class));
         finish();
     }
 
