@@ -119,8 +119,11 @@ public class TemplateFormFragment extends Fragment implements View.OnClickListen
             templateAccount.setSelection(accountAdapter.getPos(t2.accountId.id));
             ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.template_edit_title);
 
-            templateCategory.setSelection(categoryAdapter.getPos(t2.categoryId.id));
-            Log.e(TAG, "FOUND CATEGORY " + categoryAdapter.getPos(t2.categoryId.id));
+            if (t2.categoryId != null) {
+                templateCategory.setSelection(categoryAdapter.getPos(t2.categoryId.id));
+                Log.e(TAG, "FOUND CATEGORY " + categoryAdapter.getPos(t2.categoryId.id));
+
+            }
 
 
         }

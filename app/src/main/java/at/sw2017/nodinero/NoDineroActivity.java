@@ -1,11 +1,23 @@
 package at.sw2017.nodinero;
 
 import android.app.Activity;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,10 +27,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Locale;
+
 
 import at.sw2017.nodinero.fragment.AccountFormFragment;
 import at.sw2017.nodinero.fragment.AccountOverviewFragment;
@@ -29,11 +45,13 @@ import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
 import at.sw2017.nodinero.fragment.MapFragment;
 import at.sw2017.nodinero.fragment.ReportFragment;
 import at.sw2017.nodinero.fragment.SettingsFragment;
+import at.sw2017.nodinero.fragment.PasswordFragment;
+import at.sw2017.nodinero.fragment.ProfileFragment;
+>>>>>>> develop
 import at.sw2017.nodinero.fragment.TemplateFormFragment;
 import at.sw2017.nodinero.fragment.TemplateOverviewFragment;
 import at.sw2017.nodinero.model.Database;
-
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+import at.sw2017.nodinero.model.Profile;
 
 public class NoDineroActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public final String TAG = "NoDineroActivity";
@@ -42,13 +60,43 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     private Toolbar toolbar;
     private DrawerLayout mDrawerLayout;
 
+    private boolean loggedIn = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_overview);
-
         initDb();
+        checkLocale();
 
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                boolean isfirstStart = getPrefs.getBoolean("firstStart", true);
+
+                if (isfirstStart) {
+                    startActivity(new Intent(NoDineroActivity.this,WelcomeActivity.class));
+                    SharedPreferences.Editor e = getPrefs.edit();
+                    e.putBoolean("firstStart",false);
+                    e.apply();
+                }
+
+            }
+        });
+
+        thread.start();
+
+        //FlowManager.getDatabase("Database").reset(getContext());
+
+        toolbar = (Toolbar) findViewById(R.id.menu_bar);
+
+        String password = Profile.getByName("password");
+        if (!loggedIn && password != null && password.length() > 0) {
+            loadPasswordFragment();
+            return;
+        }
         //FlowManager.getDatabase("Database").reset(getContext());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -56,7 +104,6 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         navigation = (NavigationView) findViewById(R.id.nav_view);
         navigation.setNavigationItemSelectedListener(this);
 
-        toolbar = (Toolbar) findViewById(R.id.menu_bar);
         setSupportActionBar(toolbar);
 
         loadAccountOverviewFragment();
@@ -103,17 +150,14 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
                 loadCategoryOverviewFragment();
                 break;
             //toolbar
-            case R.id.menu_settings:
-                loadSettingsFragment();
+            case R.id.menu_profile:
+                loadProfileFragment();
                 break;
             case R.id.account_overview:
                 loadAccountOverviewFragment();
                 break;
             case R.id.template_overview:
                 loadTemplateOverviewFragment();
-                break;
-            case R.id.menu_profile:
-                Toast.makeText(this, "not implemented yet!", Toast.LENGTH_LONG).show();
                 break;
             default:
                 return false;
@@ -123,15 +167,20 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
 
     private void loadFragment(Fragment fragment) {
-        loadFragment(fragment, "no-history");
+        loadFragment(fragment, getResources().getString(R.string.no_back_stack));
     }
 
-    private void loadFragment(Fragment fragment, String history) {
+    private void loadFragment(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         fragmentTransaction.replace(R.id.main_content, fragment);
-        fragmentTransaction.addToBackStack(history);
+
+        //if(!tag.equals(getResources().getString(R.string.no_back_stack))) {
+            addToStackTree(tag);
+        //}
+
+        fragmentTransaction.addToBackStack(tag);
 
         fragmentTransaction.commit();
         getSupportFragmentManager().executePendingTransactions();
@@ -140,16 +189,45 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
         Log.e(TAG, "current back support: " + amount);
     }
 
-    public void loadSettingsFragment() {
-        loadFragment(SettingsFragment.newInstance());
+    Deque<String> backStack = new ArrayDeque<String>();
+
+    private void addToStackTree(String tag)
+    {
+        //first entry
+        if(backStack.isEmpty() && tag.equals(AccountOverviewFragment.TAG))
+        {
+            backStack.push(tag);
+            return;
+        }
+
+        if(backStack.peek().equals(getResources().getString(R.string.no_back_stack)))
+        {
+            getSupportFragmentManager().popBackStackImmediate();
+            backStack.pop();
+        }
+
+        if(backStack.peek().equals(tag))
+        {
+            getSupportFragmentManager().popBackStackImmediate();
+            backStack.pop();
+        }
+
+
+
+        backStack.push(tag);
+    }
+
+
+    public void loadProfileFragment() {
+        loadFragment(ProfileFragment.newInstance(), ProfileFragment.TAG);
     }
 
     public void loadAccountOverviewFragment() {
-        loadFragment(AccountOverviewFragment.newInstance(), "history");
+        loadFragment(AccountOverviewFragment.newInstance(), AccountOverviewFragment.TAG);
     }
 
     public void loadCategoryOverviewFragment() {
-        loadFragment(CategoryOverviewFragment.newInstance());
+        loadFragment(CategoryOverviewFragment.newInstance(), CategoryOverviewFragment.TAG);
     }
 
     public void loadTemplateFormFragment() {
@@ -167,10 +245,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     public void loadCategoryFormFragment() {loadFragment(CategoryFormFragment.newInstance()); }
 
     public void loadExpensesOverviewFragment(int accountId) {
-        loadFragment(ExpenseOverviewFragment.newInstance(accountId), "history");
+        loadFragment(ExpenseOverviewFragment.newInstance(accountId), ExpenseOverviewFragment.TAG);
     }
     public void loadTemplateOverviewFragment() {
-        loadFragment(TemplateOverviewFragment.newInstance(), "history");
+        loadFragment(TemplateOverviewFragment.newInstance(), TemplateOverviewFragment.TAG);
     }
     public void loadExpensesFormFragment(int accountId) {
         loadFragment(ExpenseFormFragment.newInstance(accountId));
@@ -184,6 +262,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
 
     public void loadReportFragment() {
         loadFragment(ReportFragment.newInstance());
+    }
+
+    public void loadPasswordFragment() {
+        loadFragment(PasswordFragment.newInstance());
     }
 
     public static void hideKeyboard(Activity activity) {
@@ -200,15 +282,64 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     public void onBackPressed() {
         Log.e (TAG, getSupportFragmentManager().getBackStackEntryCount() + "");
 
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            if(getSupportFragmentManager().getBackStackEntryAt(0).getName().equals("history")) {
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.START))
+        {
+            mDrawerLayout.closeDrawers();
+        } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
                 getSupportFragmentManager().popBackStackImmediate();
-                getSupportFragmentManager().popBackStackImmediate("history", 0);
-            } else {
-                getSupportFragmentManager().popBackStackImmediate("history", 0);
-            }
+                backStack.pop();
         } else {
             finish();
         }
+    }
+
+    public void checkLocale() {
+
+        String userLanguage = Profile.getByName("language");
+
+        if (userLanguage == null || userLanguage.length() == 0) {
+            return;
+        }
+
+        String currentLang = getResources().getConfiguration().locale.getLanguage();
+        String[] languages = getResources().getStringArray(R.array.languages_short);
+        String language = languages[Integer.parseInt(userLanguage)];
+
+        if (!currentLang.equals(new Locale(language).getLanguage())) {
+            setLocale(language);
+        }
+    }
+
+    private void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+
+        Resources resources = getBaseContext().getResources();
+
+        Configuration configuration = resources.getConfiguration();
+        configuration.locale = locale;
+
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+
+        getBaseContext().getResources().updateConfiguration(configuration,
+                getBaseContext().getResources().getDisplayMetrics());
+
+        Intent refresh = new Intent(this, NoDineroActivity.class);
+        startActivity(refresh);
+        finish();
+    }
+
+    public void setIsLoggedIn() {
+        this.loggedIn = true;
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        navigation = (NavigationView) findViewById(R.id.nav_view);
+        navigation.setNavigationItemSelectedListener(this);
+
+        toolbar = (Toolbar) findViewById(R.id.menu_bar);
+        setSupportActionBar(toolbar);
+
+        loadAccountOverviewFragment();
     }
 }

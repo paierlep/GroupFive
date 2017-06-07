@@ -7,9 +7,4 @@
         android:title="@string/menu_profile"
         android:icon="@drawable/ic_account_circle"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/menu_settings"
-        android:title="@string/menu_settings"
-        app:showAsAction="always" />
 </menu>

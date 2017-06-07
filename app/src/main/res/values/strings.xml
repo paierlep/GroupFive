@@ -86,7 +86,6 @@
     <string name="report_category">Category</string>
     <string name="report_other">Other</string>
 
-
     <string-array name="expense_filter_array">
         <item>all</item>
         <item>last 1 month</item>
@@ -94,4 +93,39 @@
         <item>last 6 months</item>
         <item>1 year</item>
     </string-array>
+
+    <!-- HelperS Strings -->
+    <string name="no_back_stack">noBackStack</string>
+    <string name="simple_date_format">MM-dd-yyyy</string>
+
+    <!-- Profile -->
+    <string name="profile_name">Name</string>
+    <string name="profile_default_language">Language</string>
+    <string name="profile_default_currency">Currency</string>
+    <string name="profile_intro">Show Intro</string>
+    <string name="profile_password">Password</string>
+
+    <!-- Login Page -->
+    <string name="login">Login</string>
+    <string name="error_no_login">Login not possible: wrong or no password</string>
+    <string name="password_protected">Password Protected</string>
+
+    <string-array name="languages">
+        <item>English</item>
+        <item>German</item>
+    </string-array>
+
+    <string-array name="languages_short">
+        <item>en</item>
+        <item>de</item>
+    </string-array>
+
+    <!-- Intro slider -->
+    <string name="TextIntro1">With NoDinero you can track your earnings and spendings as easy as possible!</string>
+
+    <string name="title_activity_welcome2">Create Account</string>
+    <string name="TextIntro2">Please create your first account, and start tracking your earnings and spendings</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+
+>>>>>>> develop
 </resources>
