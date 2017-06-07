@@ -44,6 +44,7 @@ import at.sw2017.nodinero.fragment.CategoryOverviewFragment;
 import at.sw2017.nodinero.fragment.ExpenseFormFragment;
 import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
 import at.sw2017.nodinero.fragment.MapFragment;
+import at.sw2017.nodinero.fragment.ReportFragment;
 import at.sw2017.nodinero.fragment.PasswordFragment;
 import at.sw2017.nodinero.fragment.ProfileFragment;
 import at.sw2017.nodinero.fragment.TemplateFormFragment;
@@ -142,6 +143,9 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
             //Side menu
             case R.id.view_map:
                 loadMapFragment();
+                break;
+            case R.id.view_report:
+                loadReportFragment();
                 break;
             case R.id.category_overview:
                 loadCategoryOverviewFragment();
@@ -261,6 +265,10 @@ public class NoDineroActivity extends AppCompatActivity implements NavigationVie
     }
     public void loadMapFragment() {
         loadFragment(MapFragment.newInstance());
+    }
+
+    public void loadReportFragment() {
+        loadFragment(ReportFragment.newInstance());
     }
 
     public void loadPasswordFragment() {
