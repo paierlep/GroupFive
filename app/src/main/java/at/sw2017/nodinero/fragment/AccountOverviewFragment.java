@@ -57,7 +57,6 @@ public class AccountOverviewFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        //TODO better swipe ui for delete button
         if (v.getId() == R.id.overview_table_row) {
             ((NoDineroActivity) getActivity()).loadExpensesOverviewFragment((int)v.getTag());
         } else if (v.getId() == R.id.overview_delete)

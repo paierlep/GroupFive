@@ -72,13 +72,8 @@ public class ExpenseOverviewFragment extends Fragment implements View.OnClickLis
 
         Log.e(TAG, "my account: " + currentAccountId);
 
-        //createOverviewTable(view);
-
         ((NoDineroActivity)getActivity()).setToolbarTitle(R.string.expense_overview_title);
 
-        //TODO get account from database
-        //redirect to account overview if account id does not exist
-        //create table of the expenses
         return view;
     }
 
@@ -161,8 +156,6 @@ public class ExpenseOverviewFragment extends Fragment implements View.OnClickLis
             row.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    //Toast toast = Toast.makeText(getApplicationContext(), "Tabele row clicked "+ Integer.toString(v.getId()) , Toast.LENGTH_LONG);
                     ((NoDineroActivity) getActivity()).loadExpensesFormFragment(currentAccountId, expense.id);
 
                 }

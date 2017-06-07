@@ -50,7 +50,6 @@ public class CategoryOverviewFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        //TODO better swipe ui for delete button
         if (v.getId() == R.id.overview_category_table_row) {
             ((NoDineroActivity) getActivity()).loadCategoryOverviewFragment();
         } else if (v.getId() == R.id.overview_category_delete) {
