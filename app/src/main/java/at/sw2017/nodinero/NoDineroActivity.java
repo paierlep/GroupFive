@@ -44,10 +44,8 @@ import at.sw2017.nodinero.fragment.ExpenseFormFragment;
 import at.sw2017.nodinero.fragment.ExpenseOverviewFragment;
 import at.sw2017.nodinero.fragment.MapFragment;
 import at.sw2017.nodinero.fragment.ReportFragment;
-import at.sw2017.nodinero.fragment.SettingsFragment;
 import at.sw2017.nodinero.fragment.PasswordFragment;
 import at.sw2017.nodinero.fragment.ProfileFragment;
->>>>>>> develop
 import at.sw2017.nodinero.fragment.TemplateFormFragment;
 import at.sw2017.nodinero.fragment.TemplateOverviewFragment;
 import at.sw2017.nodinero.model.Database;

@@ -2,7 +2,6 @@ package at.sw2017.nodinero.fragment;
 
 import android.database.Cursor;
 import android.graphics.Color;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -34,6 +33,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,6 +46,7 @@ import at.sw2017.nodinero.model.Account_Table;
 import at.sw2017.nodinero.model.Expense;
 import at.sw2017.nodinero.model.Expense_Table;
 
+import static com.raizlabs.android.dbflow.sql.language.Method.count;
 import static com.raizlabs.android.dbflow.sql.language.Method.sum;
 
 /**
@@ -132,9 +133,6 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
         yAxis.setDrawZeroLine(true);
         barChart.getAxisLeft().setEnabled(false);
 
-
-
-
         return view;
     }
 
@@ -199,26 +197,60 @@ public class ReportAccountFragment extends Fragment implements SeekBar.OnSeekBar
                 break;
             case 4:
                 cal.add(Calendar.YEAR, -1);
-                return;
+                break;
         }
+        Calendar calNow = Calendar.getInstance();
+        SimpleDateFormat sdf =
+                new SimpleDateFormat(getResources().getString(R.string.simple_date_format));
+        String currentDate = sdf.format(calNow.getTime());
+        String otherDate = sdf.format(cal.getTime());
 
         List<Account> accounts = SQLite.select().from(Account.class).queryList();
         ArrayList<BarEntry> entries = new ArrayList<>();
 
         for (int x = 0; x < accounts.size(); x++) {
 
-            Cursor query = SQLite.select(sum(Expense_Table.value).as("sum")).from(Expense.class).
+            /*
+            String sql = SQLite.select(sum(Expense_Table.value).as("sum")).from(Expense.class).
                     where(Expense_Table.accountId_id.eq(accounts.get(x).id)).
-                    and(Expense_Table.date.between(new Date().toString()).and(cal)).query();
+                    and(Expense_Table.date.between(otherDate).and(currentDate)).getQuery();
 
-            if (query != null && query.moveToFirst()) {
+            Log.e("TAGSQL", "sql " + sql);
+            */
 
-                float amount = query.getFloat(0);
+            //Cursor query = SQLite.select(sum(Expense_Table.value).as("sum")).from(Expense.class).
+            //        where(Expense_Table.accountId_id.eq(accounts.get(x).id)).query()
+                    //and(Expense_Table.date.between(otherDate).and(currentDate)).query();
 
-                labels.add(accounts.get(x).name);
-                entries.add(new BarEntry(x, amount));
-                query.close();
+            List<Expense> expList = SQLite.select().from(Expense.class).queryList();
+            /*
+            long am = SQLite.select(count(Expense_Table.accountId_id)).from(Expense.class).
+                    where(Expense_Table.accountId_id.eq(accounts.get(x).id)).
+                    and(Expense_Table.date.between(otherDate).and(currentDate)).count();
+
+            Log.e("TAGSQL", "sql " + am);
+
+            List<Expense> ams = SQLite.select().from(Expense.class).
+                    where(Expense_Table.date.between(otherDate).and(currentDate)).
+                    queryList();
+            */
+
+            //if (query != null && query.moveToFirst()) {
+
+            //    float amount = query.getFloat(0);
+
+           //     labels.add(accounts.get(x).name);
+           //     entries.add(new BarEntry(x, amount));
+           //     query.close();
+            //}
+
+            /*
+            if (ams != null && ams.size() > 0) {
+               for (Expense ex: ams) {
+                   Log.e("TAG", "========  " + ex.date + " " + ex.value);
+               }
             }
+            */
         }
 
         drawData(entries);

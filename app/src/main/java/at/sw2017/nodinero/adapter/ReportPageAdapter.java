@@ -30,8 +30,8 @@ public class ReportPageAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 1:
                 return categoryReport();
-            case 2:
-                return categoryReport();
+            //case 2:
+            //    return categoryReport();
             case 0:
             default:
                 return accountReport();
@@ -48,7 +48,7 @@ public class ReportPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override
@@ -58,9 +58,9 @@ public class ReportPageAdapter extends FragmentStatePagerAdapter {
             case 1:
                 stringId = R.string.report_category;
                 break;
-            case 2:
-                stringId = R.string.report_other;
-                break;
+            //case 2:
+            //    stringId = R.string.report_other;
+            //    break;
             case 0:
             default:
                 stringId = R.string.report_account;

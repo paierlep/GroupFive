@@ -9,9 +9,9 @@
 
 
     <android.support.v7.widget.AppCompatSpinner
-        android:id="@+id/expense_filter_spinner"
+        android:id="@+id/date_filter_spinner"
         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="0dp"
@@ -22,7 +22,7 @@
         app:layout_constraintBottom_toTopOf="@+id/charts_container"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -36,7 +36,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expense_filter_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/date_filter_spinner"
         >
 
     <LinearLayout

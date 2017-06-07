@@ -68,7 +68,7 @@ import at.sw2017.nodinero.model.Expense_Table;
  */
 
 public class ExpenseFormFragment extends Fragment implements View.OnClickListener,
-        LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, DatePicker.OnDateChangedListener {
     final private String TAG = "AddExpenseFragement";
     final private int CAM_PERM = 2;
     private static final int SELECT_PICTURE = 1;
@@ -183,6 +183,21 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
 
             if (expense.photo != null) {
                 displayImage(expense.photo);
+            }
+
+            if (expense.date != null) {
+                Log.e("TAG", "my date" + expense.date);
+                Calendar cal = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat(getResources().getString(R.string.simple_date_format));
+                try {
+                    cal.setTime(sdf.parse(expense.date));
+                    int year = cal.get(Calendar.YEAR);
+                    int month = cal.get(Calendar.MONTH);
+                    int day = cal.get(Calendar.DAY_OF_MONTH);
+                    expenseDate.init(year, month, day, this);
+                } catch (Exception e) {
+                    // nothing to do here
+                }
             }
 
             saveButton.setVisibility(View.GONE);
@@ -479,5 +494,10 @@ public class ExpenseFormFragment extends Fragment implements View.OnClickListene
         finalDateTime = simpleDateFormat.format(cal.getTime());
 
         return finalDateTime;
+    }
+
+    @Override
+    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
     }
 }
