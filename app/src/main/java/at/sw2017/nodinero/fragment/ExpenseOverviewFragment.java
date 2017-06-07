@@ -29,6 +29,8 @@ import at.sw2017.nodinero.model.Account;
 import at.sw2017.nodinero.model.Expense;
 import at.sw2017.nodinero.model.Expense_Table;
 
+import static at.sw2017.nodinero.model.Account_Table.id;
+
 /**
  * Created by karin on 4/14/17.
  */
@@ -87,10 +89,17 @@ public class ExpenseOverviewFragment extends Fragment implements View.OnClickLis
 
         if(v.getId() == R.id.add_expense) {
             ((NoDineroActivity) getActivity()).loadExpensesFormFragment(currentAccountId);
-        } else {
+        } else if (v.getId() == R.id.overview_expanse_delete) {
+            SQLite.delete(Expense.class)
+                    .where(id.is((int) v.getTag()))
+                    .async()
+                    .execute();
 
+            TableRow row = (TableRow) v.getParent();
+            row.setVisibility(View.INVISIBLE);
 
-            //loadContent((int)v.getTag());
+            TableLayout table = (TableLayout) row.getParent();
+            table.removeView(row);
         }
     }
 
@@ -138,6 +147,11 @@ public class ExpenseOverviewFragment extends Fragment implements View.OnClickLis
             TableRow row = (TableRow) View.inflate(getContext(), R.layout.table_row_expanse_overview, null);
             ((TextView) row.findViewById(R.id.expanse_name)).setText(expense.name);
             ((TextView) row.findViewById(R.id.expanse_value)).setText(String.valueOf(expense.value));
+
+            row.findViewById(R.id.overview_expanse_delete).setTag(expense.id);
+            row.findViewById(R.id.overview_expanse_delete).setOnClickListener(this);
+
+
 
             row.setTag(expense.id);
             //row.setId(expense.id);
