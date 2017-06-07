@@ -82,23 +82,24 @@ public class DatabaseUnitTests extends AbstractNoDineroUnitTest {
     public void getBalanceTest() throws Exception {
         Account account = new Account();
         account.name = "test";
+        account.initialBalance = 0.0f;
         account.save();
 
         Expense expense = new Expense();
         expense.name = "test expense";
-        expense.value = 42;
+        expense.value = 42.0f;
         expense.date = "2017-04-21";
         expense.accountId = account;
         expense.save();
 
         Expense expense2 = new Expense();
         expense2.name = "test expense2";
-        expense2.value = 40;
+        expense2.value = 40.0f;
         expense2.date = "2017-04-21";
         expense2.accountId = account;
         expense2.save();
 
-        assertEquals(account.getBalance(), expense.value + expense2.value + account.initialBalance);
+        assertEquals(account.getBalance(), expense.value + expense2.value + account.initialBalance, 1);
     }
 
     @Test
