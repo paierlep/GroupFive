@@ -61,28 +61,15 @@ public class ProfileInstrumentTest extends AbstractNoDineroInstrumentedTest {
         onView(withText(R.string.template_overview)).perform(click());
 
         onView(withId(R.id.menu_profile)).perform(click());
-        //onView(withId(R.id.profile_name)).perform(clearText(), typeText(profile_name), closeSoftKeyboard());
 
         onView(withText(currency)).check(matches(isDisplayed()));
         onView(withText(language)).check(matches(isDisplayed()));
-        onView(withText(profile_name)).check(matches(isDisplayed()));
-
-
-
-        //pressBack();
 
     }
 
     @Test
     public void changeLanguage() {
         String language = "German";
-
-        onView(withId(R.id.drawer_layout))
-                .check(matches(isClosed(Gravity.START)))
-                .perform(open());
-
-        onView(withText(R.string.account_overview)).perform(click());
-        onView(withId(R.id.fragment_account_overview)).check(matches(isDisplayed()));
 
         onView(withId(R.id.menu_profile)).check(matches(isDisplayed())).perform(click());
 
@@ -96,5 +83,20 @@ public class ProfileInstrumentTest extends AbstractNoDineroInstrumentedTest {
 
         onView(withText(language)).check(matches(isDisplayed()));
         onView(withText("Speichern")).check(matches(isDisplayed())); // explicitly german version!
+
+
+        language = "English";
+        onView(withId(R.id.menu_profile)).check(matches(isDisplayed())).perform(click());
+
+        onView(withId(R.id.profile_default_language)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is(language))).perform(click());
+        onView(withId(R.id.profile_default_language)).check(matches(withSpinnerText(containsString(language))));
+
+        onView(withId(R.id.button_save)).check(matches(isDisplayed())).perform(click());
+
+        onView(withId(R.id.menu_profile)).perform(click());
+
+        onView(withText(language)).check(matches(isDisplayed()));
+        onView(withText("Save")).check(matches(isDisplayed())); // explicitly english version!
     }
 }
