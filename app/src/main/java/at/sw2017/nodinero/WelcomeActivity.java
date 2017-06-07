@@ -20,13 +20,20 @@ public class WelcomeActivity extends AppIntro {
 
        addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.title_activity_welcome),
                getResources().getString(R.string.TextIntro1),
-               R.drawable.money,
-               Color.parseColor("#51e2b7")));
-
+               R.drawable.welcome_money,
+               Color.parseColor("#FF1D6823")));
         addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.title_activity_welcome2),
                 getResources().getString(R.string.TextIntro2),
-                R.drawable.create,
-                Color.parseColor("#8c50e3")));
+                R.drawable.welcome_account,
+                Color.parseColor("#FF58BA5C")));
+        addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.title_activity_welcome3),
+                getResources().getString(R.string.TextIntro3),
+                R.drawable.welcome_template,
+                Color.parseColor("#FFC51162")));
+        addSlide(AppIntroFragment.newInstance(getResources().getString(R.string.title_activity_welcome4),
+                getResources().getString(R.string.TextIntro4),
+                R.drawable.welcome_bar,
+                Color.parseColor("#FF1D6823")));
 
         showStatusBar(false);
         showSkipButton(false);

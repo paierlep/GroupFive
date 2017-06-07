@@ -20,8 +20,8 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_profile">Profile</string>
     <string name="account_overview">Home</string>
-    <string name="view_map">Map</string>
-    <string name="view_report">Reports</string>
+    <string name="view_map" translatable="false">Map</string>
+    <string name="view_report" translatable="false">Reports</string>
 
     <!-- Template -->
     <string name="template_delete">Delete</string>
@@ -106,7 +106,7 @@
     <string name="profile_password">Password</string>
 
     <!-- Login Page -->
-    <string name="login">Login</string>
+    <string name="login" translatable="false">Login</string>
     <string name="error_no_login">Login not possible: wrong or no password</string>
     <string name="password_protected">Password Protected</string>
     <string name="profile_saved">User Profile saved</string>
@@ -122,11 +122,15 @@
     </string-array>
 
     <!-- Intro slider -->
-    <string name="TextIntro1">With NoDinero you can track your earnings and spendings as easy as possible!</string>
-
+    <string name="TextIntro1" translatable="false">With NoDinero you can track your earnings and spendings as easy as possible!</string>
     <string name="title_activity_welcome2">Create Account</string>
-    <string name="TextIntro2">Please create your first account, to start tracking your earnings and spendings.</string>
+
+    <string name="TextIntro2" translatable="false">Please create your first account, to start tracking your earnings and spendings.</string>
     <string name="title_activity_welcome">Welcome to NoDinero!</string>
 
->>>>>>> develop
+    <string name="TextIntro3" translatable="false">Reoccuring expenses can be easily tracked via templates and their buttons</string>
+    <string name="title_activity_welcome3">Quick Add Templates</string>
+    <string name="title_activity_welcome4">Categories and Reports</string>
+    <string name="TextIntro4">You can assign categories, which makes it even easier to with our reports to keep on top of your money!</string>
+
 </resources>
